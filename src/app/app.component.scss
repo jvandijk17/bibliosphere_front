@@ -1,34 +1,42 @@
 :host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 14px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    height: 100vh;
-    background-image: url('/assets/images/landing.png');
-    background-color: black;
-    background-size: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-    @media (max-width: 1550px) {
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  ::ng-deep {
+
+    .w-100 {
+      width: 100%;
     }
-  
-    ::ng-deep {
-  
-      .w-100 {
-        width: 100%;
-      }
-  
-      .mb-10 {
-        margin-bottom: 10px;
-      }
-  
+
+    .mb-10 {
+      margin-bottom: 10px;
     }
-  
+
   }
+
+}
+
+#ui-background {
+  background-image: url('/assets/images/landing.png');
+  background-color: black;
+  background-size: 100%;
+  width: 100vw;
+  height: 100vh;
+
+  @media (max-width: 1550px) {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+}
+
+#business-container {
+  margin: auto;
+  padding-top: 5%;
+  width: 95%;
+}

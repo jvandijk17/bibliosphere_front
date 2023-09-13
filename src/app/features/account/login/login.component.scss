@@ -1,14 +1,11 @@
 .login-panel {
-    width: 300px;
+    margin: auto;
+    width: 50%;
     background: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-}
-
-.example-container>* {
-    width: 100%;
 }
 
 .errorMsg {

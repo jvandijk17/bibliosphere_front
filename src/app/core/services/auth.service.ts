@@ -11,6 +11,14 @@ export class AuthService {
 
     constructor(private http: HttpClient) { }
 
+    get isAuthorized(): boolean {
+        return !!localStorage.getItem('access_token');
+    }
+
+    get authorizationHeaderValue(): string {
+        return 'Bearer ' + localStorage.getItem('access_token');
+    }
+
     login(email: string, password: string) {
         return this.http.post<{ token: string }>(environment.apiDomain + '/login_check', { email, password }).pipe(
             tap(res => {
