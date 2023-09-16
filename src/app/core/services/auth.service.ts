@@ -27,6 +27,10 @@ export class AuthService {
         );
     }
 
+    logout() {
+        localStorage.removeItem('access_token');
+    }
+
     register(user: any) {
         return this.http.post(environment.apiDomain + '/user/', user);
     }

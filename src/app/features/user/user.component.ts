@@ -18,6 +18,7 @@ export class UserComponent implements OnInit {
     'province', 'postal_code', 'birth_date', 'reputation', 'blocked', 'roles',
     'library', 'actions'
   ];
+  loading: boolean = false;
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -28,10 +29,12 @@ export class UserComponent implements OnInit {
   }
 
   getAllUsers() {
+    this.loading = true;
     this.userService.getAllUsers().subscribe({
       next: users => {
         this.users = new MatTableDataSource(users);
         this.users.sort = this.sort;
+        this.loading = false;
       },
       error: error => console.error('Error fetching users:', error)
     });

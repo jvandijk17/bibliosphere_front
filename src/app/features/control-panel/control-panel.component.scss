@@ -1,0 +1,133 @@
+@import '@angular/material/theming';
+
+@include mat-core();
+
+$primary: mat-palette($mat-deep-purple);
+$accent: mat-palette($mat-pink);
+$theme: mat-light-theme($primary, $accent);
+
+/* --- Base Styles --- */
+
+/* Grid List Container Styles */
+.table-container {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 95%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+mat-toolbar {
+    width: 100%;
+}
+
+mat-grid-list {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Grid Tile Styles */
+mat-grid-tile {
+    button.full-size-btn {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: mat-color($primary);
+        position: relative;
+        overflow: hidden;
+        border: none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        cursor: pointer;
+
+        transition: transform 0.3s, background-color 0.3s;
+
+        &:hover {
+            transform: scale(1.05);
+            background-color: mat-color($accent);
+        }
+
+        .entity-icon {
+            position: absolute;
+            color: mat-color($primary, 900);
+            left: 1px;
+            top: 50%;
+            transform: translateY(-50%) rotate(35deg) scale(6);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+
+.button-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+}
+
+/* --- Media Queries / Responsive Designs --- */
+
+/* For larger screens */
+@media (max-width: 1200px) {
+    mat-grid-tile {
+        button {
+            width: 70%;
+
+            .button-text {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+/* For tablets */
+@media (max-width: 900px) {
+    .table-container {
+        padding: 20px 10px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    mat-grid-tile {
+        button {
+            width: 60%;
+
+            .button-text {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+/* For mobile phones */
+@media (max-width: 600px) {
+    mat-grid-tile {
+        button {
+            width: 80%;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    mat-grid-tile {
+        button {
+            width: 50%;
+
+            .button-text {
+                font-size: 10px;
+            }
+        }
+    }
+}

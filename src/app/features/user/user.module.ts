@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatFormFieldModule,
     MatToolbarModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     LayoutModule
   ],
   providers: [

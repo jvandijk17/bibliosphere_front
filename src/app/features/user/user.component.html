@@ -112,3 +112,7 @@
 <ng-template #noUsers>
     <p>No users found.</p>
 </ng-template>
+
+<div *ngIf="loading" class="overlay">
+    <mat-spinner></mat-spinner>
+</div>

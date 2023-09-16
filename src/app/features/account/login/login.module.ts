@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
 import { LoginComponent } from './login.component';
 import { ReactiveFormsModule } from '@angular/forms'
@@ -20,6 +21,7 @@ import { CommonModule } from '@angular/common'
         MatInputModule,
         MatIconModule,
         MatButtonModule,
+        MatProgressSpinnerModule,
         MatListModule,
         ReactiveFormsModule
     ],

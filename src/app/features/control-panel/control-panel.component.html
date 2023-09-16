@@ -1,0 +1,11 @@
+<div class="table-container">
+    <mat-toolbar color="primary">Control Panel</mat-toolbar>
+    <mat-grid-list [cols]="columns" rowHeight="100px" gutterSize="16px">
+        <mat-grid-tile *ngFor="let entity of entities">
+            <button mat-raised-button color="primary" [routerLink]="entity.path" class="full-size-btn">
+                <span class="button-text">{{ entity.name }}</span>
+                <mat-icon class="entity-icon">{{entity.icon}}</mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

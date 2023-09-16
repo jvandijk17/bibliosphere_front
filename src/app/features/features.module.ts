@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserModule } from './user/user.module';
 import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ControlPanelModule } from './control-panel/control-panel.module';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ],
     exports: [
         AccountModule,
-        UserModule
+        UserModule,
+        ControlPanelModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
