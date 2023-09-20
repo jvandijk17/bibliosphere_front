@@ -4,7 +4,10 @@
 
 $primary: mat-palette($mat-deep-purple);
 $accent: mat-palette($mat-pink);
-$theme: mat-light-theme($primary, $accent);
+$warn: mat-palette($mat-red);
+
+$typography: mat-typography-config();
+$density: mat-density-config(); 
 
 /* --- Base Styles --- */
 

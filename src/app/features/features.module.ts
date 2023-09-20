@@ -11,7 +11,6 @@ import { ControlPanelModule } from './control-panel/control-panel.module';
 @NgModule({
     imports: [
         CommonModule,
-        AccountModule,
         HttpClientModule,
         BrowserAnimationsModule,
         FlexLayoutModule

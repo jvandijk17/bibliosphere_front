@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
     providedIn: 'root'
@@ -9,10 +10,10 @@ import { environment } from 'src/environments/environment';
 
 export class AuthService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
     get isAuthorized(): boolean {
-        return !!localStorage.getItem('access_token');
+        return !this.jwtHelper.isTokenExpired(localStorage.getItem('access_token'));
     }
 
     get authorizationHeaderValue(): string {

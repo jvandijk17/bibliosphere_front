@@ -20,6 +20,7 @@ const routes: Routes = [
   },
   { path: '', redirectTo: '/account/login', pathMatch: 'full' },
   { path: 'login', redirectTo: '/account/login', pathMatch: 'full' },
+  { path: 'register', redirectTo: '/account/register', pathMatch: 'full' },
   {
     path: 'account',
     loadChildren: () => import('./features/account/account.module').then(m => m.AccountModule),

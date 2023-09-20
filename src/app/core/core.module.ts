@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderModule } from './components/header/header.module';
-
+import { AlertModule } from './components/alert/alert.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    HeaderModule
+    HeaderModule,
+    AlertModule
   ],
   exports: [
-    HeaderModule
+    HeaderModule,
+    AlertModule
   ]
 })
 export class CoreModule { }

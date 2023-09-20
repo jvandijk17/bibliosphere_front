@@ -1,18 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { User } from 'src/app/core/models/user.model';
 import { MatSort } from '@angular/material/sort';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserListComponent implements OnInit {
 
   users: MatTableDataSource<User> = new MatTableDataSource<User>([]);
-  selectedUser?: User;
   displayedColumns: string[] = [
     'id', 'first_name', 'last_name', 'email', 'address', 'city',
     'province', 'postal_code', 'birth_date', 'reputation', 'blocked', 'roles',
@@ -24,7 +23,7 @@ export class UserComponent implements OnInit {
 
   constructor(private userService: UserService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getAllUsers();
   }
 
@@ -42,32 +41,6 @@ export class UserComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.users.filter = filterValue.trim().toLowerCase();
-  }
-
-  createUser(user: User) {
-    this.userService.createUser(user).subscribe(newUser => {
-      // This pattern might lead to race conditions in some cases.
-      // Consider refetching data or using another pattern to ensure consistency.
-      const data = this.users.data;
-      data.push(newUser);
-      this.users.data = [...data];
-    });
-  }
-
-  updateUser(user: User) {
-    if (user.id) {
-      this.userService.updateUser(user.id, user).subscribe(updatedUser => {
-        // TODO: Handle the updated user.
-      });
-    }
-  }
-
-  deleteUser(user: User) {
-    if (user.id) {
-      this.userService.deleteUser(user.id).subscribe(() => {
-        this.users.data = this.users.data.filter(u => u.id !== user.id);
-      });
-    }
   }
 
 }

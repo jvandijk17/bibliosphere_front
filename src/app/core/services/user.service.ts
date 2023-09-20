@@ -15,9 +15,13 @@ export class UserService {
         return this.http.get<User[]>(environment.apiDomain + '/user');
     }
 
-    getUser(id: number) {
-        this.http.get<User[]>(`${environment.apiDomain}`)
+    getUserRoles() {
+        return this.http.get<User>(`${environment.apiDomain}/user/roles`);
     }
+
+    getUser(id: number) {
+        return this.http.get<User>(`${environment.apiDomain}/user/${id}`);
+    }    
 
     createUser(user: User) {
         return this.http.post(environment.apiDomain + '/user/', user);

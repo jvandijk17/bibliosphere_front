@@ -25,7 +25,8 @@
   background-color: black;
   background-size: 100%;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
 
   @media (max-width: 1550px) {
     background-repeat: no-repeat;
