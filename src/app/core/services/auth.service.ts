@@ -10,14 +10,32 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 export class AuthService {
 
+    public entityRoles: any = {};
+
     constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
     get isAuthorized(): boolean {
         return !this.jwtHelper.isTokenExpired(localStorage.getItem('access_token'));
     }
 
+    get userRoles(): string[] {
+        const token = localStorage.getItem('access_token');
+        if (!token) return [];
+        const decodedToken = this.jwtHelper.decodeToken(token);
+        return decodedToken.roles || [];
+    }
+
     get authorizationHeaderValue(): string {
         return 'Bearer ' + localStorage.getItem('access_token');
+    }
+
+
+    get fetchEntityRoles() {
+        return this.http.get(environment.apiDomain + '/roles').pipe(
+            tap(roles => {
+                this.entityRoles = roles;
+            })
+        );
     }
 
     login(email: string, password: string) {
