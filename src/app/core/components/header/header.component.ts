@@ -15,8 +15,12 @@ export class HeaderComponent {
     return this.authService.isAuthorized;
   }
 
+  get isOnLoginPage(): boolean {
+    return this.router.url === '/account/login';
+  }
+
   onLogout(): void {
-    this.authService.logout();
+    this.authService.logout(true);
     this.router.navigate(['/account/login']);
   }
 

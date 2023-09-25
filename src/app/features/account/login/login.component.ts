@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { Router } from '@angular/router';
-import { PreviousUrlService } from 'src/app/core/services/previous-url.service';
+import { PostAuthRoutingService } from 'src/app/core/services/post-auth-routing.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertComponent } from 'src/app/core/components/alert/alert.component';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     errorMsg: string = '';
     loading: boolean = false;
@@ -17,13 +18,23 @@ export class LoginComponent {
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
-        private router: Router,
-        private previousUrlService: PreviousUrlService
+        private postAuthRoutingService: PostAuthRoutingService,
+        private dialog: MatDialog
     ) {
         this.loginForm = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', Validators.required]
         });
+    }
+
+    ngOnInit(): void {
+        if (localStorage.getItem('hasLoggedInBefore')) {
+            this.dialog.open(AlertComponent, {
+                data: {
+                    message: 'Your session has expired. Please login again.'
+                }
+            });
+        }
     }
 
     onSubmit() {
@@ -36,14 +47,7 @@ export class LoginComponent {
             this.authService.login(email, password).subscribe({
                 next: () => {
                     this.loading = false;
-                    const previousUrl = this.previousUrlService.getUrl() || '';
-
-                    if (previousUrl === '/account/login' || previousUrl.length === 0) {
-                        this.router.navigate(['/control-panel']);
-                    } else {
-                        this.router.navigate([previousUrl || '/control-panel']);
-                    }
-
+                    this.postAuthRoutingService.navigateAfterAuthentication();
                 },
                 error: () => {
                     this.loading = false;

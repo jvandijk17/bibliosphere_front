@@ -4,12 +4,11 @@
     <span class="spacer"></span>
     <button mat-button>About</button>
     <button mat-button>Contact</button>
-    <ng-container *ngIf="isUserAuthenticated">
+    <ng-container *ngIf="isUserAuthenticated || !isOnLoginPage">
         <button mat-button [matMenuTriggerFor]="userMenu">
             <mat-icon>account_circle</mat-icon>
             Account
         </button>
-
         <mat-menu #userMenu="matMenu">
             <button mat-menu-item (click)="onLogout()">Logout</button>
         </mat-menu>

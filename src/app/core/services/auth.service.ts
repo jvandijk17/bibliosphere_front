@@ -42,13 +42,18 @@ export class AuthService {
         return this.http.post<{ token: string }>(environment.apiDomain + '/login_check', { email, password }).pipe(
             tap(res => {
                 localStorage.setItem('access_token', res.token);
+                localStorage.setItem('hasLoggedInBefore', 'true');
             })
         );
-    }
+    }    
 
-    logout() {
+    logout(expiration: boolean): void {
+        if (expiration) {
+            localStorage.removeItem('hasLoggedInBefore');
+        }
         localStorage.removeItem('access_token');
     }
+
 
     register(user: any) {
         return this.http.post(environment.apiDomain + '/user/', user);

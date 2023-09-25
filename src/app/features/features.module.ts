@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ControlPanelModule } from './control-panel/control-panel.module';
+import { ForbiddenInterceptor } from '../core/interceptors/forbidden.interceptor';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { ControlPanelModule } from './control-panel/control-panel.module';
         ControlPanelModule
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ForbiddenInterceptor, multi: true }
     ]
 })
 export class FeaturesModule { }
