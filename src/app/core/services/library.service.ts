@@ -15,6 +15,10 @@ export class LibraryService {
         return this.http.get<Library[]>(environment.apiDomain + '/library')
     }
 
+    getLibrary(id: number) {
+        return this.http.get<Library>(`${environment.apiDomain}/library/${id}`);
+    }    
+
     getAllLibrariesPreview() {
         return this.http.get<Library[]>(environment.apiDomain + '/library/preview_libraries')
     }

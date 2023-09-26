@@ -11,5 +11,6 @@ export interface User {
     reputation?: number;
     blocked?: boolean;
     roles?: string[];
-    library?: any;
+    libraryId?: number;
+    libraryName?: string;
 }

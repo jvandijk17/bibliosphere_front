@@ -18,11 +18,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatListModule } from '@angular/material/list';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 
 @NgModule({
   declarations: [
-    UserListComponent
+    UserListComponent,
+    UserDetailComponent
   ],
   imports: [
     CommonModule,
@@ -38,6 +41,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatSelectModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
+    MatListModule,
     LayoutModule
   ],
   providers: [

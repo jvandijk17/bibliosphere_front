@@ -1,0 +1,14 @@
+.user-detail-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+
+    mat-card {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .mat-mdc-card-header .mat-mdc-card-header-text {
+        width: 100%;
+    }
+}
