@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/core/models/user.model';
 import { UserDetailsModalComponent } from '../user-details-modal/user-details-modal.component';
+import { AlertComponent } from 'src/app/core/components/alert/alert.component';
 
 @Component({
   selector: 'app-user-list',
@@ -53,11 +54,66 @@ export class UserListComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    // Implement delete user functionality here
+
+    const dialogRef = this.dialog.open(AlertComponent, {
+      width: '250px',
+      data: { message: 'Are you sure you want to delete this user?', confirm: true }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.userService.deleteUser(user.id).subscribe({
+          next: () => {
+            this.dialog.open(AlertComponent, {
+              width: '250px',
+              data: { message: 'User successfully deleted!' }
+            });
+            this.getAllUsers();
+          },
+          error: (error) => {
+            console.error('Error deleting user:', error);
+            this.dialog.open(AlertComponent, {
+              width: '250px',
+              data: { message: 'Error deleting user!' }
+            });
+          }
+        })
+      }
+    });
+
   }
 
   toggleUserStatus(user: User) {
-    // Implement toggle user status functionality here
+
+    const dialogRef = this.dialog.open(AlertComponent, {
+      width: '250px',
+      data: { message: 'Are you sure you want to ' + (user.blocked ? 'un-block' : 'block') + ' this user account?', confirm: true }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        user.blocked = !user.blocked ? true : false;
+        this.userService.updateUser(user.id, user).subscribe({
+          next: () => {
+            this.dialog.open(AlertComponent, {
+              width: '250px',
+              data: {
+                message: 'User successfully ' + (!user.blocked ? 'un-blocked' : 'blocked') + '!'
+              }
+            });
+            this.getAllUsers();
+          },
+          error: (error) => {
+            console.error('Error updating user status on user: ', error);
+            this.dialog.open(AlertComponent, {
+              width: '250px',
+              data: { message: 'Error updating user status!' }
+            });
+          }
+        })
+      }
+    })
+
   }
 
 }

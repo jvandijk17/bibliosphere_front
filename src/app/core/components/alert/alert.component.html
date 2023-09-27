@@ -6,8 +6,14 @@
         <mat-card-content>
             {{ data.message }}
         </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button color="primary" mat-dialog-close class="w-100">Okay</button>
+        <mat-card-actions align="end">
+            <ng-container *ngIf="confirmMode; else okTemplate">
+                <button mat-button (click)="onNoClick()">No</button>
+                <button mat-raised-button color="primary" mat-dialog-close="true" class="ml-10">Yes</button>
+            </ng-container>
+            <ng-template #okTemplate>
+                <button mat-raised-button color="primary" mat-dialog-close="true" class="w-100">OK</button>
+            </ng-template>
         </mat-card-actions>
     </mat-card>
 </div>
