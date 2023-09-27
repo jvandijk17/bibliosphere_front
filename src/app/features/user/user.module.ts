@@ -19,13 +19,17 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserDetailsModalComponent } from './user-details-modal/user-details-modal.component';
 
 
 @NgModule({
   declarations: [
     UserListComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    UserDetailsModalComponent
   ],
   imports: [
     CommonModule,
@@ -42,6 +46,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatListModule,
+    MatMenuModule,
+    MatDialogModule,
     LayoutModule
   ],
   providers: [

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/models/user.model';
@@ -10,7 +10,7 @@ import { User } from 'src/app/core/models/user.model';
 })
 export class UserDetailComponent {
 
-  user: User | null = null;
+  @Input() user: User | null = null;
 
   constructor(private userService: UserService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) { }
 

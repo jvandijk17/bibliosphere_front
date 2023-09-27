@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/core/models/user.model';
+import { UserDetailsModalComponent } from '../user-details-modal/user-details-modal.component';
 
 @Component({
   selector: 'app-user-list',
@@ -21,7 +23,7 @@ export class UserListComponent implements OnInit {
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getAllUsers();
@@ -41,6 +43,21 @@ export class UserListComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.users.filter = filterValue.trim().toLowerCase();
+  }
+
+  openUserDetailsModal(user: User) {
+    this.dialog.open(UserDetailsModalComponent, {
+      data: { user },
+      width: '400px',
+    });
+  }
+
+  deleteUser(user: User) {
+    // Implement delete user functionality here
+  }
+
+  toggleUserStatus(user: User) {
+    // Implement toggle user status functionality here
   }
 
 }

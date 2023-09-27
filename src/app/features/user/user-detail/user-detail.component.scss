@@ -1,11 +1,11 @@
 .user-detail-container {
     display: flex;
-    justify-content: center;
-    padding: 2rem;
+    flex-direction: column;
+    align-items: center;
 
     mat-card {
         width: 100%;
-        max-width: 600px;
+        overflow: visible;
     }
 
     .mat-mdc-card-header .mat-mdc-card-header-text {
