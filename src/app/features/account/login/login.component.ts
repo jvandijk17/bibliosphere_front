@@ -49,9 +49,17 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                     this.postAuthRoutingService.navigateAfterAuthentication();
                 },
-                error: () => {
+                error: (err) => {
                     this.loading = false;
-                    this.errorMsg = 'Invalid credentials';
+                    if (err && err.status === 403) {
+                        this.dialog.open(AlertComponent, {
+                            data: {
+                                message: 'This user is blocked. Please contact support.'
+                            }
+                        });
+                    } else {
+                        this.errorMsg = 'Invalid credentials';
+                    }
                 }
             });
         }
