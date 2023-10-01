@@ -10,7 +10,7 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 })
 export class AuthGuard {
 
-    constructor(private router: Router, private previousUrlService: PreviousUrlService, private authService: AuthService, private dialog: MatDialog) { }
+    constructor(private router: Router, private previousUrlService: PreviousUrlService, private authService: AuthService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 

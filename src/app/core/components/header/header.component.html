@@ -10,6 +10,7 @@
             Account
         </button>
         <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="editAccount()">Settings</button>
             <button mat-menu-item (click)="onLogout()">Logout</button>
         </mat-menu>
     </ng-container>

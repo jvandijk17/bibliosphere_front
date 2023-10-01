@@ -38,14 +38,20 @@ export class AuthService {
         );
     }
 
+    getCurrentUserEmail(): string {
+        const userData = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        return userData.email || '';
+    }
+
     login(email: string, password: string) {
         return this.http.post<{ token: string }>(environment.apiDomain + '/login_check', { email, password }).pipe(
             tap(res => {
                 localStorage.setItem('access_token', res.token);
                 localStorage.setItem('hasLoggedInBefore', 'true');
+                localStorage.setItem('currentUser', JSON.stringify({ email }));
             })
         );
-    }    
+    }
 
     logout(expiration: boolean): void {
         if (expiration) {

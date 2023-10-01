@@ -24,4 +24,8 @@ export class HeaderComponent {
     this.router.navigate(['/account/login']);
   }
 
+  editAccount(): void {    
+    this.router.navigate(['/account/edit']);
+  }
+
 }
