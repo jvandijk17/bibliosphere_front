@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BookComponent } from './book.component';
-import { AuthGuard } from 'src/app/core/guards/auth.guard';
+import { BookListComponent } from './book-list/book-list.component';
 
-const routes: Routes = [{ path: '', component: BookComponent, canActivate: [AuthGuard] }];
+const routes: Routes = [
+  { path: '', component: BookListComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
