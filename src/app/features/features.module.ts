@@ -8,6 +8,7 @@ import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ControlPanelModule } from './control-panel/control-panel.module';
 import { ForbiddenInterceptor } from '../core/interceptors/forbidden.interceptor';
+import { UnauthorizedInterceptor } from '../core/interceptors/unauthorized.interceptor';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import { ForbiddenInterceptor } from '../core/interceptors/forbidden.interceptor
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ForbiddenInterceptor, multi: true }
     ]
 })

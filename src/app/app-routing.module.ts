@@ -18,9 +18,7 @@ const routes: Routes = [
       { path: 'control-panel', loadChildren: () => import('./features/control-panel/control-panel.module').then(m => m.ControlPanelModule) },
     ]
   },
-  { path: '', redirectTo: '/account/login', pathMatch: 'full' },
-  { path: 'login', redirectTo: '/account/login', pathMatch: 'full' },
-  { path: 'register', redirectTo: '/account/register', pathMatch: 'full' },
+  { path: '', redirectTo: '/account/login', pathMatch: 'full' },  
   {
     path: 'account',
     loadChildren: () => import('./features/account/account.module').then(m => m.AccountModule),

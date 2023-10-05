@@ -15,7 +15,7 @@ export class ForbiddenInterceptor implements HttpInterceptor {
                 if (error.status === 403) {
                     this.router.navigate(['/control-panel']);
                 }
-                return throwError(error);
+                return throwError(() => error);
             })
         );
     }

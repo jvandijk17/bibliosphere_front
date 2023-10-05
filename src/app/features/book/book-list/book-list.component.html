@@ -45,7 +45,7 @@
             <!-- Publication Year Column -->
             <ng-container matColumnDef="publication_year">
                 <mat-header-cell *matHeaderCellDef> Publication Year </mat-header-cell>
-                <mat-cell *matCellDef="let book"> {{ book.publication_year }} </mat-cell>
+                <mat-cell *matCellDef="let book"> {{ book.publication_year | date:'mediumDate' }} </mat-cell>
             </ng-container>
 
             <!-- Page Count Column -->
@@ -57,8 +57,7 @@
             <!-- Library Column -->
             <ng-container matColumnDef="library">
                 <mat-header-cell *matHeaderCellDef> Library </mat-header-cell>
-                <mat-cell *matCellDef="let book"> {{ book.library }}
-                </mat-cell>
+                <mat-cell *matCellDef="let book"> {{ book.libraryName }} </mat-cell>
             </ng-container>
 
             <!-- Loans Column -->
