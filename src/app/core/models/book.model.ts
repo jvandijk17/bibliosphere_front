@@ -12,6 +12,7 @@ export interface Book {
     loans?: Loan[];
     bookCategories?: BookCategory[];
     bookCategoryIds?: number[];
+    bookCategoryNames?: string[];
     loanIds?: number[];
     libraryId?: number;
     libraryName?: string;

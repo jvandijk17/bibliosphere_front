@@ -69,8 +69,9 @@
             <!-- Categories -->
             <ng-container matColumnDef="categories">
                 <mat-header-cell *matHeaderCellDef> Categories </mat-header-cell>
-                <mat-cell *matCellDef="let book"> {{ book.categories?.join(', ') }} </mat-cell>
+                <mat-cell *matCellDef="let book"> {{ book.bookCategoryNames?.join(', ') }} </mat-cell>
             </ng-container>
+
 
             <!-- Actions Column - for Update and Delete actions -->
             <ng-container matColumnDef="actions">
