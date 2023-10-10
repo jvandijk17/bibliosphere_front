@@ -4,6 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Book } from 'src/app/core/models/book.model';
 import { BookService } from 'src/app/core/services/book.service';
+import { LoanService } from 'src/app/core/services/loan.service';
+import { LoanDetailModalComponent } from '../../loan/loan-detail-modal/loan-detail-modal.component';
 
 @Component({
   selector: 'app-book-list',
@@ -21,7 +23,7 @@ export class BookListComponent implements OnInit {
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private bookService: BookService, private dialog: MatDialog) { }
+  constructor(private bookService: BookService, private loanService: LoanService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getAllBooks();
@@ -41,6 +43,24 @@ export class BookListComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.books.filter = filterValue.trim().toLowerCase();
+  }
+
+  openLoanDetailsModal(loanId: number) {
+    this.loading = true;
+    this.loanService.getLoan(loanId).subscribe(loan => {
+      if (loan) {
+        this.dialog.open(LoanDetailModalComponent, {
+          data: { loan },
+          width: '400px',
+        });
+        this.loading = false;
+      }
+    });
+  }
+
+
+  hasLoans(book: Book): boolean {
+    return !!book.activeLoanIds?.length;
   }
 
 }

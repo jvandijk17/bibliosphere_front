@@ -62,9 +62,18 @@
 
             <!-- Loans Column -->
             <ng-container matColumnDef="loans">
-                <mat-header-cell *matHeaderCellDef> Loans </mat-header-cell>
-                <mat-cell *matCellDef="let book"> {{ book.loans }} </mat-cell>
+                <mat-header-cell *matHeaderCellDef> Loaned </mat-header-cell>
+                <mat-cell *matCellDef="let book">
+                    <ng-container *ngIf="hasLoans(book); else noLoans">
+                        <button mat-raised-button color="primary" (click)="openLoanDetailsModal(book.activeLoanIds[0])">
+                            Details
+                        </button>
+                    </ng-container>
+                    <ng-template #noLoans>No</ng-template>
+                </mat-cell>
             </ng-container>
+
+
 
             <!-- Categories -->
             <ng-container matColumnDef="categories">

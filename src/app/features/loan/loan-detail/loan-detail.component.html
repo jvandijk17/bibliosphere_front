@@ -1,0 +1,16 @@
+<div *ngIf="loan" class="loan-detail-container">
+    <mat-card>
+        <mat-toolbar color="primary">Loan Details</mat-toolbar>
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item><strong>ID:</strong> {{ loan.id }}</mat-list-item>
+                <mat-list-item><strong>Loan Date:</strong> {{ loan.loan_date | date: 'mediumDate' }}</mat-list-item>
+                <mat-list-item *ngIf="loan.return_date"><strong>Return Date:</strong>
+                    {{ loan.return_date | date: 'mediumDate' }}
+                </mat-list-item>
+                <mat-list-item><strong>User ID:</strong> {{ loan.userId }}</mat-list-item>
+                <mat-list-item><strong>Book ID:</strong> {{ loan.bookId }}</mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>
