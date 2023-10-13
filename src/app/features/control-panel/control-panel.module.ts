@@ -7,6 +7,8 @@ import { ControlPanelComponent } from './control-panel.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { MatIconModule } from '@angular/material/icon';
     ControlPanelRoutingModule,
     MatGridListModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
+
   ]
 })
 export class ControlPanelModule { }

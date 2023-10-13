@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { Loan } from "../models/loan.model";
 
 @Injectable({
@@ -9,6 +9,8 @@ import { Loan } from "../models/loan.model";
 })
 
 export class LoanService {
+
+    public loanUpdated = new EventEmitter<Loan>();
 
     constructor(private http: HttpClient) { }
 
@@ -25,7 +27,9 @@ export class LoanService {
     }
 
     updateLoan(id: number, loan: Loan): Observable<Loan> {
-        return this.http.put<Loan>(`${environment.apiDomain}/loan/${id}`, loan);
+        return this.http.put<Loan>(`${environment.apiDomain}/loan/${id}`, loan).pipe(
+            tap(() => this.loanUpdated.emit())
+        );
     }
 
     deleteLoan(id: number) {

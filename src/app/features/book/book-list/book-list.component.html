@@ -15,7 +15,7 @@
             <!-- ID Column -->
             <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-                <mat-cell *matCellDef="let book"> {{ book.id }} </mat-cell>
+                <mat-cell *matCellDef="let book"> {{ book?.id }} </mat-cell>
             </ng-container>
 
             <!-- Title Column -->
@@ -116,6 +116,6 @@
     <p>No books found.</p>
 </ng-template>
 
-<div *ngIf="loading" class="overlay">
+<div *ngIf="isLoading$ | async" class="overlay">
     <mat-spinner></mat-spinner>
 </div>

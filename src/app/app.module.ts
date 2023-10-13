@@ -8,6 +8,7 @@ import { InputComponent } from './shared/input/input.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { FeaturesModule } from './features/features.module';
+import { LayoutModule } from './layout/layout.module';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -29,7 +30,8 @@ export function tokenGetter() {
         allowedDomains: [environment.apiDomain],
         disallowedRoutes: []
       }
-    })
+    }),
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

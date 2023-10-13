@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { RoleService } from 'src/app/core/services/role.service';
 
 @Component({
   selector: 'app-control-panel',
@@ -10,13 +11,16 @@ export class ControlPanelComponent {
 
   visibleEntities: any[] = [];
   columns: number = 3;
+  loading: boolean = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private roleService: RoleService) { }
 
   ngOnInit() {
+    this.loading = true;
     this.updateColumns(window.innerWidth);
     this.authService.fetchEntityRoles.subscribe(() => {
       this.updateVisibleEntities();
+      this.loading = false;
     });
   }
 
@@ -34,11 +38,10 @@ export class ControlPanelComponent {
     this.columns = innerWidth < 600 ? (innerWidth < 400 ? 1 : 2) : 3;
   }
 
-  updateVisibleEntities() {
-    const isAdmin = this.authService.userRoles.includes('ROLE_ADMIN');
+  updateVisibleEntities() {    
 
     this.visibleEntities = this.entities.filter(entity => {
-      if (isAdmin) return true;
+      if (this.roleService.isAdmin) return true;
 
       const rolesForEntity = this.authService.entityRoles[entity.controllerName];
 
