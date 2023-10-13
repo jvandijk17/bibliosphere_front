@@ -5,24 +5,11 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserService } from 'src/app/core/services/user.service';
 
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
-import { ReactiveFormsModule } from '@angular/forms';
 
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatCardModule } from '@angular/material/card';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule } from '@angular/material/dialog';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserDetailsModalComponent } from './user-details-modal/user-details-modal.component';
+import { CommonUiModule } from 'src/app/shared/common-ui.module';
 
 
 @NgModule({
@@ -33,21 +20,8 @@ import { UserDetailsModalComponent } from './user-details-modal/user-details-mod
   ],
   imports: [
     CommonModule,
-    UserRoutingModule,
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatCardModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatProgressSpinnerModule,
-    MatListModule,
-    MatMenuModule,
-    MatDialogModule,
+    CommonUiModule,
+    UserRoutingModule,    
     LayoutModule
   ],
   providers: [

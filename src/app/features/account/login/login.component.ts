@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { PostAuthRoutingService } from 'src/app/core/services/post-auth-routing.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertComponent } from 'src/app/core/components/alert/alert.component';
+import { AlertComponent } from 'src/app/shared/alert/alert.component';
 
 @Component({
     selector: 'app-login',

@@ -8,7 +8,7 @@ import { InputComponent } from './shared/input/input.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { FeaturesModule } from './features/features.module';
-import { LayoutModule } from './layout/layout.module';
+import { SharedModule } from './shared/shared.module';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -24,6 +24,7 @@ export function tokenGetter() {
     AppRoutingModule,
     CoreModule,
     FeaturesModule,
+    SharedModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -31,7 +32,6 @@ export function tokenGetter() {
         disallowedRoutes: []
       }
     }),
-    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

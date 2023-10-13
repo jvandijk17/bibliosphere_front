@@ -5,7 +5,7 @@ import { LibraryService } from 'src/app/core/services/library.service';
 import { Router } from '@angular/router';
 import { Library } from 'src/app/core/models/library.model';
 import { mustMatchValidator } from 'src/app/core/validators/must-match.validator';
-import { AlertComponent } from 'src/app/core/components/alert/alert.component';
+import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 
 

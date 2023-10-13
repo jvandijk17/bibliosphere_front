@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/core/models/user.model';
 import { UserDetailsModalComponent } from '../user-details-modal/user-details-modal.component';
-import { AlertComponent } from 'src/app/core/components/alert/alert.component';
+import { AlertComponent } from 'src/app/shared/alert/alert.component';
 
 @Component({
   selector: 'app-user-list',

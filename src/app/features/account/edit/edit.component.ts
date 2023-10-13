@@ -6,7 +6,7 @@ import { User } from 'src/app/core/models/user.model';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertComponent } from 'src/app/core/components/alert/alert.component';
+import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { apiDateToInputDate } from 'src/app/core/utils/date-utils';
 
 @Component({

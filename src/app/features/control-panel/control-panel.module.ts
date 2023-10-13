@@ -5,9 +5,7 @@ import { ControlPanelRoutingModule } from './control-panel-routing.module';
 import { ControlPanelComponent } from './control-panel.component';
 
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonUiModule } from 'src/app/shared/common-ui.module';
 
 
 
@@ -17,11 +15,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ],
   imports: [
     CommonModule,
+    CommonUiModule,
     ControlPanelRoutingModule,
-    MatGridListModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatProgressSpinnerModule
+    MatGridListModule    
 
   ]
 })
