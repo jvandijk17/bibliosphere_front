@@ -1,13 +1,15 @@
+/* Reset and global styles */
 html,
 body {
     height: 100%;
+    margin: 0;
 }
 
 body {
-    margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+/* Utility classes */
 .w-100 {
     width: 100%;
 }
@@ -17,5 +19,5 @@ body {
 }
 
 .mat-mdc-dialog-container .mdc-dialog__surface {
-    width: auto !important;
+    width: auto;
 }

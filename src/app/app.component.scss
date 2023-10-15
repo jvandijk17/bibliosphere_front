@@ -1,43 +1,28 @@
+@import '_variables';
+@import '_common';
+
+/* Host component styles */
 :host {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: $base-font;
   font-size: 14px;
-  color: #333;
+  color: $primary-color;
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  ::ng-deep {
-
-    .w-100 {
-      width: 100%;
-    }
-
-    .mb-10 {
-      margin-bottom: 10px;
-    }
-
-    .ml-10 {
-      margin-left: 10px;
-    }
-
-  }
-
 }
 
+/* Specific UI components */
 #ui-background {
-  background-image: url('/assets/images/landing.png');
-  background-color: black;
+  background: url('/assets/images/landing.png') black;
   background-size: 100%;
   width: 100vw;
   min-height: 100vh;
-  height: auto;
 
   @media (max-width: 1550px) {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
   }
-
 }
 
 #business-container {

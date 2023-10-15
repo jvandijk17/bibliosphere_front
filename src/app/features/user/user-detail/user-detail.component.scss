@@ -1,14 +1,5 @@
+@import '_mixin';
+
 .user-detail-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    mat-card {
-        width: 100%;
-        overflow: visible;
-    }
-
-    .mat-mdc-card-header .mat-mdc-card-header-text {
-        width: 100%;
-    }
+    @include detail-container;
 }

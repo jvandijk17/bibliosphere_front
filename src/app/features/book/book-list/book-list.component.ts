@@ -29,7 +29,8 @@ export class BookListComponent implements OnInit {
     'page_count',
     'library',
     'loans',
-    'categories'
+    'categories',
+    ...(this.roleService.isAdmin ? ['actions'] : [])
   ];
 
   isLoading$: Observable<boolean>;

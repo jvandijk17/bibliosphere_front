@@ -1,17 +1,17 @@
-/* --- Base Styles --- */
+@import '_common';
 
 /* Common Container Styles */
 .table-container,
 .book-table {
     background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
 }
 
 .table-container {
     padding: 20px;
     margin-left: 20px;
     border-radius: 5px;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
     overflow-x: auto;
     height: auto;
@@ -22,7 +22,7 @@
     width: 100%;
 }
 
-/* Common Cell Styles */
+/* Cell Styles */
 mat-header-cell,
 mat-cell {
     padding: 16px;
@@ -34,19 +34,19 @@ mat-cell {
     word-wrap: break-word;
     width: auto;
     max-width: none !important;
-}
 
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(128, 128, 128, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+    // Media Queries for different padding
+    @media (max-width: 1200px) {
+        padding: 12px;
+    }
+
+    @media (max-width: 768px) {
+        padding: 8px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 4px;
+    }
 }
 
 /* Row Styles */
@@ -63,14 +63,11 @@ mat-cell {
     background-color: inherit;
 }
 
-/* --- Modifiers --- */
-
-/* Striped Rows */
+/* Modifiers */
 mat-row:nth-child(odd) {
     background-color: #f5f5f5;
 }
 
-/* Hover Effects */
 mat-row:hover {
     background-color: #e0e0e0;
 }
@@ -85,33 +82,4 @@ mat-cell[matColumnDef="actions"] {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-/* --- Media Queries / Responsive Designs --- */
-
-/* For larger screens */
-@media (max-width: 1200px) {
-
-    mat-header-cell,
-    mat-cell {
-        padding: 12px;
-    }
-}
-
-/* For tablets */
-@media (max-width: 768px) {
-
-    mat-header-cell,
-    mat-cell {
-        padding: 8px;
-    }
-}
-
-/* For mobile phones */
-@media (max-width: 480px) {
-
-    mat-header-cell,
-    mat-cell {
-        padding: 4px;
-    }
 }
