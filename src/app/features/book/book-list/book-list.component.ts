@@ -7,6 +7,7 @@ import { Book } from 'src/app/core/models/book.model';
 import { BookService } from 'src/app/core/services/book.service';
 import { Loan } from 'src/app/core/models/loan.model';
 import { LoanService } from 'src/app/core/services/loan.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { LoanDetailModalComponent } from '../../loan/loan-detail-modal/loan-detail-modal.component';
 import { RoleService } from 'src/app/core/services/role.service';
@@ -37,8 +38,15 @@ export class BookListComponent implements OnInit {
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private bookService: BookService, private loanService: LoanService, private notificationService: NotificationService, private dialog: MatDialog, private roleService: RoleService) {
-    this.isLoading$ = this.notificationService.loading$;
+  constructor(
+    private bookService: BookService,
+    private loanService: LoanService,
+    private loadingService: LoadingService,
+    private notificationService: NotificationService,
+    private dialog: MatDialog,
+    private roleService: RoleService
+  ) {
+    this.isLoading$ = this.loadingService.loading$;
   }
 
   ngOnInit(): void {
@@ -47,12 +55,12 @@ export class BookListComponent implements OnInit {
   }
 
   getAllBooks() {
-    this.notificationService.setLoading(true);
+    this.loadingService.setLoading(true);
     this.bookService.getAllBooks().subscribe({
       next: books => {
         this.books = new MatTableDataSource(books);
         this.books.sort = this.sort;
-        this.notificationService.setLoading(false);
+        this.loadingService.setLoading(false);
       },
       error: error => console.error('Error fetching books: ', error)
     });
@@ -63,14 +71,14 @@ export class BookListComponent implements OnInit {
   }
 
   openLoanDetailsModal(loanId: number) {
-    this.notificationService.setLoading(true);
+    this.loadingService.setLoading(true);
     this.loanService.getLoan(loanId).subscribe(loan => {
       if (loan) {
         this.dialog.open(LoanDetailModalComponent, {
           data: { loan },
           width: '400px',
         });
-        this.notificationService.setLoading(false);
+        this.loadingService.setLoading(false);
       }
     });
   }
@@ -81,7 +89,7 @@ export class BookListComponent implements OnInit {
       if (bookToUpdate && bookToUpdate.activeLoanIds) {
         bookToUpdate.activeLoanIds = bookToUpdate.activeLoanIds.filter(id => id !== updatedLoan.id);
         this.books._updateChangeSubscription();
-        this.notificationService.setLoading(false);
+        this.loadingService.setLoading(false);
         this.notificationService.showAlert('Loan returned successfully.');
       }
     });

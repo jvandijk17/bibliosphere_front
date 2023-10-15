@@ -14,7 +14,7 @@
     z-index: 9999;
 }
 
-.overlay {
+::ng-deep .overlay {
     @extend %overlay-styles;
 }
 

@@ -5,7 +5,7 @@ import { AlertComponent } from '../../shared/alert/alert.component';
 @Injectable({
     providedIn: 'root'
 })
-export class NotificationService {
+export class AlertService {
 
     constructor(private dialog: MatDialog) { }
 
@@ -15,4 +15,5 @@ export class NotificationService {
             data: { message, confirm }
         });
     }
+
 }

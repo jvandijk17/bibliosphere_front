@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 
 @Component({
   selector: 'app-layout',
@@ -8,5 +8,5 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 })
 export class LayoutComponent {
 
-  constructor(public notificationService: NotificationService) { }
+  constructor(public loadingService: LoadingService) { }
 }

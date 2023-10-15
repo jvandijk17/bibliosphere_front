@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/core/services/user.service';
 import { LibraryService } from 'src/app/core/services/library.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 import { Router } from '@angular/router';
 import { Library } from 'src/app/core/models/library.model';
 import { mustMatchValidator } from 'src/app/core/validators/must-match.validator';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -15,18 +17,22 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+
   createUserForm!: FormGroup;
   libraries: Library[] = [];
   errorMsg: string = '';
-  loading: boolean = true;
+  isLoading$: Observable<boolean>;
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
     private libraryService: LibraryService,
+    private loadingService: LoadingService,
     private router: Router,
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.isLoading$ = this.loadingService.loading$;
+  }
 
   ngOnInit(): void {
     this.loadLibraries();
@@ -47,7 +53,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.createUserForm.valid) {
-      this.loading = true;
+      this.loadingService.setLoading(true);
       this.errorMsg = '';
       this.registerUser();
     }
@@ -61,13 +67,13 @@ export class RegisterComponent implements OnInit {
   }
 
   handleUserCreated() {
-    this.loading = false;
+    this.loadingService.setLoading(false);
     this.showAlert('Registration successful! Please login to continue.');
     this.router.navigate(['/account/login']);
   }
 
   handleError(error: any) {
-    this.loading = false;
+    this.loadingService.setLoading(false);
     this.errorMsg = error.message || 'Error creating user';
   }
 
@@ -82,7 +88,7 @@ export class RegisterComponent implements OnInit {
     this.libraryService.getAllLibrariesPreview().subscribe({
       next: (data: Library[]) => {
         this.libraries = data;
-        this.loading = false;
+        this.loadingService.setLoading(false);
       },
       error: error => {
         console.error('Error loading libraries: ', error);

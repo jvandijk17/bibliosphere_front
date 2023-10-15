@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/core/models/user.model';
 import { UserDetailsModalComponent } from '../user-details-modal/user-details-modal.component';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-list',
@@ -20,23 +22,26 @@ export class UserListComponent implements OnInit {
     'province', 'postal_code', 'birth_date', 'reputation', 'blocked', 'roles',
     'library', 'actions'
   ];
-  loading: boolean = false;
+
+  isLoading$: Observable<boolean>;
 
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UserService, private dialog: MatDialog) { }
+  constructor(private userService: UserService, private loadingService: LoadingService, private dialog: MatDialog) {
+    this.isLoading$ = this.loadingService.loading$;
+  }
 
   ngOnInit(): void {
     this.getAllUsers();
   }
 
   getAllUsers() {
-    this.loading = true;
+    this.loadingService.setLoading(true);
     this.userService.getAllUsers().subscribe({
       next: users => {
         this.users = new MatTableDataSource(users);
         this.users.sort = this.sort;
-        this.loading = false;
+        this.loadingService.setLoading(false);
       },
       error: error => console.error('Error fetching users:', error)
     });

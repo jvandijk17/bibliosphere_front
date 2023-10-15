@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LoanService } from 'src/app/core/services/loan.service';
 import { Loan } from 'src/app/core/models/loan.model';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 import { RoleService } from 'src/app/core/services/role.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class LoanDetailComponent {
 
   @Input() loan: Loan | null = null;
 
-  constructor(private loanService: LoanService, public roleService: RoleService, private notificationService: NotificationService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) { }
+  constructor(private loanService: LoanService, public roleService: RoleService, private notificationService: NotificationService, private loadingService: LoadingService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
 
@@ -31,7 +32,7 @@ export class LoanDetailComponent {
     if (this.loan && this.roleService.isAdmin) {
 
       this.loan.return_date = new Date();
-      this.notificationService.setLoading(true);
+      this.loadingService.setLoading(true);
 
       this.loanService.updateLoan(this.loan.id, this.loan).subscribe({
         next: updatedLoan => {
@@ -39,7 +40,7 @@ export class LoanDetailComponent {
           this.loanService.loanUpdated.emit(updatedLoan);
         },
         error: _error => {
-          this.notificationService.setLoading(false);
+          this.loadingService.setLoading(false);
           this.notificationService.showAlert('Error while returning the book. Please try again.');
         }
       });
