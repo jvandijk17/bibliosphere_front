@@ -19,7 +19,7 @@
                     <strong>Book ID:</strong> {{ loan.bookId }}</mat-list-item>
                 <mat-list-item *ngIf="roleService.isAdmin && !loan.return_date">
                     <button mat-raised-button color="primary" class="w-100"
-                        (click)="returnBook()">Return Book</button>
+                        (click)="returnLoan()">Return Book</button>
                 </mat-list-item>
             </mat-list>
         </mat-card-content>

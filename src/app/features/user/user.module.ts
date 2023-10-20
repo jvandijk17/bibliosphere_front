@@ -10,6 +10,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserDetailsModalComponent } from './user-details-modal/user-details-modal.component';
 import { CommonUiModule } from 'src/app/shared/common-ui.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { CommonUiModule } from 'src/app/shared/common-ui.module';
     CommonModule,
     CommonUiModule,
     UserRoutingModule,    
-    LayoutModule
+    LayoutModule,
+    SharedModule
   ],
   providers: [
     UserService

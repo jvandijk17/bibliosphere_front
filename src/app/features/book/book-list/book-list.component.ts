@@ -11,6 +11,7 @@ import { LoadingService } from 'src/app/core/services/loading.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { LoanDetailModalComponent } from '../../loan/loan-detail-modal/loan-detail-modal.component';
 import { RoleService } from 'src/app/core/services/role.service';
+import { TableColumnConfig } from 'src/app/shared/models/table-column-config.model';
 
 @Component({
   selector: 'app-book-list',
@@ -20,18 +21,29 @@ import { RoleService } from 'src/app/core/services/role.service';
 export class BookListComponent implements OnInit {
 
   books: MatTableDataSource<Book> = new MatTableDataSource<Book>([]);
-  displayedColumns: string[] = [
-    ...(this.roleService.isAdmin ? ['id'] : []),
-    'title',
-    'author',
-    'publisher',
-    'isbn',
-    'publication_year',
-    'page_count',
-    'library',
-    'loans',
-    'categories',
-    ...(this.roleService.isAdmin ? ['actions'] : [])
+  displayedColumns: TableColumnConfig<Book>[] = [
+    ...(this.roleService.isAdmin ? [{ key: 'id', title: 'ID' }] : []),
+    { key: 'title', title: 'Title' },
+    { key: 'author', title: 'Author' },
+    { key: 'publisher', title: 'Publisher' },
+    { key: 'isbn', title: 'ISBN' },
+    { key: 'publication_year', title: 'Publication Year' },
+    { key: 'page_count', title: 'Page Count' },
+    {
+      key: 'libraryName', title: 'Library', render: (book) => book.libraryName
+    },
+    {
+      key: 'loans', title: 'Loaned', render: (book) => {
+        return this.hasLoans(book) ? 'Details' : 'No';
+      },
+      actions: {
+        details: (book) => this.openLoanDetailsModal(book.activeLoanIds?.[0])
+      }
+    },
+    {
+      key: 'categories', title: 'Categories', render: (book) => book.bookCategoryNames?.join(', ')
+    },
+    ...(this.roleService.isAdmin ? [{ key: 'actions', title: 'Actions' }] : [])
   ];
 
   isLoading$: Observable<boolean>;
@@ -70,7 +82,9 @@ export class BookListComponent implements OnInit {
     this.books.filter = filterValue.trim().toLowerCase();
   }
 
-  openLoanDetailsModal(loanId: number) {
+  openLoanDetailsModal(loanId?: number) {
+    if (typeof loanId === 'undefined') return;
+
     this.loadingService.setLoading(true);
     this.loanService.getLoan(loanId).subscribe(loan => {
       if (loan) {
@@ -95,6 +109,21 @@ export class BookListComponent implements OnInit {
     });
 
   }
+
+  handleAction(event: { action: string, item: Book }) {
+    switch (event.action) {
+      case 'view':
+        this.openLoanDetailsModal(event.item.id);
+        break;
+      case 'delete':
+        // Handle book delete logic
+        break;
+      case 'toggle':
+        // Handle book toggle logic
+        break;
+    }
+  }
+
 
   hasLoans(book: Book): boolean {
     return !!book.activeLoanIds?.length;

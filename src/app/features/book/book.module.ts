@@ -8,6 +8,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 
 import { BookListComponent } from './book-list/book-list.component';
 import { CommonUiModule } from 'src/app/shared/common-ui.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { CommonUiModule } from 'src/app/shared/common-ui.module';
     CommonModule,
     CommonUiModule,
     BookRoutingModule,  
-    LayoutModule
+    LayoutModule,
+    SharedModule
   ],
   providers: [
     BookService

@@ -1,9 +1,9 @@
 import { Component, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoanService } from 'src/app/core/services/loan.service';
+import { LoanReturnService } from 'src/app/core/services/loan-return.service';
 import { Loan } from 'src/app/core/models/loan.model';
 import { NotificationService } from 'src/app/core/services/notification.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
 import { RoleService } from 'src/app/core/services/role.service';
 
 @Component({
@@ -15,7 +15,15 @@ export class LoanDetailComponent {
 
   @Input() loan: Loan | null = null;
 
-  constructor(private loanService: LoanService, public roleService: RoleService, private notificationService: NotificationService, private loadingService: LoadingService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) { }
+  constructor
+    (
+      private loanService: LoanService,
+      private loanReturnService: LoanReturnService,
+      public roleService: RoleService,
+      private notificationService: NotificationService,
+      private route: ActivatedRoute,
+      private cdr: ChangeDetectorRef
+    ) { }
 
   ngOnInit(): void {
 
@@ -28,24 +36,12 @@ export class LoanDetailComponent {
     }
   }
 
-  returnBook() {
+  returnLoan() {
     if (this.loan && this.roleService.isAdmin) {
-
-      this.loan.return_date = new Date();
-      this.loadingService.setLoading(true);
-
-      this.loanService.updateLoan(this.loan.id, this.loan).subscribe({
-        next: updatedLoan => {
-          this.loan = updatedLoan;
-          this.loanService.loanUpdated.emit(updatedLoan);
-        },
-        error: _error => {
-          this.loadingService.setLoading(false);
-          this.notificationService.showAlert('Error while returning the book. Please try again.');
-        }
-      });
+      this.loanReturnService.returnLoans([this.loan]);
     } else {
       this.notificationService.showAlert('You do not have the permission to return the loan.');
     }
   }
+
 }

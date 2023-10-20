@@ -9,13 +9,19 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ControlPanelModule } from './control-panel/control-panel.module';
 import { ForbiddenInterceptor } from '../core/interceptors/forbidden.interceptor';
 import { UnauthorizedInterceptor } from '../core/interceptors/unauthorized.interceptor';
+import { SharedModule } from '../shared/shared.module';
+import { CommonUiModule } from '../shared/common-ui.module';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
     imports: [
         CommonModule,
+        CommonUiModule,
         HttpClientModule,
         BrowserAnimationsModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        LayoutModule,
+        SharedModule
     ],
     exports: [
         AccountModule,

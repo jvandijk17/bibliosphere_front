@@ -14,16 +14,16 @@ export class LoanService {
 
     constructor(private http: HttpClient) { }
 
-    getAllLoans() {
-        return this.http.get<Loan[]>(environment.apiDomain + '/loan');
+    getAllLoans(): Observable<Loan[]> {
+        return this.http.get<Loan[]>(`${environment.apiDomain}/loan`);
     }
 
-    getLoan(id: number) {
+    getLoan(id: number): Observable<Loan> {
         return this.http.get<Loan>(`${environment.apiDomain}/loan/${id}`);
     }
 
-    createLoan(loan: Loan) {
-        return this.http.post(environment.apiDomain + '/loan/', loan);
+    createLoan(loan: Loan): Observable<Loan> {
+        return this.http.post<Loan>(`${environment.apiDomain}/loan/`, loan);
     }
 
     updateLoan(id: number, loan: Loan): Observable<Loan> {
@@ -32,8 +32,12 @@ export class LoanService {
         );
     }
 
-    deleteLoan(id: number) {
-        return this.http.delete(`${environment.apiDomain}/loan/${id}`);
+    deleteLoan(id: number): Observable<void> {
+        return this.http.delete<void>(`${environment.apiDomain}/loan/${id}`);
     }
 
+    getLoansByUserId(userId: number): Observable<Loan[]> {
+        return this.http.get<Loan[]>(`${environment.apiDomain}/loan/by-user/${userId}`);
+    }
+    
 }

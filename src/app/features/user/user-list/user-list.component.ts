@@ -8,6 +8,7 @@ import { User } from 'src/app/core/models/user.model';
 import { UserDetailsModalComponent } from '../user-details-modal/user-details-modal.component';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { Observable } from 'rxjs';
+import { TableColumnConfig } from 'src/app/shared/models/table-column-config.model';
 
 @Component({
   selector: 'app-user-list',
@@ -17,10 +18,36 @@ import { Observable } from 'rxjs';
 export class UserListComponent implements OnInit {
 
   users: MatTableDataSource<User> = new MatTableDataSource<User>([]);
-  displayedColumns: string[] = [
-    'id', 'first_name', 'last_name', 'email', 'address', 'city',
-    'province', 'postal_code', 'birth_date', 'reputation', 'blocked', 'roles',
-    'library', 'actions'
+  displayedColumns: TableColumnConfig<User>[] = [
+    { key: 'id', title: 'ID' },
+    { key: 'first_name', title: 'First Name' },
+    { key: 'last_name', title: 'Last Name' },
+    { key: 'email', title: 'Email' },
+    { key: 'address', title: 'Address' },
+    { key: 'city', title: 'City' },
+    { key: 'province', title: 'Province' },
+    { key: 'postal_code', title: 'Postal Code' },
+    {
+      key: 'birth_date',
+      title: 'Birth Date',
+      render: (user) => user.birth_date ? new Date(user.birth_date).toLocaleDateString() : ''
+    },
+    { key: 'reputation', title: 'Reputation' },
+    {
+      key: 'blocked',
+      title: 'Blocked',
+      render: (user) => user.blocked ? 'Yes' : 'No'
+    },
+    {
+      key: 'roles',
+      title: 'Roles',
+      render: (user) => user.roles?.join(', ')
+    },
+    { key: 'library', title: 'Library', render: (user) => user.libraryName },
+    {
+      key: 'actions',
+      title: 'Actions',
+    }
   ];
 
   isLoading$: Observable<boolean>;
@@ -51,41 +78,23 @@ export class UserListComponent implements OnInit {
     this.users.filter = filterValue.trim().toLowerCase();
   }
 
+  handleAction(event: { action: string, item: User }) {
+    switch (event.action) {
+      case 'view':
+        this.openUserDetailsModal(event.item);
+        break;
+      case 'toggle':
+        this.toggleUserStatus(event.item);
+        break;
+    }
+  }
+
+
   openUserDetailsModal(user: User) {
     this.dialog.open(UserDetailsModalComponent, {
       data: { user },
       width: '400px',
     });
-  }
-
-  deleteUser(user: User) {
-
-    const dialogRef = this.dialog.open(AlertComponent, {
-      width: '250px',
-      data: { message: 'Are you sure you want to delete this user?', confirm: true }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.userService.deleteUser(user.id).subscribe({
-          next: () => {
-            this.dialog.open(AlertComponent, {
-              width: '250px',
-              data: { message: 'User successfully deleted!' }
-            });
-            this.getAllUsers();
-          },
-          error: (error) => {
-            console.error('Error deleting user:', error);
-            this.dialog.open(AlertComponent, {
-              width: '250px',
-              data: { message: 'Error deleting user!' }
-            });
-          }
-        })
-      }
-    });
-
   }
 
   toggleUserStatus(user: User) {
@@ -100,6 +109,7 @@ export class UserListComponent implements OnInit {
         user.blocked = !user.blocked ? true : false;
         this.userService.updateUser(user.id, user).subscribe({
           next: () => {
+            this.loadingService.setLoading(true);
             this.dialog.open(AlertComponent, {
               width: '250px',
               data: {

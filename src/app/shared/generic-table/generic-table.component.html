@@ -1,0 +1,30 @@
+<div class="table-container">
+    <mat-toolbar color="primary">List</mat-toolbar>
+
+    <mat-form-field>
+        <input matInput #input (keyup)="applyFilter(input.value)" placeholder="Filter">
+    </mat-form-field>
+
+    <mat-table [dataSource]="data">
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let item; columns: displayedColumns;"></mat-row>
+
+        <ng-container *ngFor="let column of columnsConfig" [matColumnDef]="column.key">
+            <mat-header-cell *matHeaderCellDef> {{ column.title }} </mat-header-cell>
+            <mat-cell *matCellDef="let item">                
+                <ng-container *ngIf="column.key === 'actions'; else notActionsTemplate">
+                    <ng-template [ngTemplateOutlet]="actionMenuTemplate" [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
+                </ng-container>                
+                <ng-template #notActionsTemplate>
+                    <ng-container *ngIf="column.render; else defaultTemplate">
+                        {{ column.render(item) }}
+                    </ng-container>
+                    <ng-template #defaultTemplate>
+                        {{ item[column.key] }}
+                    </ng-template>
+                </ng-template>
+            </mat-cell>
+        </ng-container>
+    </mat-table>
+</div>

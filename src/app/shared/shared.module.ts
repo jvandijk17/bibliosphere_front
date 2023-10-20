@@ -3,11 +3,13 @@ import { HeaderComponent } from './header/header.component';
 import { LayoutComponent } from './layout/layout.component';
 import { CommonModule } from '@angular/common';
 import { CommonUiModule } from './common-ui.module';
+import { GenericTableComponent } from './generic-table/generic-table.component';
 
 @NgModule({
   declarations: [
     LayoutComponent,
-    HeaderComponent
+    HeaderComponent,
+    GenericTableComponent
   ],
   imports: [
     CommonModule,    
@@ -15,7 +17,8 @@ import { CommonUiModule } from './common-ui.module';
   ],
   exports: [
     LayoutComponent,
-    HeaderComponent
+    HeaderComponent,
+    GenericTableComponent
   ]
 })
 export class SharedModule { }
