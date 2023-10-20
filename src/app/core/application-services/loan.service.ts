@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, EventEmitter } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { Observable, tap } from "rxjs";
-import { Loan } from "../models/loan.model";
+import { Loan } from "../domain/models/loan.model";
 
 @Injectable({
     providedIn: 'root'

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BookRoutingModule } from './book-routing.module';
-import { BookService } from 'src/app/core/services/book.service';
+import { BookService } from 'src/app/core/application-services/book.service';
 
 import { LayoutModule } from '@angular/cdk/layout';
 

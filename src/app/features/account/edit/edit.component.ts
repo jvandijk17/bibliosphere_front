@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/core/services/user.service';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { User } from 'src/app/core/models/user.model';
+import { UserService } from 'src/app/core/application-services/user.service';
+import { AuthService } from 'src/app/core/application-services/auth.service';
+import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
+import { User } from 'src/app/core/domain/models/user.model';
 import { catchError, finalize } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
-import { apiDateToInputDate } from 'src/app/core/utils/date-utils';
+import { apiDateToInputDate } from 'src/app/core/domain/utils/date-utils';
 
 @Component({
   selector: 'app-edit',

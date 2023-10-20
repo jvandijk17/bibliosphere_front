@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { PostAuthRoutingService } from 'src/app/core/services/post-auth-routing.service';
+import { AuthService } from 'src/app/core/application-services/auth.service';
+import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
+import { PostAuthRoutingService } from 'src/app/core/infrastructure/services/post-auth-routing.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { Observable } from 'rxjs';

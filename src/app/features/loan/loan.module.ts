@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { LoanRoutingModule } from './loan-routing.module';
-import { LoanService } from 'src/app/core/services/loan.service';
+import { LoanService } from 'src/app/core/application-services/loan.service';
 
 import { LayoutModule } from '@angular/cdk/layout';
 

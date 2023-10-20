@@ -1,10 +1,10 @@
 import { Component, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoanService } from 'src/app/core/services/loan.service';
-import { LoanReturnService } from 'src/app/core/services/loan-return.service';
-import { Loan } from 'src/app/core/models/loan.model';
-import { NotificationService } from 'src/app/core/services/notification.service';
-import { RoleService } from 'src/app/core/services/role.service';
+import { LoanService } from 'src/app/core/application-services/loan.service';
+import { LoanReturnService } from 'src/app/core/application-services/loan-return.service';
+import { Loan } from 'src/app/core/domain/models/loan.model';
+import { NotificationService } from 'src/app/core/application-services/notification.service';
+import { RoleService } from 'src/app/core/application-services/role.service';
 
 @Component({
   selector: 'app-loan-detail',

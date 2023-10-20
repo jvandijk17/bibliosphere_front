@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Loan } from 'src/app/core/models/loan.model';
+import { Loan } from 'src/app/core/domain/models/loan.model';
 
 @Component({
   selector: 'app-loan-detail-modal',

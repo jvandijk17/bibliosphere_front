@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from 'src/app/core/services/user.service';
-import { User } from 'src/app/core/models/user.model';
+import { UserService } from 'src/app/core/application-services/user.service';
+import { User } from 'src/app/core/domain/models/user.model';
 
 @Component({
   selector: 'app-user-detail',

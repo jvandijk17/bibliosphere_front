@@ -3,14 +3,14 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Book } from 'src/app/core/models/book.model';
-import { BookService } from 'src/app/core/services/book.service';
-import { Loan } from 'src/app/core/models/loan.model';
-import { LoanService } from 'src/app/core/services/loan.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { Book } from 'src/app/core/domain/models/book.model';
+import { BookService } from 'src/app/core/application-services/book.service';
+import { Loan } from 'src/app/core/domain/models/loan.model';
+import { LoanService } from 'src/app/core/application-services/loan.service';
+import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
+import { NotificationService } from 'src/app/core/application-services/notification.service';
 import { LoanDetailModalComponent } from '../../loan/loan-detail-modal/loan-detail-modal.component';
-import { RoleService } from 'src/app/core/services/role.service';
+import { RoleService } from 'src/app/core/application-services/role.service';
 import { TableColumnConfig } from 'src/app/shared/models/table-column-config.model';
 
 @Component({

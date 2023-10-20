@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
 import { UserListComponent } from './user-list/user-list.component';
-import { UserService } from 'src/app/core/services/user.service';
+import { UserService } from 'src/app/core/application-services/user.service';
 
 import { LayoutModule } from '@angular/cdk/layout';
 

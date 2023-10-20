@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from 'src/app/core/services/user.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
+import { UserService } from 'src/app/core/application-services/user.service';
+import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { User } from 'src/app/core/models/user.model';
+import { User } from 'src/app/core/domain/models/user.model';
 import { UserDetailsModalComponent } from '../user-details-modal/user-details-modal.component';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { Observable } from 'rxjs';

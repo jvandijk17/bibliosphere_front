@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { User } from 'src/app/core/models/user.model';
+import { User } from 'src/app/core/domain/models/user.model';
 
 @Component({
   selector: 'app-user-details-modal',

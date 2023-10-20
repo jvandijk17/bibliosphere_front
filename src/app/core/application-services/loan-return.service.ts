@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Loan } from '../models/loan.model';
+import { Loan } from '../domain/models/loan.model';
 import { firstValueFrom } from 'rxjs';
 import { LoanService } from './loan.service';
 import { NotificationService } from './notification.service';
-import { LoadingService } from './loading.service';
+import { LoadingService } from '../infrastructure/services/loading.service';
 
 @Injectable({
     providedIn: 'root',

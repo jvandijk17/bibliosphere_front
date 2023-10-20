@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/core/services/user.service';
-import { LibraryService } from 'src/app/core/services/library.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
+import { UserService } from 'src/app/core/application-services/user.service';
+import { LibraryService } from 'src/app/core/application-services/library.service';
+import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
 import { Router } from '@angular/router';
-import { Library } from 'src/app/core/models/library.model';
-import { mustMatchValidator } from 'src/app/core/validators/must-match.validator';
+import { Library } from 'src/app/core/domain/models/library.model';
+import { mustMatchValidator } from 'src/app/core/infrastructure/validators/must-match.validator';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';

@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { RoleService } from 'src/app/core/services/role.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
+import { AuthService } from 'src/app/core/application-services/auth.service';
+import { RoleService } from 'src/app/core/application-services/role.service';
+import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
 import { Observable } from 'rxjs';
 
 @Component({

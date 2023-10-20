@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { PreviousUrlService } from '../services/previous-url.service';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../application-services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRouteSnapshot } from '@angular/router';
 
