@@ -1,18 +1,29 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { Inject, Injectable } from '@angular/core';
+import { IBookRepository } from '../domain/interfaces/book-repository.interface';
 import { Book } from '../domain/models/book.model';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class BookService {
+  private _bookList: Book[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    @Inject('BookRepositoryToken') private readonly bookRepository: IBookRepository,
+    @Inject('API_DOMAIN') private readonly apiDomain: string
+  ) { }
 
-  getAllBooks() {
-    return this.http.get<Book[]>(environment.apiDomain + '/book');
+  get books(): Book[] {
+    return this._bookList;
   }
 
+  fetchAllBooks(): Observable<Book[]> {
+    return this.bookRepository.getAllBooks(this.apiDomain).pipe(
+      tap(books => {
+        this._bookList = books;
+      })
+    );
+  }
 }

@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable, EventEmitter } from "@angular/core";
-import { environment } from "src/environments/environment";
+import { Injectable, EventEmitter, Inject } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { Loan } from "../domain/models/loan.model";
+import { LOAN_ENDPOINTS } from "../infrastructure/config/loan-endpoints.config";
 
 @Injectable({
     providedIn: 'root'
@@ -12,32 +12,32 @@ export class LoanService {
 
     public loanUpdated = new EventEmitter<Loan>();
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, @Inject('API_DOMAIN') private apiDomain: string) { }
 
     getAllLoans(): Observable<Loan[]> {
-        return this.http.get<Loan[]>(`${environment.apiDomain}/loan`);
+        return this.http.get<Loan[]>(this.apiDomain + LOAN_ENDPOINTS.getAll);
     }
 
     getLoan(id: number): Observable<Loan> {
-        return this.http.get<Loan>(`${environment.apiDomain}/loan/${id}`);
+        return this.http.get<Loan>(this.apiDomain + LOAN_ENDPOINTS.specific);
     }
 
     createLoan(loan: Loan): Observable<Loan> {
-        return this.http.post<Loan>(`${environment.apiDomain}/loan/`, loan);
+        return this.http.post<Loan>(this.apiDomain + LOAN_ENDPOINTS.create, loan);
     }
 
     updateLoan(id: number, loan: Loan): Observable<Loan> {
-        return this.http.put<Loan>(`${environment.apiDomain}/loan/${id}`, loan).pipe(
+        return this.http.put<Loan>(this.apiDomain + LOAN_ENDPOINTS.update, loan).pipe(
             tap(() => this.loanUpdated.emit())
         );
     }
 
     deleteLoan(id: number): Observable<void> {
-        return this.http.delete<void>(`${environment.apiDomain}/loan/${id}`);
+        return this.http.delete<void>(this.apiDomain + LOAN_ENDPOINTS.delete);
     }
 
     getLoansByUserId(userId: number): Observable<Loan[]> {
-        return this.http.get<Loan[]>(`${environment.apiDomain}/loan/by-user/${userId}`);
+        return this.http.get<Loan[]>(this.apiDomain + LOAN_ENDPOINTS.byUser);
     }
-    
+
 }

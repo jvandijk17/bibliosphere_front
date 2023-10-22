@@ -10,6 +10,9 @@ import { AUTH_ENDPOINTS_TOKEN } from './infrastructure/config/auth-endpoints.tok
 import { AUTH_ENDPOINTS } from './infrastructure/config/auth-endpoints.config';
 import { JwtHandlerService } from './infrastructure/services/jwt-handler.service';
 import { ErrorHandlerService } from './infrastructure/services/error-handler.service';
+import { BookRepository } from './infrastructure/repositories/book.repository';
+import { BOOK_ENDPOINTS_TOKEN } from './infrastructure/config/book-endpoints.token';
+import { BOOK_ENDPOINTS } from './infrastructure/config/book-endpoints.config';
 
 @NgModule({
   imports: [
@@ -21,7 +24,9 @@ import { ErrorHandlerService } from './infrastructure/services/error-handler.ser
     AuthRepository,
     { provide: 'API_DOMAIN', useValue: environment.apiDomain },
     { provide: 'AuthRepositoryToken', useClass: AuthRepository },
+    { provide: 'BookRepositoryToken', useClass: BookRepository },
     { provide: AUTH_ENDPOINTS_TOKEN, useValue: AUTH_ENDPOINTS },
+    { provide: BOOK_ENDPOINTS_TOKEN, useValue: BOOK_ENDPOINTS },
     { provide: STORAGE_SERVICE_TOKEN, useClass: StorageService },
     { provide: 'JwtHandlerToken', useClass: JwtHandlerService },
     { provide: 'ErrorHandlerToken', useClass: ErrorHandlerService },

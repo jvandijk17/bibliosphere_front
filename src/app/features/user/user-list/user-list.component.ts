@@ -62,15 +62,20 @@ export class UserListComponent implements OnInit {
     this.getAllUsers();
   }
 
-  getAllUsers() {
+  getAllUsers(callback?: () => void) {
     this.loadingService.setLoading(true);
     this.userService.getAllUsers().subscribe({
       next: users => {
         this.users = new MatTableDataSource(users);
         this.users.sort = this.sort;
         this.loadingService.setLoading(false);
+        if (callback) {
+          callback();
+        }
       },
-      error: error => console.error('Error fetching users:', error)
+      error: error => {
+        console.error('Error fetching users:', error);
+      }
     });
   }
 
@@ -98,7 +103,6 @@ export class UserListComponent implements OnInit {
   }
 
   toggleUserStatus(user: User) {
-
     const dialogRef = this.dialog.open(AlertComponent, {
       width: '250px',
       data: { message: 'Are you sure you want to ' + (user.blocked ? 'un-block' : 'block') + ' this user account?', confirm: true }
@@ -106,29 +110,31 @@ export class UserListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        user.blocked = !user.blocked ? true : false;
+        user.blocked = !user.blocked;
+        this.loadingService.setLoading(true);
+
         this.userService.updateUser(user.id, user).subscribe({
           next: () => {
-            this.loadingService.setLoading(true);
-            this.dialog.open(AlertComponent, {
-              width: '250px',
-              data: {
-                message: 'User successfully ' + (!user.blocked ? 'un-blocked' : 'blocked') + '!'
-              }
+            this.getAllUsers(() => {
+              this.dialog.open(AlertComponent, {
+                width: '250px',
+                data: {
+                  message: 'User successfully ' + (!user.blocked ? 'un-blocked' : 'blocked') + '!'
+                }
+              });
             });
-            this.getAllUsers();
           },
           error: (error) => {
-            console.error('Error updating user status on user: ', error);
+            console.error('Error updating user status:', error);
+            this.loadingService.setLoading(false);
             this.dialog.open(AlertComponent, {
               width: '250px',
               data: { message: 'Error updating user status!' }
             });
           }
-        })
+        });
       }
-    })
-
+    });
   }
 
 }

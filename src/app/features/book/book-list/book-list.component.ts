@@ -68,7 +68,7 @@ export class BookListComponent implements OnInit {
 
   getAllBooks() {
     this.loadingService.setLoading(true);
-    this.bookService.getAllBooks().subscribe({
+    this.bookService.fetchAllBooks().subscribe({
       next: books => {
         this.books = new MatTableDataSource(books);
         this.books.sort = this.sort;
