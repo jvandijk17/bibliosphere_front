@@ -13,6 +13,8 @@ import { ErrorHandlerService } from './infrastructure/services/error-handler.ser
 import { BookRepository } from './infrastructure/repositories/book.repository';
 import { BOOK_ENDPOINTS_TOKEN } from './infrastructure/config/book-endpoints.token';
 import { BOOK_ENDPOINTS } from './infrastructure/config/book-endpoints.config';
+import { ModalService } from './infrastructure/services/modal.service';
+import { MODAL_SERVICE_TOKEN } from './infrastructure/config/modal.token';
 
 @NgModule({
   imports: [
@@ -27,6 +29,7 @@ import { BOOK_ENDPOINTS } from './infrastructure/config/book-endpoints.config';
     { provide: 'BookRepositoryToken', useClass: BookRepository },
     { provide: AUTH_ENDPOINTS_TOKEN, useValue: AUTH_ENDPOINTS },
     { provide: BOOK_ENDPOINTS_TOKEN, useValue: BOOK_ENDPOINTS },
+    { provide: MODAL_SERVICE_TOKEN, useClass: ModalService },
     { provide: STORAGE_SERVICE_TOKEN, useClass: StorageService },
     { provide: 'JwtHandlerToken', useClass: JwtHandlerService },
     { provide: 'ErrorHandlerToken', useClass: ErrorHandlerService },

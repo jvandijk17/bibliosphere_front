@@ -5,11 +5,11 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="openUserDetailsModal(item)">
+                <button mat-menu-item (click)="handleAction({action: 'view', item: item})">
                     <mat-icon>pageview</mat-icon>
                     <span>View Details</span>
-                </button>                
-                <button mat-menu-item (click)="toggleUserStatus(item)">
+                </button>
+                <button mat-menu-item (click)="handleAction({action: 'toggle', item: item})">
                     <mat-icon>block</mat-icon>
                     <span>Toggle Active Status</span>
                 </button>

@@ -11,6 +11,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserDetailsModalComponent } from './user-details-modal/user-details-modal.component';
 import { CommonUiModule } from 'src/app/shared/common-ui.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ToggleUserStatusAction } from './strategies/toggle-user-status.action';
+import { ViewUserDetailsAction } from './strategies/view-user-details.action';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule
   ],
   providers: [
-    UserService
+    UserService,
+    ToggleUserStatusAction,
+    ViewUserDetailsAction
   ]
 })
 export class UserModule { }
