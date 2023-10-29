@@ -13,17 +13,18 @@ export class LoanReturnService {
     constructor(private loanService: LoanService, private notificationService: NotificationService, private loadingService: LoadingService) { }
 
     async returnLoans(loans: Loan[]): Promise<void> {
+        this.loadingService.setLoading(true);
         const updatePromises = loans.map(async loan => {
             loan.return_date = new Date();
             try {
                 await firstValueFrom(this.loanService.updateLoan(loan.id, loan));
                 this.loanService.loanUpdated.emit(loan);
             } catch (error) {
-                this.loadingService.setLoading(false);
                 this.notificationService.showAlert('Error while returning the loan. Please try again.');
             }
         });
 
         await Promise.all(updatePromises);
+        this.loadingService.setLoading(false);
     }
 }

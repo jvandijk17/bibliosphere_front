@@ -1,5 +1,21 @@
 <ng-container *ngIf="books && books.data.length > 0; else noBooks">
-    <app-generic-table [data]="books" [columnsConfig]="displayedColumns"></app-generic-table>
+    <app-generic-table [data]="books" [columnsConfig]="displayedColumns" [actionMenuTemplate]="actionsMenu" [hasLoansFn]="hasLoans.bind(this)">
+        <ng-template #actionsMenu let-item>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="handleAction({action: 'view', item: item})">
+                    <mat-icon>pageview</mat-icon>
+                    <span>View Details</span>
+                </button>
+                <button mat-menu-item (click)="handleAction({action: 'toggle', item: item})">
+                    <mat-icon>block</mat-icon>
+                    <span>Toggle Active Status</span>
+                </button>
+            </mat-menu>
+        </ng-template>
+    </app-generic-table>
 </ng-container>
 
 <ng-template #noBooks>

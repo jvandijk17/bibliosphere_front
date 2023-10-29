@@ -19,7 +19,7 @@ export class LoanService {
     }
 
     getLoan(id: number): Observable<Loan> {
-        return this.http.get<Loan>(this.apiDomain + LOAN_ENDPOINTS.specific);
+        return this.http.get<Loan>(`${this.apiDomain}${LOAN_ENDPOINTS.specific.replace(':id', id.toString())}`);
     }
 
     createLoan(loan: Loan): Observable<Loan> {
@@ -27,13 +27,13 @@ export class LoanService {
     }
 
     updateLoan(id: number, loan: Loan): Observable<Loan> {
-        return this.http.put<Loan>(this.apiDomain + LOAN_ENDPOINTS.update, loan).pipe(
+        return this.http.put<Loan>(this.apiDomain + LOAN_ENDPOINTS.update.replace(':id', id.toString()), loan).pipe(
             tap(() => this.loanUpdated.emit())
         );
     }
 
     deleteLoan(id: number): Observable<void> {
-        return this.http.delete<void>(this.apiDomain + LOAN_ENDPOINTS.delete);
+        return this.http.delete<void>(this.apiDomain + LOAN_ENDPOINTS.delete.replace(':id', id.toString()));
     }
 
     getLoansByUserId(userId: number): Observable<Loan[]> {

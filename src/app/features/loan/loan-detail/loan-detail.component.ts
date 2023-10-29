@@ -16,7 +16,7 @@ export class LoanDetailComponent {
   @Input() loan: Loan | null = null;
 
   constructor
-    (
+    (      
       private loanService: LoanService,
       private loanReturnService: LoanReturnService,
       public roleService: RoleService,
@@ -37,7 +37,7 @@ export class LoanDetailComponent {
   }
 
   returnLoan() {
-    if (this.loan && this.roleService.isAdmin) {
+    if (this.loan && this.roleService.isAdmin) {      
       this.loanReturnService.returnLoans([this.loan]);
     } else {
       this.notificationService.showAlert('You do not have the permission to return the loan.');

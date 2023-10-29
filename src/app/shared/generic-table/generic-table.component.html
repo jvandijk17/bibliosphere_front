@@ -12,14 +12,26 @@
 
         <ng-container *ngFor="let column of columnsConfig" [matColumnDef]="column.key">
             <mat-header-cell *matHeaderCellDef> {{ column.title }} </mat-header-cell>
-            <mat-cell *matCellDef="let item">                
+            <mat-cell *matCellDef="let item">
                 <ng-container *ngIf="column.key === 'actions'; else notActionsTemplate">
-                    <ng-template [ngTemplateOutlet]="actionMenuTemplate" [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
-                </ng-container>                
+                    <ng-template [ngTemplateOutlet]="actionMenuTemplate"
+                        [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
+                </ng-container>
                 <ng-template #notActionsTemplate>
                     <ng-container *ngIf="column.render; else defaultTemplate">
-                        {{ column.render(item) }}
+                        <ng-container *ngIf="column.key === 'loans'; else notLoanColumnTemplate">
+                            <button mat-raised-button color="primary"
+                                *ngIf="column.actions && column.actions['details'] && hasLoansFn(item); else noLoaned"
+                                (click)="column.actions['details'](item)">
+                                Details
+                            </button>
+                            <ng-template #noLoaned>No</ng-template>
+                        </ng-container>
+                        <ng-template #notLoanColumnTemplate>
+                            {{ column.render(item) }}
+                        </ng-template>
                     </ng-container>
+
                     <ng-template #defaultTemplate>
                         {{ item[column.key] }}
                     </ng-template>

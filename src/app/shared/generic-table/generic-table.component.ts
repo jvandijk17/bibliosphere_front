@@ -13,6 +13,7 @@ export class GenericTableComponent<T> implements OnInit {
   @Input() data: MatTableDataSource<T> = new MatTableDataSource<T>([]);
   @Input() displayedColumns: string[] = [];
   @Input() actionMenuTemplate!: TemplateRef<any>;
+  @Input() hasLoansFn!: (item: T) => boolean;
   @Input() set columnsConfig(config: TableColumnConfig<any>[]) {
     this._columnsConfig = config;
     this.displayedColumns = config.map(col => col.key);

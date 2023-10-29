@@ -1,4 +1,3 @@
-import { Inject } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/core/application-services/user.service';
 import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';

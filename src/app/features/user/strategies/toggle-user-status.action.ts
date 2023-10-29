@@ -34,6 +34,7 @@ export class ToggleUserStatusAction implements UserActionStrategy {
             next: () => {
                 const message = 'User successfully ' + (!user.blocked ? 'un-blocked' : 'blocked') + '!';
                 this.modalService.showMessage(message);
+                this.loadingService.setLoading(false);
             },
             error: (error) => {
                 console.error('Error updating user status:', error);
