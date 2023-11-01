@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BookRoutingModule } from './book-routing.module';
 import { BookService } from 'src/app/core/application-services/book.service';
+import { BookListConfig } from './book-list/book-list.config';
 
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -18,12 +19,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     CommonUiModule,
-    BookRoutingModule,  
+    BookRoutingModule,
     LayoutModule,
     SharedModule
   ],
   providers: [
-    BookService
+    BookService,
+    BookListConfig
   ]
 })
 export class BookModule { }

@@ -1,6 +1,6 @@
 <ng-container *ngIf="users && users.data.length > 0; else noUsers">
-    <app-generic-table [data]="users" [columnsConfig]="displayedColumns" [actionMenuTemplate]="actionsMenu">
-        <ng-template #actionsMenu let-item>
+    <app-generic-table [data]="users" [columnsConfig]="displayedColumns" [dropdownMenuTemplate]="dropdownMenu">
+        <ng-template #dropdownMenu let-item>
             <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
             </button>

@@ -10,7 +10,7 @@ import { NotificationService } from 'src/app/core/application-services/notificat
 import { ViewLoanDetailsAction } from 'src/app/features/loan/strategies/view-loan-details.action';
 import { RoleService } from 'src/app/core/application-services/role.service';
 import { TableColumnConfig } from 'src/app/shared/models/table-column-config.model';
-import { getDisplayedColumns } from './book-list.config';
+import { BookListConfig } from './book-list.config';
 
 @Component({
   selector: 'app-book-list',
@@ -32,10 +32,11 @@ export class BookListComponent implements OnInit {
     private loadingService: LoadingService,
     private notificationService: NotificationService,
     private roleService: RoleService,
-    private loanDetailsAction: ViewLoanDetailsAction
+    private loanDetailsAction: ViewLoanDetailsAction,
+    private bookListConfig: BookListConfig
   ) {
     this.isLoading$ = this.loadingService.loading$;
-    this.displayedColumns = getDisplayedColumns(this.roleService.isAdmin, this.hasLoans.bind(this), this.handleLoanDetailsAction.bind(this));
+    this.displayedColumns = this.bookListConfig.getColumnsByRole(this.roleService, this.hasLoans.bind(this), this.handleLoanDetailsAction.bind(this))
   }
 
   ngOnInit(): void {
@@ -69,7 +70,7 @@ export class BookListComponent implements OnInit {
   handleAction(event: { action: string, item: Book }) {
     switch (event.action) {
       case 'view':
-        this.loanDetailsAction.execute(event.item.id);
+        this.loanDetailsAction.execute(event.item.activeLoanId);
         break;
       case 'delete':
         // Handle book delete logic
@@ -85,7 +86,7 @@ export class BookListComponent implements OnInit {
   }
 
   hasLoans(book: Book): boolean {
-    return !!book.activeLoanIds?.length;
+    return !!book.activeLoanId;
   }
 
 }

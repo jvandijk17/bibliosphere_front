@@ -13,21 +13,21 @@
         <ng-container *ngFor="let column of columnsConfig" [matColumnDef]="column.key">
             <mat-header-cell *matHeaderCellDef> {{ column.title }} </mat-header-cell>
             <mat-cell *matCellDef="let item">
-                <ng-container *ngIf="column.key === 'actions'; else notActionsTemplate">
-                    <ng-template [ngTemplateOutlet]="actionMenuTemplate"
+                <ng-container *ngIf="column.key === 'dropdown'; else notDropdownTemplate">
+                    <ng-template [ngTemplateOutlet]="dropdownMenuTemplate"
                         [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
                 </ng-container>
-                <ng-template #notActionsTemplate>
+                <ng-template #notDropdownTemplate>
                     <ng-container *ngIf="column.render; else defaultTemplate">
-                        <ng-container *ngIf="column.key === 'loans'; else notLoanColumnTemplate">
+                        <ng-container *ngIf="column.type === 'action'; else notActionColumnTemplate">
                             <button mat-raised-button color="primary"
-                                *ngIf="column.actions && column.actions['details'] && hasLoansFn(item); else noLoaned"
-                                (click)="column.actions['details'](item)">
+                                *ngIf="column.actions && column.actions['modal'] && column.discriminatorFn && column.discriminatorFn(item)(); else noAction"
+                                (click)="column.actions['modal'](item)">
                                 Details
                             </button>
-                            <ng-template #noLoaned>No</ng-template>
+                            <ng-template #noAction> {{ column.notAvailableAction }}</ng-template>
                         </ng-container>
-                        <ng-template #notLoanColumnTemplate>
+                        <ng-template #notActionColumnTemplate>
                             {{ column.render(item) }}
                         </ng-template>
                     </ng-container>

@@ -16,9 +16,9 @@ export class BookUpdateService {
 
     updateBookOnLoanChange(books: MatTableDataSource<Book>, callback: (message: string) => void): Subscription {
         return this.loanService.loanUpdated.subscribe((updatedLoan: Loan) => {
-            const bookToUpdate = books.data.find(book => book.activeLoanIds && book.activeLoanIds.includes(updatedLoan.id));
-            if (bookToUpdate && bookToUpdate.activeLoanIds) {
-                bookToUpdate.activeLoanIds = bookToUpdate.activeLoanIds.filter(id => id !== updatedLoan.id);
+            const bookToUpdate = books.data.find(book => book.activeLoanId && book.activeLoanId === updatedLoan.id);
+            if (bookToUpdate && bookToUpdate.activeLoanId) {
+                bookToUpdate.activeLoanId = updatedLoan.id;
                 books._updateChangeSubscription();
                 callback('Loan returned successfully.');
             }

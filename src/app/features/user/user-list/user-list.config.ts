@@ -28,7 +28,7 @@ export const DISPLAYED_COLUMNS: TableColumnConfig<User>[] = [
     },
     { key: 'library', title: 'Library', render: (user) => user.libraryName },
     {
-        key: 'actions',
+        key: 'dropdown',
         title: 'Actions',
     }
 ];

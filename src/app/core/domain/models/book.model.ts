@@ -11,9 +11,9 @@ export interface Book {
     page_count: number;
     loans?: Loan[];
     bookCategories?: BookCategory[];
-    bookCategoryIds?: number[];
+    bookCategoryId?: number;
     bookCategoryNames?: string[];
-    activeLoanIds?: number[];
+    activeLoanId?: number;
     libraryId?: number;
     libraryName?: string;
 }
