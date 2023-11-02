@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Book } from 'src/app/core/domain/models/book.model';
@@ -23,6 +23,7 @@ export class BookListComponent implements OnInit {
   displayedColumns: ITableColumn<Book>[];
 
   isLoading$: Observable<boolean>;
+  private loadingComplete$ = new Subject<void>();
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -41,20 +42,32 @@ export class BookListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBooks();
-    this.subscribeToBookUpdates();
+    this.loadingComplete$.subscribe(() => {
+      this.subscribeToBookUpdates();
+    });
   }
 
-  getAllBooks() {
+  getAllBooks(): void {
     this.loadingService.setLoading(true);
+
+    const completeLoading = () => {
+      this.loadingService.setLoading(false);
+      this.loadingComplete$.next();
+    };
+
     this.bookService.fetchAllBooks().subscribe({
       next: books => {
         this.books = new MatTableDataSource(books);
         this.books.sort = this.sort;
-        this.loadingService.setLoading(false);
+        completeLoading();
       },
-      error: error => console.error('Error fetching books: ', error)
+      error: error => {
+        console.error('Error fetching books: ', error);
+        completeLoading();
+      }
     });
   }
+
 
   applyFilter(filterValue: string) {
     this.books.filter = filterValue.trim().toLowerCase();

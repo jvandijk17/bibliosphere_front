@@ -18,7 +18,7 @@ export class BookUpdateService {
         return this.loanService.loanUpdated.subscribe((updatedLoan: Loan) => {
             const bookToUpdate = books.data.find(book => book.activeLoanId && book.activeLoanId === updatedLoan.id);
             if (bookToUpdate && bookToUpdate.activeLoanId) {
-                bookToUpdate.activeLoanId = updatedLoan.id;
+                bookToUpdate.activeLoanId = undefined;
                 books._updateChangeSubscription();
                 callback('Loan returned successfully.');
             }
