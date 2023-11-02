@@ -1,9 +1,9 @@
-export type TableColumnConfig<T> = {
-    key: string;
-    type?: string;
+export interface ITableColumn<T> {
+    key: Extract<keyof T, string> | string;
     title: string;
-    render?: (item: T) => any;
-    actions?: { [action: string]: (item: T) => void };
-    discriminatorFn?: (item: T) => Function;
-    notAvailableAction?: string
-};
+    type?: 'action' | 'text' | 'dropdown';
+    render?: (item: T) => T | string | undefined;
+    actions?: Record<string, (item: T) => void>;
+    canDisplay?: (item: T) => Function;
+    fallbackDisplayText?: string;
+}

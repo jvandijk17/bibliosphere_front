@@ -1,7 +1,7 @@
 import { User } from 'src/app/core/domain/models/user.model';
-import { TableColumnConfig } from 'src/app/shared/models/table-column-config.model';
+import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 
-export const DISPLAYED_COLUMNS: TableColumnConfig<User>[] = [
+export const DISPLAYED_COLUMNS: ITableColumn<User>[] = [
     { key: 'id', title: 'ID' },
     { key: 'first_name', title: 'First Name' },
     { key: 'last_name', title: 'Last Name' },

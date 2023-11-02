@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { TableColumnConfig } from '../models/table-column-config.model';
+import { ITableColumn } from '../models/table-column-config.model';
 
 @Component({
   selector: 'app-generic-table',
@@ -10,15 +10,17 @@ import { TableColumnConfig } from '../models/table-column-config.model';
 })
 export class GenericTableComponent<T> implements OnInit {
 
+  private _columns: ITableColumn<T>[] = [];
+
   @Input() data: MatTableDataSource<T> = new MatTableDataSource<T>([]);
   @Input() displayedColumns: string[] = [];
   @Input() dropdownMenuTemplate!: TemplateRef<any>;
-  @Input() set columnsConfig(config: TableColumnConfig<any>[]) {
-    this._columnsConfig = config;
-    this.displayedColumns = config.map(col => col.key);
+  @Input() set columnsConfig(config: ITableColumn<any>[]) {
+    this._columns = config;
+    this.displayedColumns = config.map(col => String(col.key));
   }
 
-  @Output() action = new EventEmitter<{ action: string; item: any }>();
+  @Output() action = new EventEmitter<{ action: string; item: T }>();
 
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -28,10 +30,9 @@ export class GenericTableComponent<T> implements OnInit {
     }
   }
 
-  get columnsConfig(): TableColumnConfig<any>[] {
-    return this._columnsConfig;
+  get columnsConfig(): ITableColumn<any>[] {
+    return this._columns;
   }
-  private _columnsConfig: TableColumnConfig<any>[] = [];
 
   applyFilter(filterValue: string) {
     this.data.filter = filterValue.trim().toLowerCase();

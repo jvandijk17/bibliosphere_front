@@ -9,7 +9,7 @@ import { LoadingService } from 'src/app/core/infrastructure/services/loading.ser
 import { NotificationService } from 'src/app/core/application-services/notification.service';
 import { ViewLoanDetailsAction } from 'src/app/features/loan/strategies/view-loan-details.action';
 import { RoleService } from 'src/app/core/application-services/role.service';
-import { TableColumnConfig } from 'src/app/shared/models/table-column-config.model';
+import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { BookListConfig } from './book-list.config';
 
 @Component({
@@ -20,7 +20,7 @@ import { BookListConfig } from './book-list.config';
 export class BookListComponent implements OnInit {
 
   books: MatTableDataSource<Book> = new MatTableDataSource<Book>([]);
-  displayedColumns: TableColumnConfig<Book>[];
+  displayedColumns: ITableColumn<Book>[];
 
   isLoading$: Observable<boolean>;
 

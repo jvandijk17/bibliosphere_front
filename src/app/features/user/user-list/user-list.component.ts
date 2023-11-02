@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { User } from 'src/app/core/domain/models/user.model';
 import { DISPLAYED_COLUMNS } from './user-list.config';
 import { Observable } from 'rxjs';
-import { TableColumnConfig } from 'src/app/shared/models/table-column-config.model';
+import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { ToggleUserStatusAction } from '../strategies/toggle-user-status.action';
 import { ViewUserDetailsAction } from '../strategies/view-user-details.action';
 
@@ -18,7 +18,7 @@ import { ViewUserDetailsAction } from '../strategies/view-user-details.action';
 export class UserListComponent implements OnInit {
 
   users: MatTableDataSource<User> = new MatTableDataSource<User>([]);
-  displayedColumns: TableColumnConfig<User>[] = DISPLAYED_COLUMNS;
+  displayedColumns: ITableColumn<User>[] = DISPLAYED_COLUMNS;
 
   isLoading$: Observable<boolean>;
 
@@ -27,8 +27,8 @@ export class UserListComponent implements OnInit {
   constructor(
     private userService: UserService,
     private loadingService: LoadingService,
-    private toggleUserStatusAction: ToggleUserStatusAction,
-    private viewUserDetailsAction: ViewUserDetailsAction
+    private toggleStatus: ToggleUserStatusAction,
+    private viewDetails: ViewUserDetailsAction
   ) {
     this.isLoading$ = this.loadingService.loading$;
   }
@@ -61,10 +61,10 @@ export class UserListComponent implements OnInit {
   handleAction(event: { action: string, item: User }) {
     switch (event.action) {
       case 'view':
-        this.viewUserDetailsAction.execute(event.item);
+        this.toggleStatus.execute(event.item);
         break;
       case 'toggle':
-        this.toggleUserStatusAction.execute(event.item);
+        this.viewDetails.execute(event.item);
         break;
     }
   }

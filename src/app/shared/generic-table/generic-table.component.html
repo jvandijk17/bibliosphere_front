@@ -21,11 +21,11 @@
                     <ng-container *ngIf="column.render; else defaultTemplate">
                         <ng-container *ngIf="column.type === 'action'; else notActionColumnTemplate">
                             <button mat-raised-button color="primary"
-                                *ngIf="column.actions && column.actions['modal'] && column.discriminatorFn && column.discriminatorFn(item)(); else noAction"
+                                *ngIf="column.actions && column.actions['modal'] && column.canDisplay && column.canDisplay(item)(); else noAction"
                                 (click)="column.actions['modal'](item)">
                                 Details
                             </button>
-                            <ng-template #noAction> {{ column.notAvailableAction }}</ng-template>
+                            <ng-template #noAction> {{ column.fallbackDisplayText }}</ng-template>
                         </ng-container>
                         <ng-template #notActionColumnTemplate>
                             {{ column.render(item) }}
