@@ -10,11 +10,13 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { BookListComponent } from './book-list/book-list.component';
 import { CommonUiModule } from 'src/app/shared/common-ui.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { BookFormComponent } from './book-form/book-form.component';
 
 
 @NgModule({
   declarations: [
-    BookListComponent
+    BookListComponent,
+    BookFormComponent
   ],
   imports: [
     CommonModule,

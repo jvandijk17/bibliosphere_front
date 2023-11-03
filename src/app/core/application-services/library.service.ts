@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Library } from "../domain/models/library.model";
-import { LIBRARY_ENDPOINTS } from "../infrastructure/config/LIBRARY-endpoints.config";
+import { LIBRARY_ENDPOINTS } from "../infrastructure/config/library-endpoints.config";
 
 @Injectable({
     providedIn: 'root'

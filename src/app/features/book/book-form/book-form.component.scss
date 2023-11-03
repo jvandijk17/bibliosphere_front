@@ -1,0 +1,7 @@
+@import '_common';
+
+.book-panel {
+    @extend .panel;
+    margin: auto;
+    width: 50%;
+}

@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { IBookRepository } from '../domain/interfaces/book-repository.interface';
 import { Book } from '../domain/models/book.model';
 import { Observable, tap } from 'rxjs';
@@ -12,7 +12,8 @@ export class BookService {
 
   constructor(
     @Inject('BookRepositoryToken') private readonly bookRepository: IBookRepository,
-    @Inject('API_DOMAIN') private readonly apiDomain: string
+    @Inject('API_DOMAIN') private readonly apiDomain: string,
+    private http: HttpClient
   ) { }
 
   get books(): Book[] {
@@ -26,4 +27,13 @@ export class BookService {
       })
     );
   }
+
+  createBook(bookData: any): Observable<Book> {
+    return this.bookRepository.createBook(this.apiDomain, bookData).pipe(
+      tap(book => {
+        this._bookList.push(book);
+      })
+    );
+  }
+
 }
