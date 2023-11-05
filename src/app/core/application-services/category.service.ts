@@ -1,17 +1,37 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Category } from '../domain/models/category.model';
-import { CATEGORY_ENDPOINTS } from '../infrastructure/config/category-endpoints.config';
+import { ICategoryRepository } from '../domain/interfaces/category-repository.interface';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
+  private _categoryList: Category[] = [];
 
-  constructor(private http: HttpClient, @Inject('API_DOMAIN') private apiDomain: String) { }
+  constructor(
+    @Inject('CategoryRepositoryToken') private readonly categoryRepository: ICategoryRepository,
+    @Inject('API_DOMAIN') private readonly apiDomain: string
+  ) { }
+
+  get categories(): Category[] {
+    return this._categoryList;
+  }
 
   getAllCategories() {
-    return this.http.get<Category[]>(this.apiDomain + CATEGORY_ENDPOINTS.getAll);
+    return this.categoryRepository.getAllCategories(this.apiDomain).pipe(
+      tap(categories => {
+        this._categoryList = categories;
+      })
+    );
+  }
+
+  createCategory(categoryData: any): Observable<Category> {
+    return this.categoryRepository.createCategory(this.apiDomain, categoryData).pipe(
+      tap(category => {
+        this._categoryList.push(category);
+      })
+    )
   }
 
 }

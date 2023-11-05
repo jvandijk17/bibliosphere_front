@@ -15,6 +15,12 @@ import { BOOK_ENDPOINTS_TOKEN } from './infrastructure/config/book-endpoints.tok
 import { BOOK_ENDPOINTS } from './infrastructure/config/book-endpoints.config';
 import { ModalService } from './infrastructure/services/modal.service';
 import { MODAL_SERVICE_TOKEN } from './infrastructure/config/modal.token';
+import { CategoryRepository } from './infrastructure/repositories/category.repository';
+import { BookCategoryRepository } from './infrastructure/repositories/book-category.repository';
+import { CATEGORY_ENDPOINTS_TOKEN } from './infrastructure/config/category-endpoints.token';
+import { BOOK_CATEGORY_ENDPOINTS_TOKEN } from './infrastructure/config/book-category-endpoints.token';
+import { BOOK_CATEGORY_ENDPOINTS } from './infrastructure/config/book-category-endpoints.config';
+import { CATEGORY_ENDPOINTS } from './infrastructure/config/category-endpoints.config';
 
 @NgModule({
   imports: [
@@ -26,13 +32,17 @@ import { MODAL_SERVICE_TOKEN } from './infrastructure/config/modal.token';
     AuthRepository,
     { provide: 'API_DOMAIN', useValue: environment.apiDomain },
     { provide: 'AuthRepositoryToken', useClass: AuthRepository },
+    { provide: 'CategoryRepositoryToken', useClass: CategoryRepository },
     { provide: 'BookRepositoryToken', useClass: BookRepository },
-    { provide: AUTH_ENDPOINTS_TOKEN, useValue: AUTH_ENDPOINTS },
-    { provide: BOOK_ENDPOINTS_TOKEN, useValue: BOOK_ENDPOINTS },
-    { provide: MODAL_SERVICE_TOKEN, useClass: ModalService },
-    { provide: STORAGE_SERVICE_TOKEN, useClass: StorageService },
+    { provide: 'BookCategoryRepositoryToken', useClass: BookCategoryRepository },
     { provide: 'JwtHandlerToken', useClass: JwtHandlerService },
     { provide: 'ErrorHandlerToken', useClass: ErrorHandlerService },
+    { provide: AUTH_ENDPOINTS_TOKEN, useValue: AUTH_ENDPOINTS },
+    { provide: BOOK_ENDPOINTS_TOKEN, useValue: BOOK_ENDPOINTS },
+    { provide: CATEGORY_ENDPOINTS_TOKEN, useValue: CATEGORY_ENDPOINTS },
+    { provide: BOOK_CATEGORY_ENDPOINTS_TOKEN, useValue: BOOK_CATEGORY_ENDPOINTS },
+    { provide: MODAL_SERVICE_TOKEN, useClass: ModalService },
+    { provide: STORAGE_SERVICE_TOKEN, useClass: StorageService }
   ],
 })
 export class CoreModule {

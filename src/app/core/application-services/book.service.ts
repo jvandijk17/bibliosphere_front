@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { IBookRepository } from '../domain/interfaces/book-repository.interface';
 import { Book } from '../domain/models/book.model';
+import { BookCategoryService } from './book-category.service';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class BookService {
   constructor(
     @Inject('BookRepositoryToken') private readonly bookRepository: IBookRepository,
     @Inject('API_DOMAIN') private readonly apiDomain: string,
-    private http: HttpClient
+    private readonly bookCategoryService: BookCategoryService
   ) { }
 
   get books(): Book[] {
@@ -28,12 +28,39 @@ export class BookService {
     );
   }
 
-  createBook(bookData: any): Observable<Book> {
-    return this.bookRepository.createBook(this.apiDomain, bookData).pipe(
-      tap(book => {
-        this._bookList.push(book);
-      })
-    );
+  createBook(bookData: Book): Observable<Book> {
+    return new Observable((observer) => {
+      this.bookRepository.createBook(this.apiDomain, bookData).subscribe({
+        next: (book) => {
+          this._bookList.push(book);
+
+          if (bookData.bookCategoryId && book.id) {
+            const data = {
+              book: book.id,
+              category: bookData.bookCategoryId
+            };
+            this.bookCategoryService.createBookCategories(data).subscribe({
+              next: (bookCategoryResponse) => {
+                console.log('Book category created successfully:', bookCategoryResponse);
+                observer.next(book);
+                observer.complete();
+              },
+              error: (error) => {
+                console.error('Error creating book category:', error);
+                observer.error(error);
+              }
+            });
+          } else {
+            observer.next(book);
+            observer.complete();
+          }
+        },
+        error: (error) => {
+          console.error('Error creating book:', error);
+          observer.error(error);
+        }
+      });
+    });
   }
 
 }
