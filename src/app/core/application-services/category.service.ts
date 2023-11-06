@@ -18,7 +18,7 @@ export class CategoryService {
     return this._categoryList;
   }
 
-  getAllCategories() {
+  fetchAllCategories() {
     return this.categoryRepository.getAllCategories(this.apiDomain).pipe(
       tap(categories => {
         this._categoryList = categories;

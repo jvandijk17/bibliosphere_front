@@ -12,7 +12,7 @@ import { GenericTableComponent } from './generic-table/generic-table.component';
     GenericTableComponent
   ],
   imports: [
-    CommonModule,    
+    CommonModule,
     CommonUiModule
   ],
   exports: [

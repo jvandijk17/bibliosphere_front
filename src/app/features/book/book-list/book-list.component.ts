@@ -84,6 +84,7 @@ export class BookListComponent implements OnInit {
     switch (event.action) {
       case 'create':
         // TODO
+        break;
       case 'view':
         this.loanDetailsAction.execute(event.item.activeLoanId);
         break;

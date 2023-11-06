@@ -20,7 +20,7 @@ export class BookCategoryService {
         return [...this._bookCategoryList];
     }
 
-    getAllCategories(): Observable<BookCategory[]> {
+    fetchAllCategories(): Observable<BookCategory[]> {
         return this.bookCategoryRepository.getAllBookCategories(this.apiDomain).pipe(
             tap(bookCategories => {
                 this._bookCategoryList = [...bookCategories];

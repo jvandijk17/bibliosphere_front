@@ -51,7 +51,7 @@ export class BookFormComponent {
   }
 
   loadBookCategories() {
-    this.categoryService.getAllCategories().subscribe({
+    this.categoryService.fetchAllCategories().subscribe({
       next: (categories: Category[]) => {
         this.bookCategories = categories;
       },

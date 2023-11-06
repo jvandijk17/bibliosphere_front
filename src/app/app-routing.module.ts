@@ -10,7 +10,6 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: '/control-panel', pathMatch: 'full' },
       { path: 'book', loadChildren: () => import('./features/book/book.module').then(m => m.BookModule) },
-      { path: 'book-category', loadChildren: () => import('./features/book-category/book-category.module').then(m => m.BookCategoryModule) },
       { path: 'category', loadChildren: () => import('./features/category/category.module').then(m => m.CategoryModule) },
       { path: 'library', loadChildren: () => import('./features/library/library.module').then(m => m.LibraryModule) },
       { path: 'loan', loadChildren: () => import('./features/loan/loan.module').then(m => m.LoanModule) },

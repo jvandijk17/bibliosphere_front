@@ -34,7 +34,6 @@ export class ControlPanelComponent {
 
   entities = [
     { name: 'Book', path: '/book', icon: 'book', controllerName: 'BookController' },
-    { name: 'Book Category', path: '/book-category', icon: 'category', controllerName: 'BookCategoryController' },
     { name: 'Category', path: '/category', icon: 'label', controllerName: 'CategoryController' },
     { name: 'Library', path: '/library', icon: 'library_books', controllerName: 'LibraryController' },
     { name: 'Loan', path: '/loan', icon: 'money', controllerName: 'LoanController' },
