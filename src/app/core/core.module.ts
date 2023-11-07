@@ -21,6 +21,9 @@ import { CATEGORY_ENDPOINTS_TOKEN } from './infrastructure/config/category-endpo
 import { BOOK_CATEGORY_ENDPOINTS_TOKEN } from './infrastructure/config/book-category-endpoints.token';
 import { BOOK_CATEGORY_ENDPOINTS } from './infrastructure/config/book-category-endpoints.config';
 import { CATEGORY_ENDPOINTS } from './infrastructure/config/category-endpoints.config';
+import { LOAN_ENDPOINTS_TOKEN } from './infrastructure/config/loan-endpoints.token';
+import { LOAN_ENDPOINTS } from './infrastructure/config/loan-endpoints.config';
+import { LoanRepository } from './infrastructure/repositories/loan.repository';
 
 @NgModule({
   imports: [
@@ -35,12 +38,14 @@ import { CATEGORY_ENDPOINTS } from './infrastructure/config/category-endpoints.c
     { provide: 'CategoryRepositoryToken', useClass: CategoryRepository },
     { provide: 'BookRepositoryToken', useClass: BookRepository },
     { provide: 'BookCategoryRepositoryToken', useClass: BookCategoryRepository },
+    { provide: 'LoanRepositoryToken', useClass: LoanRepository },
     { provide: 'JwtHandlerToken', useClass: JwtHandlerService },
     { provide: 'ErrorHandlerToken', useClass: ErrorHandlerService },
     { provide: AUTH_ENDPOINTS_TOKEN, useValue: AUTH_ENDPOINTS },
     { provide: BOOK_ENDPOINTS_TOKEN, useValue: BOOK_ENDPOINTS },
     { provide: CATEGORY_ENDPOINTS_TOKEN, useValue: CATEGORY_ENDPOINTS },
     { provide: BOOK_CATEGORY_ENDPOINTS_TOKEN, useValue: BOOK_CATEGORY_ENDPOINTS },
+    { provide: LOAN_ENDPOINTS_TOKEN, useValue: LOAN_ENDPOINTS },
     { provide: MODAL_SERVICE_TOKEN, useClass: ModalService },
     { provide: STORAGE_SERVICE_TOKEN, useClass: StorageService }
   ],

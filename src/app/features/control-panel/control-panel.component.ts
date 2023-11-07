@@ -36,7 +36,7 @@ export class ControlPanelComponent {
     { name: 'Book', path: '/book', icon: 'book', controllerName: 'BookController' },
     { name: 'Category', path: '/category', icon: 'label', controllerName: 'CategoryController' },
     { name: 'Library', path: '/library', icon: 'library_books', controllerName: 'LibraryController' },
-    { name: 'Loan', path: '/loan', icon: 'money', controllerName: 'LoanController' },
+    { name: 'Loan History', path: '/loan', icon: 'money', controllerName: 'LoanController' },
     { name: 'User List', path: '/user', icon: 'person', controllerName: 'UserController' }
   ];
 
