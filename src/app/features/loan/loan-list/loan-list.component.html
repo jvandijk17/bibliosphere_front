@@ -1,0 +1,8 @@
+<ng-container *ngIf="loans && loans.data.length > 0; else noLoans">
+    <app-generic-table [data]="loans" [columnsConfig]="displayedColumns">
+    </app-generic-table>
+</ng-container>
+
+<ng-template #noLoans>
+    <p>No loans found!</p>
+</ng-template>

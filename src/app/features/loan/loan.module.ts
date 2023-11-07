@@ -9,18 +9,22 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { LoanDetailComponent } from './loan-detail/loan-detail.component';
 import { LoanDetailModalComponent } from './loan-detail-modal/loan-detail-modal.component';
 import { CommonUiModule } from 'src/app/shared/common-ui.module';
+import { LoanListComponent } from './loan-list/loan-list.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
   declarations: [
     LoanDetailComponent,
-    LoanDetailModalComponent
+    LoanDetailModalComponent,
+    LoanListComponent
   ],
   imports: [
     CommonModule,
     CommonUiModule,
     LoanRoutingModule,
-    LayoutModule
+    LayoutModule,
+    SharedModule
   ],
   providers: [
     LoanService
