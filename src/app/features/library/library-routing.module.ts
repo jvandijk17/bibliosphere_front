@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LibraryComponent } from './library.component';
+import { LibraryListComponent } from './library-list/library-list.component';
 
-const routes: Routes = [{ path: '', component: LibraryComponent }];
+const routes: Routes = [
+  { path: '', component: LibraryListComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

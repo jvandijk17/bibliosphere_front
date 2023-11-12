@@ -1,0 +1,18 @@
+<ng-container *ngIf="libraries && libraries.data.length > 0; else noLibraries">
+    <app-generic-table [data]="libraries" [columnsConfig]="displayedColumns" [dropdownMenuTemplate]="dropdownMenu">
+        <ng-template #dropdownMenu let-item>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="handleAction({action: 'edit', item: item})">
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit Library</span>
+                </button>
+            </mat-menu>
+        </ng-template>
+    </app-generic-table>
+</ng-container>
+<ng-template #noLibraries>
+    <p>No libraries found</p>
+</ng-template>

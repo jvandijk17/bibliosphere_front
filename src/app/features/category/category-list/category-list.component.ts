@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoryService } from 'src/app/core/application-services/category.service';
-import { NotificationService } from 'src/app/core/application-services/notification.service';
 import { RoleService } from 'src/app/core/application-services/role.service';
 import { Category } from 'src/app/core/domain/models/category.model';
 import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
@@ -27,7 +26,6 @@ export class CategoryListComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private loadingService: LoadingService,
-    private notificationService: NotificationService,
     private roleService: RoleService,
     private categoryListConfig: CategoryListConfig
   ) {
@@ -66,7 +64,7 @@ export class CategoryListComponent implements OnInit {
 
         break;
       case 'edit':
-        
+
         break;
       case 'delete':
 

@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit {
 
 
   loadLibraries() {
-    this.libraryService.getAllLibrariesPreview().subscribe({
+    this.libraryService.fetchAllLibrariesPreview().subscribe({
       next: (data: Library[]) => {
         this.libraries = data;
         this.loadingService.setLoading(false);

@@ -1,26 +1,46 @@
-import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { Library } from "../domain/models/library.model";
-import { LIBRARY_ENDPOINTS } from "../infrastructure/config/library-endpoints.config";
+import { ILibraryRepository } from "../domain/interfaces/library-repository.interface";
+import { Observable, tap } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
-
 export class LibraryService {
+    private _libraryList: Library[] = [];
+    private _previewLibraryList: Library[] = [];
 
-    constructor(private http: HttpClient, @Inject('API_DOMAIN') private apiDomain: string) { }
+    constructor(
+        @Inject('LibraryRepositoryToken') private readonly libraryRepository: ILibraryRepository,
+        @Inject('API_DOMAIN') private readonly apiDomain: string
+    ) { }
 
-    getAllLibraries() {
-        return this.http.get<Library[]>(this.apiDomain + LIBRARY_ENDPOINTS.getAll)
+    get libraries(): Library[] {
+        return this._libraryList;
     }
 
-    getLibrary(id: number) {
-        return this.http.get<Library>(this.apiDomain + LIBRARY_ENDPOINTS.getAll);
+    get previewLibraries(): Library[] {
+        return this._previewLibraryList;
     }
 
-    getAllLibrariesPreview() {
-        return this.http.get<Library[]>(this.apiDomain + LIBRARY_ENDPOINTS.preview)
+    fetchAllLibraries(): Observable<Library[]> {
+        return this.libraryRepository.getAllLibraries(this.apiDomain).pipe(
+            tap(libraries => {
+                this._libraryList = libraries;
+            })
+        )
+    }
+
+    fetchAllLibrariesPreview() {
+        return this.libraryRepository.getAllLibrariesPreview(this.apiDomain).pipe(
+            tap(libraries => {
+                this._previewLibraryList = libraries;
+            })
+        )
+    }
+
+    getLibrary(id: number): Observable<Library> {
+        return this.libraryRepository.getLibrary(this.apiDomain, id);
     }
 
 }

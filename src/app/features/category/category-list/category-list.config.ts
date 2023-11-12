@@ -12,7 +12,7 @@ export class CategoryListConfig {
         ];
     }
 
-    getAdminColumns(): ITableColumn<Category>[] {
+    private getAdminColumns(): ITableColumn<Category>[] {
         return [
             { key: 'id', title: 'ID' },
             ...this.generateDefaultColumns(),
@@ -20,7 +20,7 @@ export class CategoryListConfig {
         ];
     }
 
-    getDefaultColumns(): ITableColumn<Category>[] {
+    private getDefaultColumns(): ITableColumn<Category>[] {
         return this.generateDefaultColumns();
     }
 

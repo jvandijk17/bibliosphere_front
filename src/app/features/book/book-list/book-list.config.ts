@@ -40,7 +40,7 @@ export class BookListConfig {
             { key: 'id', title: 'ID' },
             ...this.generateDefaultColumns(canDisplay, openLoanDetailsModalFn),
             { key: 'dropdown', title: 'Actions' }
-        ]
+        ];
     }
 
     getDefaultColumns(canDisplay: Function, openLoanDetailsModalFn: Function): ITableColumn<Book>[] {

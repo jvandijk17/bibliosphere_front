@@ -1,14 +1,13 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable, EventEmitter, Inject } from "@angular/core";
 import { Observable, tap } from "rxjs";
 import { Loan } from "../domain/models/loan.model";
-import { LOAN_ENDPOINTS } from "../infrastructure/config/loan-endpoints.config";
 import { ILoanRepository } from "../domain/interfaces/loan-repository.interface";
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoanService {
+    
     private _loanList: Loan[] = [];
     public loanUpdated = new EventEmitter<Loan>();
 
