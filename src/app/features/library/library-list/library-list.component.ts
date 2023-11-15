@@ -54,10 +54,6 @@ export class LibraryListComponent implements OnInit {
 
   }
 
-  applyFilter(filterValue: string) {
-    this.libraries.filter = filterValue.trim().toLocaleLowerCase();
-  }
-
   handleAction(event: { action: string, item: Library }) {
     switch (event.action) {
       case 'create':

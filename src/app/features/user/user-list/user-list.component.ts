@@ -4,7 +4,7 @@ import { LoadingService } from 'src/app/core/infrastructure/services/loading.ser
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { User } from 'src/app/core/domain/models/user.model';
-import { DISPLAYED_COLUMNS } from './user-list.config';
+import { UserListConfig } from './user-list.config';
 import { Observable } from 'rxjs';
 import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { ToggleUserStatusAction } from '../strategies/toggle-user-status.action';
@@ -18,7 +18,7 @@ import { ViewUserDetailsAction } from '../strategies/view-user-details.action';
 export class UserListComponent implements OnInit {
 
   users: MatTableDataSource<User> = new MatTableDataSource<User>([]);
-  displayedColumns: ITableColumn<User>[] = DISPLAYED_COLUMNS;
+  displayedColumns: ITableColumn<User>[] = [];
 
   isLoading$: Observable<boolean>;
 
@@ -28,9 +28,11 @@ export class UserListComponent implements OnInit {
     private userService: UserService,
     private loadingService: LoadingService,
     private toggleStatus: ToggleUserStatusAction,
-    private viewDetails: ViewUserDetailsAction
+    private viewDetails: ViewUserDetailsAction,
+    private userListConfig: UserListConfig
   ) {
     this.isLoading$ = this.loadingService.loading$;
+    this.displayedColumns = this.userListConfig.getColumns();
   }
 
   ngOnInit(): void {
@@ -54,17 +56,13 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  applyFilter(filterValue: string) {
-    this.users.filter = filterValue.trim().toLowerCase();
-  }
-
   handleAction(event: { action: string, item: User }) {
     switch (event.action) {
       case 'view':
-        this.toggleStatus.execute(event.item);
+        this.viewDetails.execute(event.item);
         break;
       case 'toggle':
-        this.viewDetails.execute(event.item);
+        this.toggleStatus.execute(event.item);
         break;
     }
   }

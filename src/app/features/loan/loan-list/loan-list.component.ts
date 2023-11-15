@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Loan } from 'src/app/core/domain/models/loan.model';
+import { LoanListConfig } from './loan-list.config';
 import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
-import { DISPLAYED_COLUMNS } from './loan-list.config';
 import { Observable } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { LoanService } from 'src/app/core/application-services/loan.service';
@@ -16,7 +16,7 @@ import { LoadingService } from 'src/app/core/infrastructure/services/loading.ser
 export class LoanListComponent implements OnInit {
 
   loans: MatTableDataSource<Loan> = new MatTableDataSource<Loan>([]);
-  displayedColumns: ITableColumn<Loan>[] = DISPLAYED_COLUMNS;
+  displayedColumns: ITableColumn<Loan>[];
 
   isLoading$: Observable<boolean>;
 
@@ -25,8 +25,10 @@ export class LoanListComponent implements OnInit {
   constructor(
     private loanService: LoanService,
     private loadingService: LoadingService,
+    private loanListConfig: LoanListConfig
   ) {
     this.isLoading$ = this.loadingService.loading$;
+    this.displayedColumns = this.loanListConfig.getColumns();
   }
 
   ngOnInit(): void {
@@ -47,10 +49,6 @@ export class LoanListComponent implements OnInit {
         this.loadingService.setLoading(false);
       }
     })
-  }
-
-  applyFilter(filterValue: string) {
-    this.loans.filter = filterValue.trim().toLowerCase();
   }
 
   handleAction(event: { action: string, item: Loan }) {

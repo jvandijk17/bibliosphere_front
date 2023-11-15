@@ -54,10 +54,6 @@ export class CategoryListComponent implements OnInit {
     this.loadingService.setLoading(false);
   }
 
-  applyFilter(filterValue: string) {
-    this.categories.filter = filterValue.trim().toLocaleLowerCase();
-  }
-
   handleAction(event: { action: string, item: Category }) {
     switch (event.action) {
       case 'create':

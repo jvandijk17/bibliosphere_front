@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { BookRoutingModule } from './book-routing.module';
 import { BookService } from 'src/app/core/application-services/book.service';
@@ -27,7 +27,8 @@ import { BookFormComponent } from './book-form/book-form.component';
   ],
   providers: [
     BookService,
-    BookListConfig
+    BookListConfig,
+    DatePipe
   ]
 })
 export class BookModule { }

@@ -1,5 +1,5 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AlertModule } from '../shared/alert/alert.module';
 import { AuthService } from './application-services/auth.service';
 import { StorageService } from './infrastructure/services/storage.service';
@@ -36,6 +36,7 @@ import { LibraryRepository } from './infrastructure/repositories/library.reposit
   providers: [
     AuthService,
     AuthRepository,
+    DatePipe,
     { provide: 'API_DOMAIN', useValue: environment.apiDomain },
     { provide: 'AuthRepositoryToken', useClass: AuthRepository },
     { provide: 'CategoryRepositoryToken', useClass: CategoryRepository },

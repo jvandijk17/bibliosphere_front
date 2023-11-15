@@ -2,6 +2,8 @@ import { Component, Input, OnInit, Output, EventEmitter, ViewChild, TemplateRef 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ITableColumn } from '../models/table-column-config.model';
+import { DatePipe } from '@angular/common';
+import { FilterService } from 'src/app/core/infrastructure/services/filter.service';
 
 @Component({
   selector: 'app-generic-table',
@@ -9,6 +11,11 @@ import { ITableColumn } from '../models/table-column-config.model';
   styleUrls: ['./generic-table.component.scss']
 })
 export class GenericTableComponent<T> implements OnInit {
+
+  constructor(
+    private filterService: FilterService,
+    private datePipe: DatePipe
+  ) { }
 
   private _columns: ITableColumn<T>[] = [];
 
@@ -35,7 +42,13 @@ export class GenericTableComponent<T> implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    this.data.filter = filterValue.trim().toLowerCase();
+    filterValue = filterValue.trim().toLowerCase();
+
+    this.data.filterPredicate = (data, filter) => {
+      return this.filterService.applyFilter(data, filter, this._columns);
+    };
+
+    this.data.filter = filterValue;
   }
 
   onAction(actionType: string, item: T) {

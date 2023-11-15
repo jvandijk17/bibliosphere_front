@@ -34,7 +34,7 @@ export class BookListComponent implements OnInit {
     private notificationService: NotificationService,
     private roleService: RoleService,
     private loanDetailsAction: ViewLoanDetailsAction,
-    private bookListConfig: BookListConfig
+    private bookListConfig: BookListConfig,
   ) {
     this.isLoading$ = this.loadingService.loading$;
     this.displayedColumns = this.bookListConfig.getColumnsByRole(this.roleService, this.hasLoans.bind(this), this.handleLoanDetailsAction.bind(this))
@@ -68,9 +68,9 @@ export class BookListComponent implements OnInit {
     });
   }
 
-
-  applyFilter(filterValue: string) {
-    this.books.filter = filterValue.trim().toLowerCase();
+  private isDateColumn(columnKey: string): boolean {
+    const dateColumns = ['publication_year'];
+    return dateColumns.includes(columnKey);
   }
 
   subscribeToBookUpdates(): void {
