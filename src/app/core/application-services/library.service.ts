@@ -43,4 +43,20 @@ export class LibraryService {
         return this.libraryRepository.getLibrary(this.apiDomain, id);
     }
 
+    createLibrary(libraryData: Library): Observable<Library> {
+        return new Observable((observer) => {
+            this.libraryRepository.createLibrary(this.apiDomain, libraryData).subscribe({
+                next: (library) => {
+                    console.log('Library created successfully: ', library);
+                    observer.next(library);
+                    observer.complete();
+                },
+                error: (error) => {
+                    console.error('Error creating Library: ', error);
+                    observer.error(error);
+                }
+            });
+        });
+    }
+
 }

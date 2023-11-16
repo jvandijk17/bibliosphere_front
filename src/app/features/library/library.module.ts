@@ -9,12 +9,14 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LibraryService } from 'src/app/core/application-services/library.service';
 import { LibraryListConfig } from './library-list/library-list.config';
+import { LibraryFormComponent } from './library-form/library-form.component';
 
 
 @NgModule({
   declarations: [
     LibraryComponent,
-    LibraryListComponent
+    LibraryListComponent,
+    LibraryFormComponent
   ],
   imports: [
     CommonModule,

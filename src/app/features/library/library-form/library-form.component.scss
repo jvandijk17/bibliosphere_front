@@ -1,0 +1,7 @@
+@import '_common';
+
+.library-panel {
+    @extend .panel;
+    margin: auto;
+    width: 50%;
+}

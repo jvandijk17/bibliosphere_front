@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category } from 'src/app/core/domain/models/category.model';
 import { Library } from 'src/app/core/domain/models/library.model';
@@ -14,7 +14,7 @@ import { NotificationService } from 'src/app/core/application-services/notificat
   templateUrl: './book-form.component.html',
   styleUrls: ['./book-form.component.scss']
 })
-export class BookFormComponent {
+export class BookFormComponent implements OnInit {
 
   bookForm!: FormGroup;
   isAdmin: boolean;
@@ -95,11 +95,6 @@ export class BookFormComponent {
     } else {
       this.notificationService.showAlert('Please fill out the form correctly.');
     }
-  }
-
-  handleCreateBookError(error: any) {
-    this.errorMsg = 'Failed to create a book. Please try again later.';
-    console.error(error);
   }
 
 }
