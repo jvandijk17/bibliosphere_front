@@ -30,7 +30,11 @@ export class BookListConfig {
             },
             { key: 'page_count', title: 'Page Count' },
             {
-                key: 'libraryName', title: 'Library', render: (book) => book.libraryName
+                key: 'libraryName',
+                title: 'Library',
+                customFilter: (book, filter) =>
+                    book.libraryName?.toLowerCase().includes(filter),
+                render: (book) => book.libraryName
             },
             {
                 key: 'loans',
@@ -44,7 +48,11 @@ export class BookListConfig {
                 fallbackDisplayText: 'No'
             },
             {
-                key: 'categories', title: 'Categories', render: (book) => book.bookCategoryNames?.join(', ')
+                key: 'categories',
+                title: 'Categories',
+                customFilter: (book, filter) =>
+                    book.bookCategoryNames?.some(category => category.toLowerCase().includes(filter)),
+                render: (book) => book.bookCategoryNames?.join(', ')
             }
         ];
     }

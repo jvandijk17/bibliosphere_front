@@ -40,9 +40,17 @@ export class UserListConfig {
             {
                 key: 'roles',
                 title: 'Roles',
+                customFilter: (user, filter) =>
+                    user.roles?.some(role => role.toLowerCase().includes(filter)),
                 render: (user) => user.roles?.join(', ')
             },
-            { key: 'library', title: 'Library', render: (user) => user.libraryName },
+            {
+                key: 'library',
+                title: 'Library',
+                customFilter: (user, filter) =>
+                    user.libraryName?.toLowerCase().includes(filter),
+                render: (user) => user.libraryName
+            },
             {
                 key: 'dropdown',
                 title: 'Actions',

@@ -6,4 +6,5 @@ export interface ITableColumn<T> {
     actions?: Record<string, (item: T) => void>;
     canDisplay?: (item: T) => Function;
     fallbackDisplayText?: string;
+    customFilter?: (item: T, filter: string) => boolean | undefined;
 }

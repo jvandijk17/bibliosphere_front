@@ -10,9 +10,17 @@ export class FilterService {
   constructor(private datePipe: DatePipe) { }
 
   applyFilter<T>(data: T, filter: string, columns: ITableColumn<T>[]): boolean {
-    const numericFilter = isNaN(Number(filter)) ? null : Number(filter);
+    return columns.some(column => {
+      const key = column.key as keyof T;
+      const value = data[key];
 
-    return columns.some(column => this.isColumnMatching(data, column, filter, numericFilter));
+      if (column.customFilter) {
+        return column.customFilter(data, filter);
+      } else {
+        const numericFilter = isNaN(Number(filter)) ? null : Number(filter);
+        return columns.some(column => this.isColumnMatching(data, column, filter, numericFilter));
+      }
+    });
   }
 
   private isColumnMatching<T>(data: T, column: ITableColumn<T>, filter: string, numericFilter: number | null): boolean {
