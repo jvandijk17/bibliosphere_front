@@ -2,7 +2,6 @@ import { Component, Input, OnInit, Output, EventEmitter, ViewChild, TemplateRef 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ITableColumn } from '../models/table-column-config.model';
-import { DatePipe } from '@angular/common';
 import { FilterService } from 'src/app/core/infrastructure/services/filter.service';
 
 @Component({
@@ -14,7 +13,6 @@ export class GenericTableComponent<T> implements OnInit {
 
   constructor(
     private filterService: FilterService,
-    private datePipe: DatePipe
   ) { }
 
   private _columns: ITableColumn<T>[] = [];

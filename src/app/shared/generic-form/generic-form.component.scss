@@ -1,0 +1,12 @@
+@import '_common';
+
+.form-panel {
+    @extend .panel;
+    margin: auto;
+    width: 50%;
+}
+
+.title-bottom-space {
+    margin-bottom: 16px;
+    /* Adjust the value as needed */
+}

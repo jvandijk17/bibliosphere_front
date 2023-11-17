@@ -1,0 +1,39 @@
+<div class="form-panel">
+    <mat-card>
+        <mat-card-header class="mb-10">
+            <mat-card-title class="title-bottom-space">{{ title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <ng-container *ngFor="let control of formConfig">
+                    <mat-form-field *ngIf="control.type === 'text'" appearance="fill" class="w-100">
+                        <mat-label>{{ control.label }}</mat-label>
+                        <input matInput [formControlName]="control.name">
+                        <mat-error *ngIf="form.controls[control.name].hasError('required')">
+                            {{ control.label }} is required.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="control.type === 'number'" appearance="fill" class="w-100">
+                        <mat-label>{{ control.label }}</mat-label>
+                        <input matInput type="number" [formControlName]="control.name">
+                        <mat-error *ngIf="form.controls[control.name].hasError('required')">
+                            {{ control.label }} is required.
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="control.type === 'select'" appearance="fill" class="w-100">
+                        <mat-label>{{ control.label }}</mat-label>
+                        <mat-select [formControlName]="control.name" [multiple]="control.multiple">
+                            <mat-option *ngFor="let option of control.options" [value]="option.value">
+                                {{ option.label }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                </ng-container>
+                <button mat-raised-button color="primary" type="submit" class="w-100">{{ title }}</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

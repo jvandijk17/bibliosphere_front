@@ -1,53 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { LibraryService } from 'src/app/core/application-services/library.service';
-import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
 import { RoleService } from 'src/app/core/application-services/role.service';
 import { NotificationService } from 'src/app/core/application-services/notification.service';
+import { LIBRARY_FORM_CONFIG } from './library-form.config';
 
 @Component({
   selector: 'app-library-form',
-  templateUrl: './library-form.component.html',
-  styleUrls: ['./library-form.component.scss']
+  templateUrl: './library-form.component.html'
 })
-export class LibraryFormComponent implements OnInit {
+export class LibraryFormComponent {
 
   libraryForm!: FormGroup;
   isAdmin: boolean;
   errorMsg: string = '';
+  libraryFormConfig: any;
 
   constructor(
-    private formBuilder: FormBuilder,
     private libraryService: LibraryService,
     private roleService: RoleService,
-    private loadingService: LoadingService,
     private notificationService: NotificationService
   ) {
     this.isAdmin = this.roleService.isAdmin;
+    this.libraryFormConfig = LIBRARY_FORM_CONFIG;
   }
 
-  ngOnInit(): void {
-    this.libraryForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      province: ['', Validators.required],
-      postal_code: ['', Validators.required],
-    });
-  }
-
-  onSubmit(): void {
-
+  onFormSubmit(formData: any): void {
     if (!this.isAdmin) {
       this.notificationService.showAlert('Only admins can create libraries.');
       return;
     }
 
-    if (this.libraryForm.valid) {
-      this.libraryService.createLibrary(this.libraryForm.value).subscribe({
+    if (formData) {
+      this.libraryService.createLibrary(formData).subscribe({
         next: () => {
           this.notificationService.showAlert('Library created successfully!');
-          this.libraryForm.reset();
         },
         error: (error) => {
           this.notificationService.showAlert('Failed to create a library!');
