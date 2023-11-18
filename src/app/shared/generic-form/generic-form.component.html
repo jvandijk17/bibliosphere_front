@@ -31,6 +31,14 @@
                         </mat-select>
                     </mat-form-field>
 
+                    <mat-form-field *ngIf="control.type === 'date'" appearance="fill" class="w-100">
+                        <mat-label>{{ control.label }}</mat-label>
+                        <input matInput type="date" [formControlName]="control.name">
+                        <mat-error *ngIf="form.controls[control.name].hasError('required')">
+                            {{ control.label }} is required.
+                        </mat-error>
+                    </mat-form-field>
+
                 </ng-container>
                 <button mat-raised-button color="primary" type="submit" class="w-100">{{ title }}</button>
             </form>

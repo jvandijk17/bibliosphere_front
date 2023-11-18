@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Category } from 'src/app/core/domain/models/category.model';
 import { Library } from 'src/app/core/domain/models/library.model';
 import { BookService } from 'src/app/core/application-services/book.service';
@@ -8,6 +8,8 @@ import { LibraryService } from 'src/app/core/application-services/library.servic
 import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
 import { RoleService } from 'src/app/core/application-services/role.service';
 import { NotificationService } from 'src/app/core/application-services/notification.service';
+import { BOOK_FORM_CONFIG } from './book-form.config';
+import { FormFieldConfig } from 'src/app/shared/models/form-field-config.model';
 
 @Component({
   selector: 'app-book-form',
@@ -18,13 +20,10 @@ export class BookFormComponent implements OnInit {
 
   bookForm!: FormGroup;
   isAdmin: boolean;
-  bookCategories: any[] = [];
-  libraries: Library[] = [];
   errorMsg: string = '';
-
+  bookFormConfig: FormFieldConfig[];
 
   constructor(
-    private formBuilder: FormBuilder,
     private bookService: BookService,
     private roleService: RoleService,
     private libraryService: LibraryService,
@@ -33,27 +32,19 @@ export class BookFormComponent implements OnInit {
     private notificationService: NotificationService
   ) {
     this.isAdmin = this.roleService.isAdmin;
+    this.bookFormConfig = BOOK_FORM_CONFIG;
   }
 
   ngOnInit(): void {
     this.loadBookCategories();
     this.loadLibraries();
-    this.bookForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      author: ['', Validators.required],
-      publisher: ['', Validators.required],
-      isbn: ['', Validators.required],
-      publication_year: ['', Validators.required],
-      page_count: ['', Validators.required],
-      bookCategoryId: ['', Validators.required],
-      library: [null, Validators.required],
-    });
   }
 
   loadBookCategories() {
     this.categoryService.fetchAllCategories().subscribe({
-      next: (categories: Category[]) => {
-        this.bookCategories = categories;
+      next: (data: Category[]) => {
+        this.updateFormConfigOptions('bookCategoryId', data.map(cat => ({ value: cat.id, label: `${cat.name}` })));
+        this.loadingService.setLoading(false);
       },
       error: (error) => {
         this.errorMsg = 'Failed to load book categories. Please try again later.';
@@ -65,7 +56,7 @@ export class BookFormComponent implements OnInit {
   loadLibraries() {
     this.libraryService.fetchAllLibrariesPreview().subscribe({
       next: (data: Library[]) => {
-        this.libraries = data;
+        this.updateFormConfigOptions('library', data.map(lib => ({ value: lib.id, label: `${lib.name} - ${lib.city}` })));
         this.loadingService.setLoading(false);
       },
       error: error => {
@@ -74,15 +65,22 @@ export class BookFormComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  updateFormConfigOptions(fieldName: string, options: any[]) {
+    const field = this.bookFormConfig.find(f => f.name === fieldName);
+    if (field) {
+      field.options = options;
+    }
+  }
+
+  onFormSubmit(formData: any): void {
 
     if (!this.isAdmin) {
       this.notificationService.showAlert('Only admins can create books.');
       return;
     }
 
-    if (this.bookForm.valid) {
-      this.bookService.createBook(this.bookForm.value).subscribe({
+    if (formData) {
+      this.bookService.createBook(formData).subscribe({
         next: () => {
           this.notificationService.showAlert('Book created successfully!');
           this.bookForm.reset();
