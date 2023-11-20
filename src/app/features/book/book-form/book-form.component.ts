@@ -83,7 +83,6 @@ export class BookFormComponent implements OnInit {
       this.bookService.createBook(formData).subscribe({
         next: () => {
           this.notificationService.showAlert('Book created successfully!');
-          this.bookForm.reset();
         },
         error: (error) => {
           this.notificationService.showAlert('Failed to create a book!');

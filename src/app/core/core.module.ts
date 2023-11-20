@@ -27,6 +27,9 @@ import { LoanRepository } from './infrastructure/repositories/loan.repository';
 import { LIBRARY_ENDPOINTS_TOKEN } from './infrastructure/config/library-endpoints.token';
 import { LIBRARY_ENDPOINTS } from './infrastructure/config/library-endpoints.config';
 import { LibraryRepository } from './infrastructure/repositories/library.repository';
+import { UserRepository } from './infrastructure/repositories/user.repository';
+import { USER_ENDPOINTS_TOKEN } from './infrastructure/config/user-endpoints.token';
+import { USER_ENDPOINTS } from './infrastructure/config/user-endpoints.config';
 
 @NgModule({
   imports: [
@@ -39,6 +42,7 @@ import { LibraryRepository } from './infrastructure/repositories/library.reposit
     DatePipe,
     { provide: 'API_DOMAIN', useValue: environment.apiDomain },
     { provide: 'AuthRepositoryToken', useClass: AuthRepository },
+    { provide: 'UserRepositoryToken', useClass: UserRepository },
     { provide: 'CategoryRepositoryToken', useClass: CategoryRepository },
     { provide: 'BookRepositoryToken', useClass: BookRepository },
     { provide: 'BookCategoryRepositoryToken', useClass: BookCategoryRepository },
@@ -47,6 +51,7 @@ import { LibraryRepository } from './infrastructure/repositories/library.reposit
     { provide: 'JwtHandlerToken', useClass: JwtHandlerService },
     { provide: 'ErrorHandlerToken', useClass: ErrorHandlerService },
     { provide: AUTH_ENDPOINTS_TOKEN, useValue: AUTH_ENDPOINTS },
+    { provide: USER_ENDPOINTS_TOKEN, useValue: USER_ENDPOINTS },
     { provide: BOOK_ENDPOINTS_TOKEN, useValue: BOOK_ENDPOINTS },
     { provide: CATEGORY_ENDPOINTS_TOKEN, useValue: CATEGORY_ENDPOINTS },
     { provide: BOOK_CATEGORY_ENDPOINTS_TOKEN, useValue: BOOK_CATEGORY_ENDPOINTS },

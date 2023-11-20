@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 
 @Component({
   selector: 'app-generic-form',
@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class GenericFormComponent implements OnInit {
 
   @Input() formConfig: any;
+  @Input() formLevelValidators: ValidatorFn[] = [];
   @Input() title: string = '';
   @Output() formSubmit: EventEmitter<any> = new EventEmitter();
   form!: FormGroup;
@@ -24,7 +25,7 @@ export class GenericFormComponent implements OnInit {
     this.formConfig.forEach((control: any) => {
       group[control.name] = ['', this.getValidators(control.validators)];
     });
-    this.form = this.fb.group(group);
+    this.form = this.fb.group(group, { validators: this.formLevelValidators });
   }
 
   getValidators(validators: any) {

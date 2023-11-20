@@ -4,6 +4,7 @@ import { LibraryService } from 'src/app/core/application-services/library.servic
 import { RoleService } from 'src/app/core/application-services/role.service';
 import { NotificationService } from 'src/app/core/application-services/notification.service';
 import { LIBRARY_FORM_CONFIG } from './library-form.config';
+import { FormFieldConfig } from 'src/app/shared/models/form-field-config.model';
 
 @Component({
   selector: 'app-library-form',
@@ -14,7 +15,7 @@ export class LibraryFormComponent {
   libraryForm!: FormGroup;
   isAdmin: boolean;
   errorMsg: string = '';
-  libraryFormConfig: any;
+  libraryFormConfig: FormFieldConfig[];
 
   constructor(
     private libraryService: LibraryService,

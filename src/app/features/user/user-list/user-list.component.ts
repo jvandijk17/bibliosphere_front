@@ -41,7 +41,7 @@ export class UserListComponent implements OnInit {
 
   getAllUsers(callback?: () => void) {
     this.loadingService.setLoading(true);
-    this.userService.getAllUsers().subscribe({
+    this.userService.fetchAllUsers().subscribe({
       next: users => {
         this.users = new MatTableDataSource(users);
         this.users.sort = this.sort;

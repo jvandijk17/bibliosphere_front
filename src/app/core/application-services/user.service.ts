@@ -1,42 +1,55 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable, Inject } from "@angular/core";
 import { User } from "../domain/models/user.model";
-import { Observable } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { USER_ENDPOINTS } from '../infrastructure/config/user-endpoints.config';
+import { IUserRepository } from "../domain/interfaces/user-repository.interface";
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
 
-    constructor(private http: HttpClient, @Inject('API_DOMAIN') private apiDomain: string) { }
+    private _userList: User[] = [];
 
-    getAllUsers() {
-        return this.http.get<User[]>(this.apiDomain + USER_ENDPOINTS.getAll);
+    constructor(
+        @Inject('UserRepositoryToken') private readonly userRepository: IUserRepository,
+        @Inject('API_DOMAIN') private readonly apiDomain: string
+    ) { }
+
+    get users(): User[] {
+        return this._userList;
     }
 
-    getUserRoles() {
-        return this.http.get<User>(`${this.apiDomain}${USER_ENDPOINTS.roles}`);
+    fetchAllUsers(): Observable<User[]> {
+        return this.userRepository.getAllUsers(this.apiDomain).pipe(
+            tap(users => {
+                this._userList = users;
+            })
+        )
+    }
+
+    getRoles() {
+        return this.userRepository.getRoles(this.apiDomain);
     }
 
     getUser(id: number) {
-        return this.http.get<User>(`${this.apiDomain}${USER_ENDPOINTS.specific.replace(':id', id.toString())}`);
+        return this.userRepository.getUser(this.apiDomain, +id);
     }
 
     getCurrentUser(email: string) {
-        return this.http.get<User>(`${this.apiDomain}${USER_ENDPOINTS.byEmail.replace(':email', email)}`);
+        return this.userRepository.getCurrentUser(this.apiDomain, email);
     }
 
     createUser(user: User) {
-        return this.http.post(this.apiDomain + USER_ENDPOINTS.create, user);
+        return this.userRepository.createUser(this.apiDomain, user);
     }
 
     updateUser(id: number, user: User): Observable<User> {
-        return this.http.put<User>(`${this.apiDomain}${USER_ENDPOINTS.update.replace(':id', id.toString())}`, user);
+        return this.userRepository.updateUser(this.apiDomain, +id, user);
     }
 
     deleteUser(id: number) {
-        return this.http.delete(`${this.apiDomain}${USER_ENDPOINTS.delete.replace(':id', id.toString())}`);
+        return this.userRepository.deleteUser(this.apiDomain, +id);
     }
 
 }
