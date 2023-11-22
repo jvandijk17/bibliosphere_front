@@ -28,6 +28,10 @@ export class BookService {
     );
   }
 
+  getBook(id: number) {
+    return this.bookRepository.getBook(this.apiDomain, +id);
+  }
+
   createBook(bookData: Book): Observable<Book> {
     return new Observable((observer) => {
       this.bookRepository.createBook(this.apiDomain, bookData).subscribe({

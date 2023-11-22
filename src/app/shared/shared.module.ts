@@ -11,7 +11,7 @@ import { GenericFormComponent } from './generic-form/generic-form.component';
     LayoutComponent,
     HeaderComponent,
     GenericTableComponent,
-    GenericFormComponent
+    GenericFormComponent,
   ],
   imports: [
     CommonModule,

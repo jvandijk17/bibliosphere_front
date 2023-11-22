@@ -19,6 +19,10 @@ export class BookRepository implements IBookRepository {
         return this.http.get(apiDomain + this.endpoints['getAll']);
     }
 
+    getBook(apiDomain: string, bookId: number): Observable<Book> {
+        return this.http.get<Book>(apiDomain + this.endpoints['specific'].replace(':id', bookId.toString()));
+    }
+
     createBook(apiDomain: string, bookData: any): Observable<Book> {
         return this.http.post<Book>(apiDomain + this.endpoints['create'], bookData);
     }

@@ -11,6 +11,7 @@ import { ViewLoanDetailsAction } from 'src/app/features/loan/strategies/view-loa
 import { RoleService } from 'src/app/core/application-services/role.service';
 import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { BookListConfig } from './book-list.config';
+import { ViewBookDetailsAction } from '../strategies/view-book-details.action';
 
 @Component({
   selector: 'app-book-list',
@@ -35,6 +36,7 @@ export class BookListComponent implements OnInit {
     private roleService: RoleService,
     private loanDetailsAction: ViewLoanDetailsAction,
     private bookListConfig: BookListConfig,
+    private viewDetails: ViewBookDetailsAction
   ) {
     this.isLoading$ = this.loadingService.loading$;
     this.displayedColumns = this.bookListConfig.getColumnsByRole(this.roleService, this.hasLoans.bind(this), this.handleLoanDetailsAction.bind(this))
@@ -68,11 +70,6 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  private isDateColumn(columnKey: string): boolean {
-    const dateColumns = ['publication_year'];
-    return dateColumns.includes(columnKey);
-  }
-
   subscribeToBookUpdates(): void {
     this.bookUpdateService.updateBookOnLoanChange(this.books, message => {
       this.loadingService.setLoading(false);
@@ -86,6 +83,9 @@ export class BookListComponent implements OnInit {
         // TODO
         break;
       case 'view':
+        this.viewDetails.execute(event.item);
+        break;
+      case 'viewLoan':
         this.loanDetailsAction.execute(event.item.activeLoanId);
         break;
       case 'delete':
@@ -98,7 +98,7 @@ export class BookListComponent implements OnInit {
   }
 
   handleLoanDetailsAction(book: Book) {
-    this.handleAction({ action: 'view', item: book });
+    this.handleAction({ action: 'viewLoan', item: book });
   }
 
   hasLoans(book: Book): boolean {

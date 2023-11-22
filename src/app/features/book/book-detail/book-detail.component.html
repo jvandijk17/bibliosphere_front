@@ -1,0 +1,19 @@
+<div *ngIf="book" class="book-detail-container">
+    <mat-card>
+        <mat-toolbar color="primary">Book Details</mat-toolbar>
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item><strong>Title:</strong> {{ book.title }}</mat-list-item>
+                <mat-list-item><strong>Author:</strong> {{ book.author }}</mat-list-item>
+                <mat-list-item><strong>Publisher:</strong> {{ book.publisher }}</mat-list-item>
+                <mat-list-item><strong>ISBN:</strong> {{ book.isbn }}</mat-list-item>
+                <mat-list-item><strong>Publication Year:</strong> {{ book.publication_year | date: 'mediumDate'
+                    }}</mat-list-item>
+                <mat-list-item><strong>Page Count:</strong> {{ book.page_count }}</mat-list-item>
+                <mat-list-item><strong>Library:</strong> {{ book.libraryName }}</mat-list-item>
+                <mat-list-item><strong>Loaned:</strong> {{ book.activeLoanId ? 'Yes' : 'No' }}</mat-list-item>
+                <mat-list-item><strong>Categories:</strong> {{ book.bookCategoryNames?.join(', ') }}</mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>

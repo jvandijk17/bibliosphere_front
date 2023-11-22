@@ -1,5 +1,16 @@
 <ng-container *ngIf="books && books.data.length > 0; else noBooks">
-    <app-generic-table [data]="books" [columnsConfig]="displayedColumns">
+    <app-generic-table [data]="books" [columnsConfig]="displayedColumns" [dropdownMenuTemplate]="dropdownMenu">
+        <ng-template #dropdownMenu let-item>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="handleAction({action: 'view', item: item})">
+                    <mat-icon>pageview</mat-icon>
+                    <span>View Details</span>
+                </button>
+            </mat-menu>
+        </ng-template>
     </app-generic-table>
 </ng-container>
 
