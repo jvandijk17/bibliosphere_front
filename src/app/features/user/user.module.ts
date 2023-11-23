@@ -6,9 +6,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { UserService } from 'src/app/core/application-services/user.service';
 
 import { LayoutModule } from '@angular/cdk/layout';
-
-import { UserDetailComponent } from './user-detail/user-detail.component';
-import { UserDetailsModalComponent } from './user-details-modal/user-details-modal.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
 import { CommonUiModule } from 'src/app/shared/common-ui.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ToggleUserStatusAction } from './strategies/toggle-user-status.action';
@@ -18,13 +16,12 @@ import { ViewUserDetailsAction } from './strategies/view-user-details.action';
 @NgModule({
   declarations: [
     UserListComponent,
-    UserDetailComponent,
-    UserDetailsModalComponent
+    UserDetailsComponent
   ],
   imports: [
     CommonModule,
     CommonUiModule,
-    UserRoutingModule,    
+    UserRoutingModule,
     LayoutModule,
     SharedModule
   ],

@@ -7,4 +7,5 @@ export interface ITableColumn<T> {
     canDisplay?: (item: T) => Function;
     fallbackDisplayText?: string;
     customFilter?: (item: T, filter: string) => boolean | undefined;
+    exclude?: string[];
 }

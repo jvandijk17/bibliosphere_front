@@ -3,6 +3,7 @@ import { ITableColumn } from "src/app/shared/models/table-column-config.model";
 import { Book } from "src/app/core/domain/models/book.model";
 import { RoleService } from "src/app/core/application-services/role.service";
 import { DatePipe } from '@angular/common';
+import { DetailConfig } from "src/app/shared/models/detail-config.model";
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +13,18 @@ export class BookListConfig {
     constructor(
         private datePipe: DatePipe
     ) { }
+
+    toDetailConfig(columns: ITableColumn<Book>[], book: Book): DetailConfig[] {
+        return columns
+            .filter(col => !col.exclude || !col.exclude.includes('details'))
+            .map(col => {
+                const value = col.render ? col.render(book) : book[col.key as keyof Book];
+                return {
+                    label: col.title,
+                    value: value
+                };
+            });
+    }
 
     private generateDefaultColumns(canDisplay: Function, openLoanDetailsModalFn: Function): ITableColumn<Book>[] {
         return [
@@ -40,6 +53,7 @@ export class BookListConfig {
                 key: 'loans',
                 type: 'action',
                 title: 'Loaned',
+                exclude: ['details'],
                 render: (book) => book,
                 canDisplay: (book) => () => canDisplay(book),
                 actions: {
@@ -61,7 +75,11 @@ export class BookListConfig {
         return [
             { key: 'id', title: 'ID' },
             ...this.generateDefaultColumns(canDisplay, openLoanDetailsModalFn),
-            { key: 'dropdown', title: 'Actions' }
+            {
+                key: 'dropdown',
+                title: 'Actions',
+                exclude: ['details'],
+            }
         ];
     }
 

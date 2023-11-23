@@ -1,0 +1,12 @@
+<div *ngIf="data && config && config.length > 0" class="detail-container">
+    <mat-card>
+        <mat-toolbar color="primary">{{ config[0].label }} Details</mat-toolbar>
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item *ngFor="let item of config">
+                    <strong>{{ item.label }}: </strong> {{ item.value }}
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>

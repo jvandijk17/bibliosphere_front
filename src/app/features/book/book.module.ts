@@ -11,16 +11,14 @@ import { BookListComponent } from './book-list/book-list.component';
 import { CommonUiModule } from 'src/app/shared/common-ui.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BookFormComponent } from './book-form/book-form.component';
-import { BookDetailsModalComponent } from './book-details-modal/book-details-modal.component';
-import { BookDetailComponent } from './book-detail/book-detail.component';
+import { BookDetailsComponent } from './book-details/book-details.component';
 
 
 @NgModule({
   declarations: [
     BookListComponent,
     BookFormComponent,
-    BookDetailsModalComponent,
-    BookDetailComponent
+    BookDetailsComponent,
   ],
   imports: [
     CommonModule,

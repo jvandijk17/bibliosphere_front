@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { User } from 'src/app/core/domain/models/user.model';
+import { DetailConfig } from 'src/app/shared/models/detail-config.model';
 import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 
 @Injectable({
@@ -11,6 +12,18 @@ export class UserListConfig {
     constructor(
         private datePipe: DatePipe
     ) { }
+
+    toDetailConfig(columns: ITableColumn<User>[], user: User): DetailConfig[] {
+        return columns
+            .filter(col => !col.exclude || !col.exclude.includes('details'))
+            .map(col => {
+                const value = col.render ? col.render(user) : user[col.key as keyof User];
+                return {
+                    label: col.title,
+                    value: value
+                };
+            });
+    }
 
     getColumns(): ITableColumn<User>[] {
         return [
@@ -54,6 +67,7 @@ export class UserListConfig {
             {
                 key: 'dropdown',
                 title: 'Actions',
+                exclude: ['details'],
             }
         ];
     }

@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { CommonUiModule } from './common-ui.module';
 import { GenericTableComponent } from './generic-table/generic-table.component';
 import { GenericFormComponent } from './generic-form/generic-form.component';
+import { GenericDetailComponent } from './generic-detail/generic-detail.component';
+import { DynamicPipe } from './pipes/dynamic-pipe.pipe';
 
 @NgModule({
   declarations: [
@@ -12,6 +14,9 @@ import { GenericFormComponent } from './generic-form/generic-form.component';
     HeaderComponent,
     GenericTableComponent,
     GenericFormComponent,
+    GenericDetailComponent,
+    GenericDetailComponent,
+    DynamicPipe
   ],
   imports: [
     CommonModule,
@@ -21,7 +26,9 @@ import { GenericFormComponent } from './generic-form/generic-form.component';
     LayoutComponent,
     HeaderComponent,
     GenericTableComponent,
-    GenericFormComponent
+    GenericFormComponent,
+    GenericDetailComponent,
+    DynamicPipe
   ]
 })
 export class SharedModule { }
