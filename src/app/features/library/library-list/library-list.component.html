@@ -5,6 +5,10 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="handleAction({action: 'view', item: item})">
+                    <mat-icon>pageview</mat-icon>
+                    <span>View Library</span>
+                </button>
                 <button mat-menu-item (click)="handleAction({action: 'edit', item: item})">
                     <mat-icon>edit</mat-icon>
                     <span>Edit Library</span>

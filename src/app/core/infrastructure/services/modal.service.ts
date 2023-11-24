@@ -6,6 +6,8 @@ import { AlertComponent } from "src/app/shared/alert/alert.component";
 import { IModalService } from "../../domain/interfaces/modal.interface";
 import { BookDetailsComponent } from 'src/app/features/book/book-details/book-details.component';
 import { Book } from '../../domain/models/book.model';
+import { LibraryDetailsComponent } from 'src/app/features/library/library-details/library-details.component';
+import { Library } from '../../domain/models/library.model';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +26,13 @@ export class ModalService implements IModalService {
     openBookDetailsModal(book: Book): MatDialogRef<BookDetailsComponent> {
         return this.dialog.open(BookDetailsComponent, {
             data: { book },
+            width: '400px',
+        });
+    }
+
+    openLibraryDetailsModal(library: Library): MatDialogRef<LibraryDetailsComponent> {
+        return this.dialog.open(LibraryDetailsComponent, {
+            data: { library },
             width: '400px',
         });
     }

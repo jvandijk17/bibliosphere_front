@@ -8,6 +8,7 @@ import { LoadingService } from 'src/app/core/infrastructure/services/loading.ser
 import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { LibraryListConfig } from './library-list.config';
 import { Observable } from 'rxjs';
+import { ViewLibraryDetailsAction } from '../strategies/view-library-details.action';
 
 @Component({
   selector: 'app-library-list',
@@ -27,7 +28,8 @@ export class LibraryListComponent implements OnInit {
     private libraryService: LibraryService,
     private loadingService: LoadingService,
     private roleService: RoleService,
-    private libraryListConfig: LibraryListConfig
+    private libraryListConfig: LibraryListConfig,
+    private viewDetails: ViewLibraryDetailsAction
   ) {
     this.isLoading$ = this.loadingService.loading$;
     this.displayedColumns = this.libraryListConfig.getColumnsByRole(this.roleService);
@@ -56,6 +58,9 @@ export class LibraryListComponent implements OnInit {
 
   handleAction(event: { action: string, item: Library }) {
     switch (event.action) {
+      case 'view':
+        this.viewDetails.execute(event.item);
+        break;
       case 'create':
 
         break;

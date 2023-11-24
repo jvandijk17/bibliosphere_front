@@ -1,0 +1,5 @@
+@import '_mixin';
+
+.close-button {
+    @include close-button;
+}

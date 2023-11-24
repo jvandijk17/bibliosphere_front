@@ -10,13 +10,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { LibraryService } from 'src/app/core/application-services/library.service';
 import { LibraryListConfig } from './library-list/library-list.config';
 import { LibraryFormComponent } from './library-form/library-form.component';
+import { LibraryDetailsComponent } from './library-details/library-details.component';
 
 
 @NgModule({
   declarations: [
     LibraryComponent,
     LibraryListComponent,
-    LibraryFormComponent
+    LibraryFormComponent,
+    LibraryDetailsComponent
   ],
   imports: [
     CommonModule,
