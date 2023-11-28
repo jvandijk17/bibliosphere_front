@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { apiDateToInputDate } from 'src/app/core/domain/utils/date-utils';
 
 @Component({
   selector: 'app-generic-form',
@@ -9,22 +10,34 @@ import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms'
 export class GenericFormComponent implements OnInit {
 
   @Input() formConfig: any;
+  @Input() context?: 'create' | 'edit';
   @Input() formLevelValidators: ValidatorFn[] = [];
   @Input() title: string = '';
+  @Input() initialValue: any;
   @Output() formSubmit: EventEmitter<any> = new EventEmitter();
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.buildForm();
+    if (this.initialValue) {
+      this.form.patchValue(this.initialValue);
+    }
   }
 
   buildForm() {
     const group: any = {};
+
     this.formConfig.forEach((control: any) => {
-      group[control.name] = ['', this.getValidators(control.validators)];
+      if (!control.excluded || !control.excluded.includes(this.context)) {
+        group[control.name] = ['', this.getValidators(control.validators)];
+      }
     });
+
     this.form = this.fb.group(group, { validators: this.formLevelValidators });
   }
 
@@ -37,6 +50,22 @@ export class GenericFormComponent implements OnInit {
     }
     return formValidators;
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['initialValue'] && !changes['initialValue'].firstChange) {
+      const initialValue = { ...changes['initialValue'].currentValue };
+
+      this.formConfig.forEach((control: any) => {
+        if (control.type === 'date' && initialValue[control.name]) {
+          initialValue[control.name] = apiDateToInputDate(initialValue[control.name]);
+        }
+      });
+
+      this.form.patchValue(initialValue);
+      this.cd.detectChanges();
+    }
+  }
+
 
   onSubmit() {
     if (this.form.valid) {

@@ -8,7 +8,7 @@ import { catchError, finalize } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertComponent } from 'src/app/shared/alert/alert.component';
-import { apiDateToInputDate } from 'src/app/core/domain/utils/date-utils';
+import { ACCOUNT_FORM_CONFIG } from '../register/register.config';
 
 @Component({
   selector: 'app-edit',
@@ -17,6 +17,7 @@ import { apiDateToInputDate } from 'src/app/core/domain/utils/date-utils';
 })
 export class EditComponent implements OnInit {
 
+  editFormConfig = ACCOUNT_FORM_CONFIG;
   editForm!: FormGroup;
   user: User | null = null;
   errorMsg: string = '';
@@ -63,20 +64,15 @@ export class EditComponent implements OnInit {
     ).subscribe(user => {
       if (user) {
         this.user = user;
-        const birthDateString = user.birth_date ? apiDateToInputDate(user.birth_date as any) : '';
-        this.editForm.patchValue({
-          ...user,
-          birth_date: birthDateString
-        })
+        this.editForm.patchValue(user);
       }
-    })
-
+    });
   }
 
-  onSubmit(): void {
-    if (this.editForm.valid && this.user) {
+  onFormSubmit(formData: any): void {
+    if (formData && this.user) {
       this.loadingService.setLoading(true);
-      this.userService.updateUser(this.user.id, this.editForm.value).subscribe({
+      this.userService.updateUser(this.user.id, formData).subscribe({
         next: (updatedUser: User) => {
           this.loadingService.setLoading(false);
           this.user = updatedUser;

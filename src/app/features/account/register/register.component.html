@@ -1,2 +1,2 @@
 <app-generic-form [formConfig]="accountFormConfig" [formLevelValidators]="formLevelValidators" [title]="'Register User'"
-    (formSubmit)="onFormSubmit($event)"></app-generic-form>
+    [context]="'create'" (formSubmit)="onFormSubmit($event)"></app-generic-form>

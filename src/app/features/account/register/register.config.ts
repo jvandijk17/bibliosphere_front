@@ -38,7 +38,7 @@ export const ACCOUNT_FORM_CONFIG = [
     {
         name: 'postal_code',
         label: 'Postal Code',
-        type: 'number',
+        type: 'text',
         validators: { required: true }
     },
     {
@@ -53,17 +53,20 @@ export const ACCOUNT_FORM_CONFIG = [
         type: 'select',
         options: [],
         validators: { required: true },
+        excluded: ['edit']
     },
     {
         name: 'password',
         label: 'Password',
         type: 'password',
-        validators: { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d).{8,}$/ }
+        validators: { required: true, pattern: /^(?=.*[A-Za-z])(?=.*\d).{8,}$/ },
+        excluded: ['edit']
     },
     {
         name: 'confirm_password',
         label: 'Confirm Password',
         type: 'password',
-        validators: { required: true, mustMatch: 'password' }
+        validators: { required: true, mustMatch: 'password' },
+        excluded: ['edit']
     },
 ];
