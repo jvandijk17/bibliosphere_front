@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { PreviousUrlService } from '../services/previous-url.service';
 import { AuthService } from '../../application-services/auth.service';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRouteSnapshot } from '@angular/router';
 
 @Injectable({
@@ -12,11 +11,12 @@ export class AuthGuard {
 
     constructor(private router: Router, private previousUrlService: PreviousUrlService, private authService: AuthService) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    canActivate(route: ActivatedRouteSnapshot) {
 
         if (!this.authService.isAuthorized) {
             this.previousUrlService.setUrl(this.getFullUrlFromSnapshot(route));
-            this.router.navigate(['/login']);
+            this.authService.logout(false);
+            this.router.navigate(['/account/login']);
             return false;
         }
         return true;

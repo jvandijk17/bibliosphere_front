@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -37,6 +38,9 @@ const MATERIAL_MODULES = [
 
 @NgModule({
   imports: [CommonModule, ...MATERIAL_MODULES, ReactiveFormsModule, LayoutModule],
-  exports: [CommonModule, ...MATERIAL_MODULES, ReactiveFormsModule, LayoutModule]
+  exports: [CommonModule, ...MATERIAL_MODULES, ReactiveFormsModule, LayoutModule],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} }
+  ]
 })
 export class CommonUiModule { }

@@ -11,14 +11,17 @@ import { DetailConfig } from 'src/app/shared/models/detail-config.model';
 })
 export class UserDetailsComponent {
 
-  userConfig: DetailConfig[];
+  userConfig?: DetailConfig[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { user: User },
     private userListConfig: UserListConfig
   ) {
-    const columns = this.userListConfig.getColumns();
-    this.userConfig = this.userListConfig.toDetailConfig(columns, this.data.user);
+    if (this.data.user) {
+      const columns = this.userListConfig.getColumns();
+      this.userConfig = this.userListConfig.toDetailConfig(columns, this.data.user);
+
+    }
   }
 
 }
