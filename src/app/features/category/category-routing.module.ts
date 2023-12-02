@@ -6,7 +6,12 @@ import { AuthGuard } from 'src/app/core/infrastructure/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: CategoryListComponent },
-  { path: 'add', component: BookFormComponent, canActivate: [AuthGuard] }
+  {
+    path: 'add',
+    component: BookFormComponent,
+    canActivate: [AuthGuard],
+    data: { breadcrumb: 'Add Category' }
+  }
 ];
 
 @NgModule({

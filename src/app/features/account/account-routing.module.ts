@@ -7,7 +7,11 @@ import { EditComponent } from './edit/edit.component';
 const routes: Routes = [
   { path: 'account/login', component: LoginComponent },
   { path: 'account/register', component: RegisterComponent },
-  { path: 'account/edit', component: EditComponent }
+  {
+    path: 'account/edit',
+    component: EditComponent,
+    data: { breadcrumb: 'Edit Account' }
+  }
 ];
 
 @NgModule({

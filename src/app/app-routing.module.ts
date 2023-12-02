@@ -14,10 +14,26 @@ const routes: Routes = [
         loadChildren: () => import('./features/book/book.module').then(m => m.BookModule),
         data: { breadcrumb: 'Book List' }
       },
-      { path: 'category', loadChildren: () => import('./features/category/category.module').then(m => m.CategoryModule) },
-      { path: 'library', loadChildren: () => import('./features/library/library.module').then(m => m.LibraryModule) },
-      { path: 'loan', loadChildren: () => import('./features/loan/loan.module').then(m => m.LoanModule) },
-      { path: 'user', loadChildren: () => import('./features/user/user.module').then(m => m.UserModule) },
+      {
+        path: 'category',
+        loadChildren: () => import('./features/category/category.module').then(m => m.CategoryModule),
+        data: { breadcrumb: 'Category List' }
+      },
+      {
+        path: 'library',
+        loadChildren: () => import('./features/library/library.module').then(m => m.LibraryModule),
+        data: { breadcrumb: 'Library List' }
+      },
+      {
+        path: 'loan',
+        loadChildren: () => import('./features/loan/loan.module').then(m => m.LoanModule),
+        data: { breadcrumb: 'Loan History' }
+      },
+      {
+        path: 'user',
+        loadChildren: () => import('./features/user/user.module').then(m => m.UserModule),
+        data: { breadcrumb: 'User List' }
+      },
       { path: 'control-panel', loadChildren: () => import('./features/control-panel/control-panel.module').then(m => m.ControlPanelModule) },
     ]
   },

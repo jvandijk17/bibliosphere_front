@@ -13,13 +13,14 @@ $density: mat-density-config();
 .breadcrumb {
     display: flex;
     align-items: center;
-    padding: 8px 15px;
+    padding: 8px;
     margin-bottom: 20px;
     background-color: mat-color($primary, 100);
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    .breadcrumb-link {
+    .breadcrumb-link,
+    .breadcrumb-current {
         display: flex;
         align-items: center;
         color: mat-color($primary, 900);
@@ -32,11 +33,12 @@ $density: mat-density-config();
         mat-icon {
             font-size: 20px;
             vertical-align: middle;
-            margin-left: 4px;
         }
     }
 
     .breadcrumb-current {
+        cursor: text;
+        pointer-events: none;
         color: mat-color($accent, 900);
     }
 }
