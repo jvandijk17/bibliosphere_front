@@ -1,0 +1,42 @@
+@import '@angular/material/theming';
+@import '_common';
+
+@include mat-core();
+
+$primary: mat-palette($mat-deep-purple);
+$accent: mat-palette($mat-pink);
+$warn: mat-palette($mat-red);
+
+$typography: mat-typography-config();
+$density: mat-density-config();
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    background-color: mat-color($primary, 100);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    .breadcrumb-link {
+        display: flex;
+        align-items: center;
+        color: mat-color($primary, 900);
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        mat-icon {
+            font-size: 20px;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+    }
+
+    .breadcrumb-current {
+        color: mat-color($accent, 900);
+    }
+}

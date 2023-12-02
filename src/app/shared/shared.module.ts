@@ -7,6 +7,7 @@ import { GenericTableComponent } from './generic-table/generic-table.component';
 import { GenericFormComponent } from './generic-form/generic-form.component';
 import { GenericDetailComponent } from './generic-detail/generic-detail.component';
 import { DynamicPipe } from './pipes/dynamic-pipe.pipe';
+import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 
 @NgModule({
   declarations: [
@@ -16,11 +17,12 @@ import { DynamicPipe } from './pipes/dynamic-pipe.pipe';
     GenericFormComponent,
     GenericDetailComponent,
     GenericDetailComponent,
-    DynamicPipe
+    DynamicPipe,
   ],
   imports: [
     CommonModule,
-    CommonUiModule
+    CommonUiModule,
+    BreadcrumbModule
   ],
   exports: [
     LayoutComponent,
@@ -28,7 +30,8 @@ import { DynamicPipe } from './pipes/dynamic-pipe.pipe';
     GenericTableComponent,
     GenericFormComponent,
     GenericDetailComponent,
-    DynamicPipe
+    DynamicPipe,
+    BreadcrumbModule
   ]
 })
 export class SharedModule { }

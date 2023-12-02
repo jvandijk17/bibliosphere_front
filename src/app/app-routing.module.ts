@@ -9,7 +9,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: '/control-panel', pathMatch: 'full' },
-      { path: 'book', loadChildren: () => import('./features/book/book.module').then(m => m.BookModule) },
+      {
+        path: 'book',
+        loadChildren: () => import('./features/book/book.module').then(m => m.BookModule),
+        data: { breadcrumb: 'Book List' }
+      },
       { path: 'category', loadChildren: () => import('./features/category/category.module').then(m => m.CategoryModule) },
       { path: 'library', loadChildren: () => import('./features/library/library.module').then(m => m.LibraryModule) },
       { path: 'loan', loadChildren: () => import('./features/loan/loan.module').then(m => m.LoanModule) },
@@ -17,7 +21,7 @@ const routes: Routes = [
       { path: 'control-panel', loadChildren: () => import('./features/control-panel/control-panel.module').then(m => m.ControlPanelModule) },
     ]
   },
-  { path: '', redirectTo: '/account/login', pathMatch: 'full' },  
+  { path: '', redirectTo: '/account/login', pathMatch: 'full' },
   {
     path: 'account',
     loadChildren: () => import('./features/account/account.module').then(m => m.AccountModule),

@@ -1,0 +1,9 @@
+<nav *ngIf="isInitialized" class="breadcrumb">
+    <span *ngFor="let breadcrumb of breadcrumbs; let last = last">
+        <a *ngIf="!last" [routerLink]="breadcrumb.link" mat-button class="breadcrumb-link">
+            {{ breadcrumb.label }} /
+            <mat-icon>chevron_right</mat-icon>
+        </a>
+        <span *ngIf="last" class="breadcrumb-current">{{ breadcrumb.label }}</span>
+    </span>
+</nav>

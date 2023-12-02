@@ -5,9 +5,19 @@ import { BookListComponent } from './book-list/book-list.component';
 import { BookFormComponent } from './book-form/book-form.component';
 
 const routes: Routes = [
-  { path: '', component: BookListComponent },
-  { path: 'add', component: BookFormComponent, canActivate: [AuthGuard] }
+  {
+    path: '',
+    component: BookListComponent,
+    data: { breadcrumb: 'Book List' }
+  },
+  {
+    path: 'add',
+    component: BookFormComponent,
+    canActivate: [AuthGuard],
+    data: { breadcrumb: 'Add Book' }
+  }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

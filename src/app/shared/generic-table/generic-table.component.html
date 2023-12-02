@@ -1,5 +1,8 @@
 <div class="table-container">
-    <mat-toolbar color="primary">List</mat-toolbar>
+
+    <app-breadcrumb></app-breadcrumb>
+
+    <mat-toolbar color="primary">Search</mat-toolbar>
 
     <mat-form-field>
         <input matInput #input (keyup)="applyFilter(input.value)" placeholder="Filter">
