@@ -11,6 +11,7 @@ import { BreadcrumbItem } from '../models/breadcrumb-item.model';
 export class BreadcrumbComponent implements OnInit {
 
   breadcrumbs: BreadcrumbItem[] = [];
+  action: string = '';
   isInitialized = false;
 
   constructor(private route: ActivatedRoute, private router: Router) {
@@ -18,13 +19,31 @@ export class BreadcrumbComponent implements OnInit {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.breadcrumbs = this.generateBreadcrumbs(this.route.root);
+      this.setActionFromRouteData(this.route.root);
       this.isInitialized = true;
     });
   }
 
   ngOnInit(): void {
     this.breadcrumbs = this.generateBreadcrumbs(this.route.root);
+    this.setActionFromRouteData(this.route.root);
     this.isInitialized = true;
+  }
+
+  isAddRoute(): boolean {
+    const currentRoute = this.router.url;
+    return currentRoute.endsWith('/add');
+  }  
+
+  private setActionFromRouteData(route: ActivatedRoute): void {
+    while (route.firstChild) {
+      route = route.firstChild;
+      const actionBtn = route.snapshot.data['actionBtn'];
+      if (actionBtn) {
+        this.action = actionBtn;
+        break;
+      }
+    }
   }
 
   private generateBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: BreadcrumbItem[] = [], routesMap: { [key: string]: boolean } = {}): BreadcrumbItem[] {

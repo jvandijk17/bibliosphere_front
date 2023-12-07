@@ -19,6 +19,17 @@ $density: mat-density-config();
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+    .breadcrumb-start {
+        display: flex;
+        align-items: center;
+        color: mat-color($primary, 900);
+        text-decoration: none;
+    }
+
+    .breadcrumb-end {
+        margin-left: auto;
+    }
+
     .breadcrumb-link,
     .breadcrumb-current {
         display: flex;
@@ -40,5 +51,9 @@ $density: mat-density-config();
         cursor: text;
         pointer-events: none;
         color: mat-color($accent, 900);
+    }
+
+    .action-btn {
+        margin-left: 10px;
     }
 }

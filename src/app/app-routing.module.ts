@@ -12,17 +12,17 @@ const routes: Routes = [
       {
         path: 'book',
         loadChildren: () => import('./features/book/book.module').then(m => m.BookModule),
-        data: { breadcrumb: 'Book List' }
+        data: { breadcrumb: 'Book List', actionBtn: 'Add book' }
       },
       {
         path: 'category',
         loadChildren: () => import('./features/category/category.module').then(m => m.CategoryModule),
-        data: { breadcrumb: 'Category List' }
+        data: { breadcrumb: 'Category List', actionBtn: 'Add category' }
       },
       {
         path: 'library',
         loadChildren: () => import('./features/library/library.module').then(m => m.LibraryModule),
-        data: { breadcrumb: 'Library List' }
+        data: { breadcrumb: 'Library List', actionBtn: 'Add library' }
       },
       {
         path: 'loan',

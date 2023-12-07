@@ -1,17 +1,24 @@
 <nav *ngIf="isInitialized" class="breadcrumb">
-    <a [routerLink]="['/']" mat-button class="breadcrumb-link">
-        {{ 'Control Panel' }}
-        <mat-icon>home</mat-icon>
-    </a>
-
-    <span *ngFor="let breadcrumb of breadcrumbs; let last = last">
-        <a *ngIf="!last" [routerLink]="breadcrumb.link" mat-button class="breadcrumb-link">
-            {{ breadcrumb.label }}
-            <mat-icon>chevron_right</mat-icon>
+    <div class="breadcrumb-start">
+        <a [routerLink]="['/']" mat-button class="breadcrumb-link">
+            {{ 'Control Panel' }}
+            <mat-icon>home</mat-icon>
         </a>
-        <a *ngIf="last" mat-button class="breadcrumb-current">
-            {{ breadcrumb.label }}
-            <mat-icon>chevron_right</mat-icon>
-        </a>
-    </span>
+        <span *ngFor="let breadcrumb of breadcrumbs; let last = last">
+            <a *ngIf="!last" [routerLink]="breadcrumb.link" mat-button class="breadcrumb-link">
+                {{ breadcrumb.label }}
+                <mat-icon>chevron_right</mat-icon>
+            </a>
+            <a *ngIf="last" mat-button class="breadcrumb-current">
+                {{ breadcrumb.label }}
+                <mat-icon>chevron_right</mat-icon>
+            </a>
+        </span>
+    </div>
+    <div class="breadcrumb-end">
+        <button mat-raised-button *ngIf="action && !isAddRoute()" class="action-btn" color="primary"
+            [routerLink]="['./add']">
+            {{ action }}
+        </button>
+    </div>
 </nav>
