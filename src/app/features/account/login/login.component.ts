@@ -15,7 +15,7 @@ import { NotificationService } from 'src/app/core/application-services/notificat
 export class LoginComponent implements OnInit {
 
     loginForm: FormGroup;
-    errorMsg: string = '';
+    errorMsg = '';
     isLoading$: Observable<boolean>;
 
     constructor(

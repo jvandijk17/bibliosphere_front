@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 export class PreviousUrlService {
 
-    private previousUrl: string = '';
+    private previousUrl = '';
 
     setUrl(url: string): void {
         this.previousUrl = url;

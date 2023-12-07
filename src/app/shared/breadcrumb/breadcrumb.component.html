@@ -1,4 +1,4 @@
-<nav *ngIf="isInitialized" class="breadcrumb">
+<nav *ngIf="isInitialized && authService.isAuthorized" class="breadcrumb">
     <div class="breadcrumb-start">
         <a [routerLink]="['/']" mat-button class="breadcrumb-link">
             {{ 'Control Panel' }}

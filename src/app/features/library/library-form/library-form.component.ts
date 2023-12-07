@@ -14,7 +14,7 @@ export class LibraryFormComponent {
 
   libraryForm!: FormGroup;
   isAdmin: boolean;
-  errorMsg: string = '';
+  errorMsg = '';
   libraryFormConfig: FormFieldConfig[];
 
   constructor(

@@ -29,6 +29,6 @@ export class LibraryRepository implements ILibraryRepository {
 
     createLibrary(apiDomain: string, libraryData: any): Observable<Library> {
         return this.http.post<Library>(apiDomain + this.endpoints['create'], libraryData);
-    };
+    }
 
 }

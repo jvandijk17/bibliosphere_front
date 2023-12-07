@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { BreadcrumbItem } from '../models/breadcrumb-item.model';
+import { AuthService } from 'src/app/core/application-services/auth.service';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -11,10 +12,13 @@ import { BreadcrumbItem } from '../models/breadcrumb-item.model';
 export class BreadcrumbComponent implements OnInit {
 
   breadcrumbs: BreadcrumbItem[] = [];
-  action: string = '';
+  action = '';
   isInitialized = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    public authService: AuthService) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -33,7 +37,7 @@ export class BreadcrumbComponent implements OnInit {
   isAddRoute(): boolean {
     const currentRoute = this.router.url;
     return currentRoute.endsWith('/add');
-  }  
+  }
 
   private setActionFromRouteData(route: ActivatedRoute): void {
     while (route.firstChild) {
@@ -46,7 +50,7 @@ export class BreadcrumbComponent implements OnInit {
     }
   }
 
-  private generateBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: BreadcrumbItem[] = [], routesMap: { [key: string]: boolean } = {}): BreadcrumbItem[] {
+  private generateBreadcrumbs(route: ActivatedRoute, url = '', breadcrumbs: BreadcrumbItem[] = [], routesMap: { [key: string]: boolean } = {}): BreadcrumbItem[] {
     const children: ActivatedRoute[] = route.children;
 
     if (children.length === 0) {

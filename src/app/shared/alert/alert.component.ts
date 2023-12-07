@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class AlertComponent {
 
-  public confirmMode: boolean = false;
+  public confirmMode = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { message: string, confirm?: boolean },

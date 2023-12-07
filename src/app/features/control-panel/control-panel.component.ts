@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class ControlPanelComponent {
 
   visibleEntities: any[] = [];
-  columns: number = 3;
+  columns = 3;
   isLoading$: Observable<boolean>;
 
   constructor(

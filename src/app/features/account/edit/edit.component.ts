@@ -20,7 +20,7 @@ export class EditComponent implements OnInit {
   editFormConfig = ACCOUNT_FORM_CONFIG;
   editForm!: FormGroup;
   user: User | null = null;
-  errorMsg: string = '';
+  errorMsg = '';
   isLoading$: Observable<boolean>;
 
   constructor(

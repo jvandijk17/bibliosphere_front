@@ -20,7 +20,7 @@ export class BookFormComponent implements OnInit {
 
   bookForm!: FormGroup;
   isAdmin: boolean;
-  errorMsg: string = '';
+  errorMsg = '';
   bookFormConfig: FormFieldConfig[];
 
   constructor(

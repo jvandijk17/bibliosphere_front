@@ -12,7 +12,7 @@ export class GenericFormComponent implements OnInit {
   @Input() formConfig: any;
   @Input() context?: 'create' | 'edit';
   @Input() formLevelValidators: ValidatorFn[] = [];
-  @Input() title: string = '';
+  @Input() title = '';
   @Input() initialValue: any;
   @Output() formSubmit: EventEmitter<any> = new EventEmitter();
   form!: FormGroup;

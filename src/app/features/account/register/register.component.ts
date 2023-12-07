@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   accountFormConfig: FormFieldConfig[];
   formLevelValidators: ValidatorFn[] = [];
   libraries: Library[] = [];
-  errorMsg: string = '';
+  errorMsg = '';
 
   constructor(
     private userService: UserService,
