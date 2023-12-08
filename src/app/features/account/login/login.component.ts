@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/application-services/auth.service';
 import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
 import { PostAuthRoutingService } from 'src/app/core/infrastructure/services/post-auth-routing.service';
-import { AlertComponent } from 'src/app/shared/alert/alert.component';
 import { Observable } from 'rxjs';
 import { NotificationService } from 'src/app/core/application-services/notification.service';
 
@@ -34,7 +33,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {
         if (localStorage.getItem('hasLoggedInBefore')) {
-            this.notificationService.showAlert('Error while returning the loan. Please try again.');
+            this.notificationService.showAlert('Your session has expired. Please login again.');
         }
     }
 

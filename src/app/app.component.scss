@@ -1,6 +1,13 @@
 @import '_variables';
 @import '_common';
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 /* Host component styles */
 :host {
   font-family: $base-font;
@@ -13,10 +20,11 @@
 
 /* Specific UI components */
 #ui-background {
-  background: url('/assets/images/landing.png') black;
+  background: url('/assets/images/landing.png') black no-repeat center center fixed;
   background-size: 100%;
   width: 100vw;
   min-height: 100vh;
+  overflow: hidden;
 
   @media (max-width: 1550px) {
     background-repeat: no-repeat;

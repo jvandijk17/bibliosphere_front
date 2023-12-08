@@ -39,7 +39,7 @@ export class LibraryListConfig {
             ...this.generateDefaultColumns(),
             {
                 key: 'dropdown',
-                title: 'Action',
+                title: 'Actions',
                 exclude: ['details']
             }
         ];

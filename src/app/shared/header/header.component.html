@@ -2,8 +2,6 @@
     <img class="logo" src="./assets/images/logo.png" alt="Logo">
     <button mat-button class="title">BIBLIOSPHERE</button>
     <span class="spacer"></span>
-    <button mat-button>About</button>
-    <button mat-button>Contact</button>
     <ng-container *ngIf="isUserAuthenticated || !isOnLoginPage">
         <button mat-button [matMenuTriggerFor]="userMenu">
             <mat-icon>account_circle</mat-icon>
