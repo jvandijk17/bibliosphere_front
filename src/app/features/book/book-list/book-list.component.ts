@@ -12,6 +12,7 @@ import { RoleService } from 'src/app/core/application-services/role.service';
 import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { BookListConfig } from './book-list.config';
 import { ViewBookDetailsAction } from '../strategies/view-book-details.action';
+import { DeleteBookAction } from '../strategies/delete-book.action';
 
 @Component({
   selector: 'app-book-list',
@@ -35,6 +36,7 @@ export class BookListComponent implements OnInit {
     private notificationService: NotificationService,
     private roleService: RoleService,
     private loanDetailsAction: ViewLoanDetailsAction,
+    private deleteBookAction: DeleteBookAction,
     private bookListConfig: BookListConfig,
     private viewDetails: ViewBookDetailsAction
   ) {
@@ -89,7 +91,7 @@ export class BookListComponent implements OnInit {
         this.loanDetailsAction.execute(event.item.activeLoanId);
         break;
       case 'delete':
-        // Handle book delete logic
+        this.deleteBookAction.execute(event.item);
         break;
       case 'toggle':
         // Handle book toggle logic

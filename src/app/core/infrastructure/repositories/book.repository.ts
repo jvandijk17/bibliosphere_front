@@ -27,4 +27,8 @@ export class BookRepository implements IBookRepository {
         return this.http.post<Book>(apiDomain + this.endpoints['create'], bookData);
     }
 
+    deleteBook(apiDomain: string, bookId: number): Observable<any> {
+        return this.http.delete(apiDomain + this.endpoints['delete'].replace(':id', bookId.toString()));
+    }
+
 }

@@ -9,6 +9,10 @@
                     <mat-icon>pageview</mat-icon>
                     <span>View Details</span>
                 </button>
+                <button mat-menu-item *ngIf="!item.activeLoanId" (click)="handleAction({action: 'delete', item: item})">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                </button>
             </mat-menu>
         </ng-template>
     </app-generic-table>

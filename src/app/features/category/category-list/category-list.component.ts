@@ -18,7 +18,6 @@ export class CategoryListComponent implements OnInit {
 
   categories: MatTableDataSource<Category> = new MatTableDataSource<Category>([]);
   displayedColumns: ITableColumn<Category>[];
-
   isLoading$: Observable<boolean>;
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -44,14 +43,14 @@ export class CategoryListComponent implements OnInit {
       next: categories => {
         this.categories = new MatTableDataSource(categories);
         this.categories.sort = this.sort;
+        this.loadingService.setLoading(false);
       },
       error: error => {
         console.error('Error fetching categories: ', error);
+        this.loadingService.setLoading(false);
       }
 
     });
-
-    this.loadingService.setLoading(false);
   }
 
   handleAction(event: { action: string, item: Category }) {

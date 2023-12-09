@@ -67,4 +67,15 @@ export class BookService {
     });
   }
 
+  deleteBook(bookId: number): Observable<any> {
+    return this.bookRepository.deleteBook(this.apiDomain, bookId).pipe(
+      tap(() => {
+        this._bookList = this._bookList.filter(book => book.id !== bookId);
+        // Notify other components about the deletion
+      })
+    );
+  }
+
+
+
 }
