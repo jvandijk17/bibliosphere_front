@@ -25,13 +25,4 @@ export class BookUpdateService {
         });
     }
 
-    updateBookOnDeletion(books: MatTableDataSource<Book>, deletedBookId: number, callback: (message: string) => void): void {
-        const index = books.data.findIndex(book => book.id === deletedBookId);
-        if (index > -1) {
-            books.data.splice(index, 1);
-            books._updateChangeSubscription();
-            callback('Book deleted successfully.');
-        }
-    }
-
 }

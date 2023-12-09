@@ -13,6 +13,7 @@ import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { BookListConfig } from './book-list.config';
 import { ViewBookDetailsAction } from '../strategies/view-book-details.action';
 import { DeleteBookAction } from '../strategies/delete-book.action';
+import { BookDataSourceService } from 'src/app/core/application-services/book-datasource.service';
 
 @Component({
   selector: 'app-book-list',
@@ -38,7 +39,8 @@ export class BookListComponent implements OnInit {
     private loanDetailsAction: ViewLoanDetailsAction,
     private deleteBookAction: DeleteBookAction,
     private bookListConfig: BookListConfig,
-    private viewDetails: ViewBookDetailsAction
+    private viewDetails: ViewBookDetailsAction,
+    private bookDataSourceService: BookDataSourceService
   ) {
     this.isLoading$ = this.loadingService.loading$;
     this.displayedColumns = this.bookListConfig.getColumnsByRole(this.roleService, this.hasLoans.bind(this), this.handleLoanDetailsAction.bind(this))
@@ -49,6 +51,7 @@ export class BookListComponent implements OnInit {
     this.loadingComplete$.subscribe(() => {
       this.subscribeToBookUpdates();
     });
+    this.subscribeToDataSourceChanges();
   }
 
   getAllBooks(): void {
@@ -63,6 +66,7 @@ export class BookListComponent implements OnInit {
       next: books => {
         this.books = new MatTableDataSource(books);
         this.books.sort = this.sort;
+        this.bookDataSourceService.setBooksDataSource(books);
         completeLoading();
       },
       error: error => {
@@ -76,6 +80,13 @@ export class BookListComponent implements OnInit {
     this.bookUpdateService.updateBookOnLoanChange(this.books, message => {
       this.loadingService.setLoading(false);
       this.notificationService.showAlert(message);
+    });
+  }
+
+  subscribeToDataSourceChanges(): void {
+    this.bookDataSourceService.booksDataSource$.subscribe(dataSource => {
+      this.books = dataSource;
+      this.books.sort = this.sort;
     });
   }
 
