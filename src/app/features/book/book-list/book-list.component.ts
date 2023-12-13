@@ -4,16 +4,14 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Book } from 'src/app/core/domain/models/book.model';
 import { BookService } from 'src/app/core/application-services/book.service';
-import { BookUpdateService } from 'src/app/core/application-services/book-update.service';
 import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
-import { NotificationService } from 'src/app/core/application-services/notification.service';
 import { ViewLoanDetailsAction } from 'src/app/features/loan/strategies/view-loan-details.action';
 import { RoleService } from 'src/app/core/application-services/role.service';
 import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { BookListConfig } from './book-list.config';
 import { ViewBookDetailsAction } from '../strategies/view-book-details.action';
 import { DeleteBookAction } from '../strategies/delete-book.action';
-import { BookDataSourceService } from 'src/app/core/application-services/book-datasource.service';
+import { EntityDataService } from 'src/app/core/application-services/entity-data.service';
 
 @Component({
   selector: 'app-book-list',
@@ -32,15 +30,13 @@ export class BookListComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private bookUpdateService: BookUpdateService,
     private loadingService: LoadingService,
-    private notificationService: NotificationService,
     private roleService: RoleService,
     private loanDetailsAction: ViewLoanDetailsAction,
     private deleteBookAction: DeleteBookAction,
     private bookListConfig: BookListConfig,
     private viewDetails: ViewBookDetailsAction,
-    private bookDataSourceService: BookDataSourceService
+    private entityDataService: EntityDataService<Book>
   ) {
     this.isLoading$ = this.loadingService.loading$;
     this.displayedColumns = this.bookListConfig.getColumnsByRole(this.roleService, this.hasLoans.bind(this), this.handleLoanDetailsAction.bind(this))
@@ -49,9 +45,8 @@ export class BookListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllBooks();
     this.loadingComplete$.subscribe(() => {
-      this.subscribeToBookUpdates();
+      this.subscribeToDataSourceChanges();
     });
-    this.subscribeToDataSourceChanges();
   }
 
   getAllBooks(): void {
@@ -66,7 +61,7 @@ export class BookListComponent implements OnInit {
       next: books => {
         this.books = new MatTableDataSource(books);
         this.books.sort = this.sort;
-        this.bookDataSourceService.setBooksDataSource(books);
+        this.entityDataService.setDataSource(books);
         completeLoading();
       },
       error: error => {
@@ -76,15 +71,8 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  subscribeToBookUpdates(): void {
-    this.bookUpdateService.updateBookOnLoanChange(this.books, message => {
-      this.loadingService.setLoading(false);
-      this.notificationService.showAlert(message);
-    });
-  }
-
   subscribeToDataSourceChanges(): void {
-    this.bookDataSourceService.booksDataSource$.subscribe(dataSource => {
+    this.entityDataService.dataSource$.subscribe(dataSource => {
       this.books = dataSource;
       this.books.sort = this.sort;
     });

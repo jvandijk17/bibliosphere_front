@@ -16,19 +16,21 @@ export class ViewLoanDetailsAction implements LoanActionStrategy {
         private dialog: MatDialog
     ) { }
 
-    execute(loanId?: number): void {
+    execute(loanId?: number | null): void {
         if (typeof loanId === 'undefined') return;
 
         this.loadingService.setLoading(true);
-        this.loanService.getLoan(loanId).subscribe(loan => {
-            if (loan) {
-                this.dialog.open(LoanDetailModalComponent, {
-                    data: { loan },
-                    width: '400px',
-                });
-                this.loadingService.setLoading(false);
-            }
-        });
+        if (loanId) {
+            this.loanService.getLoan(loanId).subscribe(loan => {
+                if (loan) {
+                    this.dialog.open(LoanDetailModalComponent, {
+                        data: { loan },
+                        width: '400px',
+                    });
+                    this.loadingService.setLoading(false);
+                }
+            });
+        }
     }
 
 }

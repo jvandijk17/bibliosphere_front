@@ -6,8 +6,7 @@ import { MODAL_SERVICE_TOKEN } from "src/app/core/infrastructure/config/modal.to
 import { NotificationService } from "src/app/core/application-services/notification.service";
 import { BookService } from "src/app/core/application-services/book.service";
 import { LoadingService } from "src/app/core/infrastructure/services/loading.service";
-import { BookUpdateService } from "src/app/core/application-services/book-update.service";
-import { BookDataSourceService } from "src/app/core/application-services/book-datasource.service";
+import { EntityDataService } from "src/app/core/application-services/entity-data.service";
 
 @Injectable({
     providedIn: 'root'
@@ -19,8 +18,7 @@ export class DeleteBookAction implements BookActionStrategy {
         private bookService: BookService,
         private notificationService: NotificationService,
         private loadingService: LoadingService,
-        private bookUpdateService: BookUpdateService,
-        private bookDataSourceService: BookDataSourceService
+        private entityDataService: EntityDataService<Book>
     ) { }
 
     execute(book: Book): void {
@@ -34,7 +32,7 @@ export class DeleteBookAction implements BookActionStrategy {
                     this.bookService.deleteBook(book.id).subscribe({
                         next: () => {
                             this.loadingService.setLoading(false);
-                            this.bookDataSourceService.removeBook(book.id);
+                            this.entityDataService.removeEntity(book.id, 'id');
                             this.notificationService.showAlert('Book deleted successfully.');
                         },
                         error: (error) => {

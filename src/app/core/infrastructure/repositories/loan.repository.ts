@@ -28,7 +28,7 @@ export class LoanRepository implements ILoanRepository {
     }
 
     updateLoan(apiDomain: string, id: number, loanData: any): Observable<Loan> {
-        return this.http.put<Loan>(apiDomain + this.endpoints['update'].replace(':id', id.toString()), { loanData }, {
+        return this.http.put<Loan>(apiDomain + this.endpoints['update'].replace(':id', id.toString()), loanData, {
             observe: 'body'
         });
     }

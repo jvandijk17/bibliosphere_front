@@ -13,7 +13,7 @@ export interface Book {
     bookCategories?: BookCategory[];
     bookCategoryId?: number;
     bookCategoryNames?: string[];
-    activeLoanId?: number;
+    activeLoanId?: number | null;
     libraryId?: number;
     libraryName?: string;
 }
