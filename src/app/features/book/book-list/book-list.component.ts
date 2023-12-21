@@ -12,6 +12,7 @@ import { BookListConfig } from './book-list.config';
 import { ViewBookDetailsAction } from '../strategies/view-book-details.action';
 import { DeleteBookAction } from '../strategies/delete-book.action';
 import { EntityDataService } from 'src/app/core/application-services/entity-data.service';
+import { EditBookAction } from '../strategies/edit-book.action';
 
 @Component({
   selector: 'app-book-list',
@@ -33,6 +34,7 @@ export class BookListComponent implements OnInit {
     private loadingService: LoadingService,
     private roleService: RoleService,
     private loanDetailsAction: ViewLoanDetailsAction,
+    private editBookAction: EditBookAction,
     private deleteBookAction: DeleteBookAction,
     private bookListConfig: BookListConfig,
     private viewDetails: ViewBookDetailsAction,
@@ -80,20 +82,17 @@ export class BookListComponent implements OnInit {
 
   handleAction(event: { action: string, item: Book }) {
     switch (event.action) {
-      case 'create':
-        // TODO
-        break;
       case 'view':
         this.viewDetails.execute(event.item);
         break;
       case 'viewLoan':
         this.loanDetailsAction.execute(event.item.activeLoanId);
         break;
+      case 'edit':
+        this.editBookAction.execute(event.item);  
+        break;
       case 'delete':
         this.deleteBookAction.execute(event.item);
-        break;
-      case 'toggle':
-        // Handle book toggle logic
         break;
     }
   }

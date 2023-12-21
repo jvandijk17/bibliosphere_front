@@ -34,10 +34,11 @@ export class BreadcrumbComponent implements OnInit {
     this.isInitialized = true;
   }
 
-  isAddRoute(): boolean {
+  isAddOrEditRoute(): boolean {
     const currentRoute = this.router.url;
-    return currentRoute.endsWith('/add');
+    return /\/add$|\/edit\/\d+$/.test(currentRoute);
   }
+
 
   private setActionFromRouteData(route: ActivatedRoute): void {
     while (route.firstChild) {

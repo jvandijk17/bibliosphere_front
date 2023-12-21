@@ -13,6 +13,12 @@ const routes: Routes = [
     component: BookFormComponent,
     canActivate: [AuthGuard],
     data: { breadcrumb: 'Add Book' }
+  },
+  {
+    path: 'edit/:id',
+    component: BookFormComponent,
+    canActivate: [AuthGuard],
+    data: { breadcrumb: 'Edit Book' }
   }
 ];
 

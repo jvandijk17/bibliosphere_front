@@ -67,11 +67,21 @@ export class BookService {
     });
   }
 
+  updateBook(bookId: number, bookData: Book): Observable<Book> {
+    return this.bookRepository.updateBook(this.apiDomain, bookId, bookData).pipe(
+      tap(updatedBook => {
+        const index = this._bookList.findIndex(book => book.id === updatedBook.id);
+        if (index !== -1) {
+          this._bookList[index] = updatedBook;
+        }
+      })
+    );
+  }
+
   deleteBook(bookId: number): Observable<any> {
     return this.bookRepository.deleteBook(this.apiDomain, bookId).pipe(
       tap(() => {
         this._bookList = this._bookList.filter(book => book.id !== bookId);
-        // Notify other components about the deletion
       })
     );
   }
