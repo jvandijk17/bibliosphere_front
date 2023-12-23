@@ -37,27 +37,7 @@ export class BookService {
       this.bookRepository.createBook(this.apiDomain, bookData).subscribe({
         next: (book) => {
           this._bookList.push(book);
-
-          if (bookData.bookCategoryId && book.id) {
-            const data = {
-              book: book.id,
-              category: bookData.bookCategoryId
-            };
-            this.bookCategoryService.createBookCategories(data).subscribe({
-              next: (bookCategoryResponse) => {
-                console.log('Book category created successfully:', bookCategoryResponse);
-                observer.next(book);
-                observer.complete();
-              },
-              error: (error) => {
-                console.error('Error creating book category:', error);
-                observer.error(error);
-              }
-            });
-          } else {
-            observer.next(book);
-            observer.complete();
-          }
+          this.handleBookCategories(book, bookData.bookCategoryIds || [], observer);
         },
         error: (error) => {
           console.error('Error creating book:', error);
@@ -68,14 +48,48 @@ export class BookService {
   }
 
   updateBook(bookId: number, bookData: Book): Observable<Book> {
-    return this.bookRepository.updateBook(this.apiDomain, bookId, bookData).pipe(
-      tap(updatedBook => {
-        const index = this._bookList.findIndex(book => book.id === updatedBook.id);
-        if (index !== -1) {
-          this._bookList[index] = updatedBook;
+    return new Observable((observer) => {
+      this.bookRepository.updateBook(this.apiDomain, bookId, bookData).subscribe({
+        next: (updatedBook) => {
+          this.handleBookCategories(updatedBook, bookData.bookCategoryIds || [], observer);
+          const index = this._bookList.findIndex(book => book.id === updatedBook.id);
+          if (index !== -1) {
+            this._bookList[index] = updatedBook;
+          }
+          observer.next(updatedBook);
+          observer.complete();
+        },
+        error: (error) => {
+          console.error('Error updating book:', error);
+          observer.error(error);
         }
-      })
-    );
+      });
+    });
+  }
+
+  private handleBookCategories(book: Book, categoryIds: number[] | number | undefined, observer: any) {
+    const categoryIdsArray = Array.isArray(categoryIds) ? categoryIds : (categoryIds ? [categoryIds] : []);
+
+    if (categoryIdsArray.length > 0 && book.id) {
+      const data = {
+        book: book.id,
+        category: categoryIdsArray
+      };
+      this.bookCategoryService.createBookCategories(data).subscribe({
+        next: (bookCategoryResponse) => {
+          console.log('Book category created/updated successfully:', bookCategoryResponse);
+          observer.next(book);
+          observer.complete();
+        },
+        error: (error) => {
+          console.error('Error creating/updating book category:', error);
+          observer.error(error);
+        }
+      });
+    } else {
+      observer.next(book);
+      observer.complete();
+    }
   }
 
   deleteBook(bookId: number): Observable<any> {
@@ -85,7 +99,5 @@ export class BookService {
       })
     );
   }
-
-
 
 }

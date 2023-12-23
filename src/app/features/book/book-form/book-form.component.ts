@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-book-form',
@@ -47,14 +48,14 @@ export class BookFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadBookCategories();
+    this.loadLibraries();
     this.route.paramMap.subscribe(params => {
       const bookId = params.get('id');
       if (bookId) {
         this.loadBookData(+bookId);
         this.title = 'Edit Book';
       }
-      this.loadBookCategories();
-      this.loadLibraries();
     });
   }
 
@@ -75,38 +76,30 @@ export class BookFormComponent implements OnInit {
   }
 
   private loadBookData(bookId: number) {
-    this.bookService.getBook(bookId).subscribe({
-      next: (book: Book) => {
+    this.loadingService.setLoading(true);
+    forkJoin([
+      this.bookService.getBook(bookId),
+      this.libraryService.fetchAllLibrariesPreview(),
+      this.categoryService.fetchAllCategories()
+    ]).subscribe({
+      next: ([book]) => {
+        console.log(book);
         this.bookData = book;
-        const formValue = this.formatApiDataToForm(book);
-        this.bookForm.patchValue(formValue);
-        console.log(this.bookForm);
         this.cd.detectChanges();
+        this.loadingService.setLoading(false);
       },
       error: (error) => {
         console.error('Error loading book data:', error);
+        this.loadingService.setLoading(false);
       }
     });
   }
 
-  private formatApiDataToForm(apiData: any): any {
-    return {
-      title: apiData.title,
-      author: apiData.author,
-      publisher: apiData.publisher,
-      isbn: apiData.isbn,
-      publication_year: apiData.publication_year.split('T')[0],
-      page_count: apiData.page_count,
-      bookCategoryId: apiData.bookCategoryIds,
-      library: apiData.libraryId
-    };
-  }
-
-
   loadBookCategories() {
+    this.loadingService.setLoading(true);
     this.categoryService.fetchAllCategories().subscribe({
       next: (data: Category[]) => {
-        this.updateFormConfigOptions('bookCategoryId', data.map(cat => ({ value: cat.id, label: `${cat.name}` })));
+        this.updateFormConfigOptions('bookCategoryIds', data.map((cat: Category) => ({ value: cat.id, label: cat.name })));
         this.loadingService.setLoading(false);
       },
       error: (error) => {
@@ -117,9 +110,10 @@ export class BookFormComponent implements OnInit {
   }
 
   loadLibraries() {
+    this.loadingService.setLoading(true);
     this.libraryService.fetchAllLibrariesPreview().subscribe({
       next: (data: Library[]) => {
-        this.updateFormConfigOptions('library', data.map(lib => ({ value: lib.id, label: `${lib.name} - ${lib.city}` })));
+        this.updateFormConfigOptions('libraryId', data.map((lib: Library) => ({ value: lib.id, label: `${lib.name} - ${lib.city}` })));
         this.loadingService.setLoading(false);
       },
       error: error => {

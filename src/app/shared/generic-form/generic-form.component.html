@@ -28,7 +28,7 @@
 
                         <mat-form-field *ngIf="control.type === 'select'" appearance="fill" class="w-100">
                             <mat-label>{{ control.label }}</mat-label>
-                            <mat-select [formControlName]="control.name" [multiple]="control.multiple">
+                            <mat-select [formControlName]="control.name" [multiple]="control.multiple" [compareWith]="compareFn">
                                 <mat-option *ngFor="let option of control.options" [value]="option.value">
                                     {{ option.label }}
                                 </mat-option>

@@ -36,7 +36,7 @@ export const BOOK_FORM_CONFIG = [
         validators: { required: true }
     },
     {
-        name: 'bookCategoryId',
+        name: 'bookCategoryIds',
         label: 'Book Categories',
         type: 'select',
         options: [],
@@ -44,7 +44,7 @@ export const BOOK_FORM_CONFIG = [
         multiple: true
     },
     {
-        name: 'library',
+        name: 'libraryId',
         label: 'Select a Library',
         type: 'select',
         options: [],
