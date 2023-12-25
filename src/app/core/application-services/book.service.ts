@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { IBookRepository } from '../domain/interfaces/book-repository.interface';
 import { Book } from '../domain/models/book.model';
 import { BookCategoryService } from './book-category.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, forkJoin, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -67,30 +67,34 @@ export class BookService {
     });
   }
 
-  private handleBookCategories(book: Book, categoryIds: number[] | number | undefined, observer: any) {
-    const categoryIdsArray = Array.isArray(categoryIds) ? categoryIds : (categoryIds ? [categoryIds] : []);
+  private handleBookCategories(book: Book, newCategoryIds: number[] | number | undefined, observer: any) {
+    const newCategoryIdsArray = Array.isArray(newCategoryIds) ? newCategoryIds : (newCategoryIds ? [newCategoryIds] : []);
 
-    if (categoryIdsArray.length > 0 && book.id) {
-      const data = {
-        book: book.id,
-        category: categoryIdsArray
-      };
-      this.bookCategoryService.createBookCategories(data).subscribe({
-        next: (bookCategoryResponse) => {
-          console.log('Book category created/updated successfully:', bookCategoryResponse);
-          observer.next(book);
-          observer.complete();
-        },
-        error: (error) => {
-          console.error('Error creating/updating book category:', error);
-          observer.error(error);
-        }
-      });
-    } else {
-      observer.next(book);
-      observer.complete();
-    }
+    this.bookCategoryService.fetchBookCategoriesByBookId(book.id).subscribe({
+      next: (currentCategoryIds) => {
+        const categoriesToAdd = newCategoryIdsArray.filter(id => !currentCategoryIds.includes(id));
+        const categoriesToRemove = currentCategoryIds.filter(id => !newCategoryIdsArray.includes(id));
+
+        const addObservable = categoriesToAdd.length > 0
+          ? this.bookCategoryService.createBookCategories({ book: book.id, category: categoriesToAdd })
+          : of(null);
+
+        const removeObservable = categoriesToRemove.length > 0
+          ? this.bookCategoryService.deleteBookCategories(categoriesToRemove)
+          : of(null);
+
+        forkJoin([addObservable, removeObservable]).subscribe({
+          next: () => {
+            observer.next(book);
+            observer.complete();
+          },
+          error: (error) => observer.error(error)
+        });
+      },
+      error: (error) => observer.error(error)
+    });
   }
+
 
   deleteBook(bookId: number): Observable<any> {
     return this.bookRepository.deleteBook(this.apiDomain, bookId).pipe(

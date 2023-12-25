@@ -47,7 +47,6 @@ export class LibraryService {
         return new Observable((observer) => {
             this.libraryRepository.createLibrary(this.apiDomain, libraryData).subscribe({
                 next: (library) => {
-                    console.log('Library created successfully: ', library);
                     observer.next(library);
                     observer.complete();
                 },

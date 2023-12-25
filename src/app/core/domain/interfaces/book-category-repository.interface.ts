@@ -5,5 +5,6 @@ export interface IBookCategoryRepository {
 
     getAllBookCategories(apiDomain: string): Observable<any>;
     createBookCategory(apiDomain: string, bookCategoryData: any): Observable<BookCategory>;
+    deleteBookCategory(apiDomain: string, bookCategoryId: number): Observable<any>;
 
 }

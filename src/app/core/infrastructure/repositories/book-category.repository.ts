@@ -23,4 +23,8 @@ export class BookCategoryRepository implements IBookCategoryRepository {
         return this.http.post<BookCategory>(apiDomain + this.endpoints['create'], bookCategoryData);
     }
 
+    deleteBookCategory(apiDomain: string, bookCategoryId: number): Observable<any> {
+        return this.http.delete(apiDomain + this.endpoints['delete'].replace(':id', bookCategoryId.toString()));
+    }    
+
 }

@@ -83,7 +83,10 @@ export class BookFormComponent implements OnInit {
       this.categoryService.fetchAllCategories()
     ]).subscribe({
       next: ([book]) => {
-        console.log(book);
+        let categoryIds: number[] = [];
+        if (book && book.bookCategories) {
+          categoryIds = book.bookCategories.map(bc => bc.categoryId).filter(id => id !== undefined) as number[];
+        }
         this.bookData = book;
         this.cd.detectChanges();
         this.loadingService.setLoading(false);
