@@ -15,7 +15,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
+import { Observable, of, forkJoin, tap, catchError } from 'rxjs';
+import { BookCategoryService } from 'src/app/core/application-services/book-category.service';
 
 @Component({
   selector: 'app-book-form',
@@ -29,13 +31,14 @@ export class BookFormComponent implements OnInit {
   isAdmin: boolean;
   errorMsg = '';
   bookFormConfig: FormFieldConfig[];
-  title: string = 'Register Book';
+  title = 'Register Book';
 
   constructor(
     private bookService: BookService,
     private roleService: RoleService,
     private libraryService: LibraryService,
     private categoryService: CategoryService,
+    private bookCategoryService: BookCategoryService,
     private loadingService: LoadingService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
@@ -48,13 +51,30 @@ export class BookFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadBookCategories();
-    this.loadLibraries();
     this.route.paramMap.subscribe(params => {
       const bookId = params.get('id');
       if (bookId) {
-        this.loadBookData(+bookId);
-        this.title = 'Edit Book';
+        this.loadBookData(+bookId).subscribe(() => {
+          this.loadInitialData();
+          this.title = 'Edit Book';
+        });
+      } else {
+        this.loadInitialData();
+      }
+    });
+  }
+
+  loadInitialData() {
+    forkJoin([
+      this.loadBookCategories(),
+      this.loadLibraries(),
+    ]).subscribe({
+      next: () => {
+        this.cd.detectChanges();
+      },
+      error: error => {
+        console.error('Error loading data:', error);
+        this.errorMsg = 'Failed to load data. Please try again later.';
       }
     });
   }
@@ -75,55 +95,59 @@ export class BookFormComponent implements OnInit {
     return validators;
   }
 
-  private loadBookData(bookId: number) {
+  private loadBookData(bookId: number): Observable<any> {
     this.loadingService.setLoading(true);
-    forkJoin([
-      this.bookService.getBook(bookId),
-      this.libraryService.fetchAllLibrariesPreview(),
-      this.categoryService.fetchAllCategories()
-    ]).subscribe({
-      next: ([book]) => {
-        let categoryIds: number[] = [];
-        if (book && book.bookCategories) {
-          categoryIds = book.bookCategories.map(bc => bc.categoryId).filter(id => id !== undefined) as number[];
+    return this.bookService.getBook(bookId).pipe(
+      switchMap((book: Book) => {
+        if (book) {
+          return this.bookCategoryService.fetchBookCategoriesByBookId(book.id).pipe(
+            map((categoryIds: number[]) => {
+              book.bookCategoryIds = categoryIds;
+              this.bookData = book;
+              this.cd.detectChanges();
+              this.loadingService.setLoading(false);
+              return book;
+            })
+          );
         }
-        this.bookData = book;
-        this.cd.detectChanges();
-        this.loadingService.setLoading(false);
-      },
-      error: (error) => {
+        return of(book);
+      }),
+      catchError(error => {
         console.error('Error loading book data:', error);
         this.loadingService.setLoading(false);
-      }
-    });
+        return of(null);
+      })
+    );
   }
 
-  loadBookCategories() {
+  loadBookCategories(): Observable<Category[]> {
     this.loadingService.setLoading(true);
-    this.categoryService.fetchAllCategories().subscribe({
-      next: (data: Category[]) => {
-        this.updateFormConfigOptions('bookCategoryIds', data.map((cat: Category) => ({ value: cat.id, label: cat.name })));
+    return this.categoryService.fetchAllCategories().pipe(
+      tap((data: Category[]) => {
+        this.updateFormConfigOptions('bookCategoryIds', data.map(cat => ({ value: cat.id, label: cat.name })));
         this.loadingService.setLoading(false);
-      },
-      error: (error) => {
-        this.errorMsg = 'Failed to load book categories. Please try again later.';
-        console.error(error);
-      }
-    });
+      }),
+      catchError(error => {
+        console.error('Error loading book categories:', error);
+        return of([]);
+      })
+    );
   }
 
-  loadLibraries() {
+  loadLibraries(): Observable<Library[]> {
     this.loadingService.setLoading(true);
-    this.libraryService.fetchAllLibrariesPreview().subscribe({
-      next: (data: Library[]) => {
-        this.updateFormConfigOptions('libraryId', data.map((lib: Library) => ({ value: lib.id, label: `${lib.name} - ${lib.city}` })));
+    return this.libraryService.fetchAllLibrariesPreview().pipe(
+      tap((data: Library[]) => {
+        this.updateFormConfigOptions('libraryId', data.map(lib => ({ value: lib.id, label: `${lib.name} - ${lib.city}` })));
         this.loadingService.setLoading(false);
-      },
-      error: error => {
-        console.error('Error loading libraries: ', error);
-      },
-    });
+      }),
+      catchError(error => {
+        console.error('Error loading libraries:', error);
+        return of([]);
+      })
+    );
   }
+
 
   updateFormConfigOptions(fieldName: string, options: any[]) {
     const field = this.bookFormConfig.find(f => f.name === fieldName);

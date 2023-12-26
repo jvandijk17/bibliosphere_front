@@ -28,28 +28,28 @@ export class BookCategoryService {
         );
     }
 
+    fetchBookCategoriesByBookId(bookId: number): Observable<number[]> {
+        return this.fetchAllCategories().pipe(
+            map(bookCategories => bookCategories
+                .filter(bc => bc.bookId === bookId && bc.categoryId !== undefined)
+                .map(bc => bc.categoryId as number)
+            )
+        );
+    }
+
     createBookCategories(bookCategoriesData: BookCategoriesData): Observable<BookCategory[]> {
         return Array.isArray(bookCategoriesData.category)
             ? this.createMultipleBookCategories(bookCategoriesData)
             : this.createSingleBookCategory(bookCategoriesData);
     }
 
-    fetchBookCategoriesByBookId(bookId: number): Observable<number[]> {
-        return this.fetchAllCategories().pipe(
-            map(bookCategories => bookCategories
-                .filter(bc => bc.bookId === bookId && bc.categoryId !== undefined)
-                .map(bc => bc.id as number)
-            )
-        );
-    }
-
     public deleteBookCategories(categoryIds: number[]): Observable<any> {
-        const deleteObservables = categoryIds.map(categoryId => 
+        const deleteObservables = categoryIds.map(categoryId =>
             this.bookCategoryRepository.deleteBookCategory(this.apiDomain, categoryId)
         );
-    
+
         return forkJoin(deleteObservables);
-    }    
+    }
 
     private createMultipleBookCategories(bookCategoriesData: BookCategoriesData): Observable<BookCategory[]> {
         const observables = (bookCategoriesData.category as number[]).map(categoryId =>
@@ -75,7 +75,7 @@ export class BookCategoryService {
     private createBookCategoryRequest(bookId: number, categoryId: number): Observable<BookCategory> {
         const data = { book: bookId, category: categoryId };
         return this.bookCategoryRepository.createBookCategory(this.apiDomain, data);
-    }    
+    }
 
     private updateBookCategoryList(newCategories: BookCategory[]): void {
         this._bookCategoryList = [...this._bookCategoryList, ...newCategories];

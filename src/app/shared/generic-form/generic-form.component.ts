@@ -75,7 +75,8 @@ export class GenericFormComponent implements OnInit {
   }
 
   compareFn(c1: any, c2: any): boolean {
-    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+    const comparisonResult = c1 === c2;
+    return comparisonResult;
   }
 
 }
