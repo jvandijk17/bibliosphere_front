@@ -1,19 +1,25 @@
 import { Inject, Injectable } from '@angular/core';
 import { IBookRepository } from '../domain/interfaces/book-repository.interface';
 import { Book } from '../domain/models/book.model';
+import { Category } from '../domain/models/category.model';
 import { BookCategoryService } from './book-category.service';
-import { Observable, tap, forkJoin, of } from 'rxjs';
+import { CategoryService } from './category.service';
+import { Observable, Subject, tap, forkJoin, of, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
+
   private _bookList: Book[] = [];
+  private bookUpdatedSource = new Subject<Book>();
+  bookUpdated$ = this.bookUpdatedSource.asObservable();
 
   constructor(
     @Inject('BookRepositoryToken') private readonly bookRepository: IBookRepository,
     @Inject('API_DOMAIN') private readonly apiDomain: string,
-    private readonly bookCategoryService: BookCategoryService
+    private readonly bookCategoryService: BookCategoryService,
+    private readonly categoryService: CategoryService
   ) { }
 
   get books(): Book[] {
@@ -55,7 +61,9 @@ export class BookService {
           const index = this._bookList.findIndex(book => book.id === updatedBook.id);
           if (index !== -1) {
             this._bookList[index] = updatedBook;
+            console.log(this._bookList[index]);
           }
+          this.bookUpdatedSource.next(updatedBook);
           observer.next(updatedBook);
           observer.complete();
         },
@@ -65,6 +73,14 @@ export class BookService {
         }
       });
     });
+  }
+
+  deleteBook(bookId: number): Observable<any> {
+    return this.bookRepository.deleteBook(this.apiDomain, bookId).pipe(
+      tap(() => {
+        this._bookList = this._bookList.filter(book => book.id !== bookId);
+      })
+    );
   }
 
   private handleBookCategories(book: Book, newCategoryIds: number[] | number | undefined, observer: any) {
@@ -85,8 +101,12 @@ export class BookService {
 
         forkJoin([addObservable, removeObservable]).subscribe({
           next: () => {
-            observer.next(book);
-            observer.complete();
+            this.fetchCategoryNames(newCategoryIdsArray).subscribe(categoryNames => {
+              book.bookCategoryIds = newCategoryIdsArray;
+              book.bookCategoryNames = categoryNames;
+              observer.next(book);
+              observer.complete();
+            });
           },
           error: (error) => observer.error(error)
         });
@@ -95,11 +115,12 @@ export class BookService {
     });
   }
 
-  deleteBook(bookId: number): Observable<any> {
-    return this.bookRepository.deleteBook(this.apiDomain, bookId).pipe(
-      tap(() => {
-        this._bookList = this._bookList.filter(book => book.id !== bookId);
-      })
+  private fetchCategoryNames(categoryIds: number[]): Observable<string[]> {
+    return this.categoryService.fetchAllCategories().pipe(
+      map((categories: Category[]) => categories
+        .filter((category: Category) => categoryIds.includes(category.id))
+        .map((category: Category) => category.name)
+      )
     );
   }
 

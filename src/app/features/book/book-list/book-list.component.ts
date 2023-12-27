@@ -49,6 +49,9 @@ export class BookListComponent implements OnInit {
     this.loadingComplete$.subscribe(() => {
       this.subscribeToDataSourceChanges();
     });
+    this.bookService.bookUpdated$.subscribe(updatedBook => {
+      this.updateBookRow(updatedBook);
+    });
   }
 
   getAllBooks(): void {
@@ -89,7 +92,7 @@ export class BookListComponent implements OnInit {
         this.loanDetailsAction.execute(event.item.activeLoanId);
         break;
       case 'edit':
-        this.editBookAction.execute(event.item);  
+        this.editBookAction.execute(event.item);
         break;
       case 'delete':
         this.deleteBookAction.execute(event.item);
@@ -103,6 +106,15 @@ export class BookListComponent implements OnInit {
 
   hasLoans(book: Book): boolean {
     return !!book.activeLoanId;
+  }
+
+  private updateBookRow(updatedBook: Book) {
+    const bookIndex = this.books.data.findIndex(book => book.id === updatedBook.id);
+    if (bookIndex !== -1) {
+      this.books.data[bookIndex] = updatedBook;
+      this.books = new MatTableDataSource([...this.books.data]);
+      this.books.sort = this.sort;
+    }
   }
 
 }

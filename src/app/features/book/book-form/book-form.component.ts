@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { Category } from 'src/app/core/domain/models/category.model';
 import { Book } from 'src/app/core/domain/models/book.model';
@@ -43,7 +44,8 @@ export class BookFormComponent implements OnInit {
     private notificationService: NotificationService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private router: Router
   ) {
     this.isAdmin = this.roleService.isAdmin;
     this.bookFormConfig = BOOK_FORM_CONFIG;
@@ -163,13 +165,17 @@ export class BookFormComponent implements OnInit {
     }
 
     if (formData) {
+      this.loadingService.setLoading(true);
       const bookId = this.route.snapshot.params['id'];
       if (bookId) {
         this.bookService.updateBook(bookId, formData).subscribe({
           next: () => {
+            this.router.navigate(['/book']);
+            this.loadingService.setLoading(false);
             this.notificationService.showAlert('Book updated successfully!');
           },
           error: (error) => {
+            this.loadingService.setLoading(false);
             this.notificationService.showAlert('Failed to update the book!');
             console.error(error);
           }
@@ -177,9 +183,12 @@ export class BookFormComponent implements OnInit {
       } else {
         this.bookService.createBook(formData).subscribe({
           next: () => {
+            this.router.navigate(['/book']);
+            this.loadingService.setLoading(false);
             this.notificationService.showAlert('Book created successfully!');
           },
           error: (error) => {
+            this.loadingService.setLoading(false);
             this.notificationService.showAlert('Failed to create a book!');
             console.error(error);
           }
