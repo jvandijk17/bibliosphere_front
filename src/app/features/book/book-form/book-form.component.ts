@@ -101,8 +101,8 @@ export class BookFormComponent implements OnInit {
       switchMap((book: Book) => {
         if (book) {
           return this.bookCategoryService.fetchBookCategoriesByBookId(book.id).pipe(
-            map((categoryIds: number[]) => {
-              book.bookCategoryIds = categoryIds;
+            map((categories: { categoryId: number, bookCategoryId: number }[]) => {
+              book.bookCategoryIds = categories.map(c => c.categoryId);
               this.bookData = book;
               this.cd.detectChanges();
               this.loadingService.setLoading(false);

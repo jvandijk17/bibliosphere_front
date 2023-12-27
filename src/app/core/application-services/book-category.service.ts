@@ -28,11 +28,11 @@ export class BookCategoryService {
         );
     }
 
-    fetchBookCategoriesByBookId(bookId: number): Observable<number[]> {
+    fetchBookCategoriesByBookId(bookId: number): Observable<{ categoryId: number, bookCategoryId: number }[]> {
         return this.fetchAllCategories().pipe(
             map(bookCategories => bookCategories
                 .filter(bc => bc.bookId === bookId && bc.categoryId !== undefined)
-                .map(bc => bc.categoryId as number)
+                .map(bc => { return { categoryId: bc.categoryId as number, bookCategoryId: bc.id }; })
             )
         );
     }
@@ -43,12 +43,12 @@ export class BookCategoryService {
             : this.createSingleBookCategory(bookCategoriesData);
     }
 
-    public deleteBookCategories(categoryIds: number[]): Observable<any> {
-        const deleteObservables = categoryIds.map(categoryId =>
-            this.bookCategoryRepository.deleteBookCategory(this.apiDomain, categoryId)
+    public deleteBookCategory(bookCategoryId: number): Observable<any> {
+        return this.bookCategoryRepository.deleteBookCategory(this.apiDomain, bookCategoryId).pipe(
+            tap(() => {
+                this._bookCategoryList = this._bookCategoryList.filter(bc => bc.id !== bookCategoryId);
+            })
         );
-
-        return forkJoin(deleteObservables);
     }
 
     private createMultipleBookCategories(bookCategoriesData: BookCategoriesData): Observable<BookCategory[]> {

@@ -71,16 +71,16 @@ export class BookService {
     const newCategoryIdsArray = Array.isArray(newCategoryIds) ? newCategoryIds : (newCategoryIds ? [newCategoryIds] : []);
 
     this.bookCategoryService.fetchBookCategoriesByBookId(book.id).subscribe({
-      next: (currentCategoryIds) => {
-        const categoriesToAdd = newCategoryIdsArray.filter(id => !currentCategoryIds.includes(id));
-        const categoriesToRemove = currentCategoryIds.filter(id => !newCategoryIdsArray.includes(id));
+      next: (currentCategories) => {
+        const categoriesToAdd = newCategoryIdsArray.filter(id => !currentCategories.map(c => c.categoryId).includes(id));
+        const categoriesToRemove = currentCategories.filter(c => !newCategoryIdsArray.includes(c.categoryId));
 
         const addObservable = categoriesToAdd.length > 0
           ? this.bookCategoryService.createBookCategories({ book: book.id, category: categoriesToAdd })
           : of(null);
 
         const removeObservable = categoriesToRemove.length > 0
-          ? this.bookCategoryService.deleteBookCategories(categoriesToRemove)
+          ? forkJoin(categoriesToRemove.map(category => this.bookCategoryService.deleteBookCategory(category.bookCategoryId)))
           : of(null);
 
         forkJoin([addObservable, removeObservable]).subscribe({
@@ -94,7 +94,6 @@ export class BookService {
       error: (error) => observer.error(error)
     });
   }
-
 
   deleteBook(bookId: number): Observable<any> {
     return this.bookRepository.deleteBook(this.apiDomain, bookId).pipe(
