@@ -9,12 +9,14 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CategoryService } from 'src/app/core/application-services/category.service';
 import { CategoryListConfig } from './category-list/category-list.config';
+import { CategoryFormComponent } from './category-form/category-form.component';
 
 
 @NgModule({
   declarations: [
     CategoryComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    CategoryFormComponent
   ],
   imports: [
     CommonModule,

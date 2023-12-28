@@ -28,7 +28,7 @@ export class BookRepository implements IBookRepository {
     }
 
     updateBook(apiDomain: string, bookId: number, bookData: any): Observable<Book> {
-        return this.http.put<Book>(`${apiDomain}${this.endpoints['update'].replace(':id', bookId.toString())}`, bookData);
+        return this.http.put<Book>(apiDomain + this.endpoints['update'].replace(':id', bookId.toString()), bookData);
     }
 
     deleteBook(apiDomain: string, bookId: number): Observable<any> {

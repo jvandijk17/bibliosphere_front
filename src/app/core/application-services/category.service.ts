@@ -26,12 +26,27 @@ export class CategoryService {
     );
   }
 
+  getCategory(id: number) {
+    return this.categoryRepository.getCategory(this.apiDomain, +id);
+  }
+
   createCategory(categoryData: any): Observable<Category> {
     return this.categoryRepository.createCategory(this.apiDomain, categoryData).pipe(
       tap(category => {
         this._categoryList.push(category);
       })
     )
+  }
+
+  updateCategory(categoryId: number, categoryData: Category): Observable<Category> {
+    return this.categoryRepository.updateCategory(this.apiDomain, categoryId, categoryData).pipe(
+      tap(updatedCategory => {
+        const index = this._categoryList.findIndex(category => category.id === updatedCategory.id);
+        if (index !== -1) {
+          this._categoryList[index] = updatedCategory;
+        }
+      })
+    );
   }
 
 }

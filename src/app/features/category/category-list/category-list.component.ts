@@ -8,6 +8,7 @@ import { LoadingService } from 'src/app/core/infrastructure/services/loading.ser
 import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { CategoryListConfig } from './category-list.config';
 import { Observable } from 'rxjs';
+import { EditCategoryAction } from '../strategies/edit-category.action';
 
 @Component({
   selector: 'app-category-list',
@@ -26,7 +27,8 @@ export class CategoryListComponent implements OnInit {
     private categoryService: CategoryService,
     private loadingService: LoadingService,
     private roleService: RoleService,
-    private categoryListConfig: CategoryListConfig
+    private categoryListConfig: CategoryListConfig,
+    private editCategoryAction: EditCategoryAction,
   ) {
     this.isLoading$ = this.loadingService.loading$;
     this.displayedColumns = this.categoryListConfig.getColumnsByRole(this.roleService)
@@ -59,7 +61,7 @@ export class CategoryListComponent implements OnInit {
 
         break;
       case 'edit':
-
+        this.editCategoryAction.execute(event.item);
         break;
       case 'delete':
 

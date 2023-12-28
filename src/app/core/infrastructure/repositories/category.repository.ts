@@ -19,8 +19,16 @@ export class CategoryRepository implements ICategoryRepository {
         return this.http.get(apiDomain + this.endpoints['getAll']);
     }
 
+    getCategory(apiDomain: string, categoryId: number): Observable<Category> {
+        return this.http.get<Category>(apiDomain + this.endpoints['specific'].replace(':id', categoryId.toString()));
+    }
+
     createCategory(apiDomain: string, categoryData: any): Observable<Category> {
         return this.http.post<Category>(apiDomain + this.endpoints['create'], categoryData);
+    }
+
+    updateCategory(apiDomain: string, categoryId: number, categoryData: any): Observable<Category> {
+        return this.http.put<Category>(apiDomain + this.endpoints['update'].replace(':id', categoryId.toString()), categoryData);
     }
 
 }

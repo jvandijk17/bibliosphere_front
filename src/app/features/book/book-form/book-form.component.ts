@@ -150,7 +150,6 @@ export class BookFormComponent implements OnInit {
     );
   }
 
-
   updateFormConfigOptions(fieldName: string, options: any[]) {
     const field = this.bookFormConfig.find(f => f.name === fieldName);
     if (field) {
