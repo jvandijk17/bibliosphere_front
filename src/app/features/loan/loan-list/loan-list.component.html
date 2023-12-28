@@ -1,5 +1,24 @@
 <ng-container *ngIf="loans && loans.data.length > 0; else noLoans">
-    <app-generic-table [data]="loans" [columnsConfig]="displayedColumns">
+    <app-generic-table [data]="loans" [columnsConfig]="displayedColumns" [dropdownMenuTemplate]="dropdownMenu">
+        <ng-template #dropdownMenu let-item>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="handleAction({action: 'view', item: item})">
+                    <mat-icon>pageview</mat-icon>
+                    <span>View Details</span>
+                </button>
+                <button mat-menu-item (click)="handleAction({action: 'view-book', item: item})">
+                    <mat-icon>menu_book</mat-icon>
+                    <span>View Book</span>
+                </button>
+                <button mat-menu-item (click)="handleAction({action: 'view-user', item: item})">
+                    <mat-icon>person_search</mat-icon>
+                    <span>View User</span>
+                </button>
+            </mat-menu>
+        </ng-template>
     </app-generic-table>
 </ng-container>
 

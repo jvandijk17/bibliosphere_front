@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { LoanService } from 'src/app/core/application-services/loan.service';
 import { LoadingService } from 'src/app/core/infrastructure/services/loading.service';
+import { ViewLoanDetailsAction } from '../strategies/view-loan-details.action';
+import { ViewBookDetailsAction } from '../strategies/view-book-details.action';
+import { ViewUserDetailsAction } from '../strategies/view-user-details.action';
 
 @Component({
   selector: 'app-loan-list',
@@ -25,7 +28,10 @@ export class LoanListComponent implements OnInit {
   constructor(
     private loanService: LoanService,
     private loadingService: LoadingService,
-    private loanListConfig: LoanListConfig
+    private loanListConfig: LoanListConfig,
+    private viewLoanDetails: ViewLoanDetailsAction,
+    private viewBookDetails: ViewBookDetailsAction,
+    private viewUserDetails: ViewUserDetailsAction
   ) {
     this.isLoading$ = this.loadingService.loading$;
     this.displayedColumns = this.loanListConfig.getColumns();
@@ -35,7 +41,7 @@ export class LoanListComponent implements OnInit {
     this.getAllLoans();
   }
 
-  getAllLoans(callback?: () => void) {
+  getAllLoans() {
     this.loadingService.setLoading(true);
 
     this.loanService.fetchAllLoans().subscribe({
@@ -53,17 +59,14 @@ export class LoanListComponent implements OnInit {
 
   handleAction(event: { action: string, item: Loan }) {
     switch (event.action) {
-      case 'create':
-        // TODO
+      case 'view':
+        this.viewLoanDetails.execute(event.item.id);
         break;
-      case 'user-details':
-        // Handle user-details logic
+      case 'view-book':
+        this.viewBookDetails.execute(event.item.bookId);
         break;
-      case 'book-details':
-        // Handle book-details logic
-        break;
-      case 'delete':
-        // Handle book delete logic
+      case 'view-user':
+        this.viewUserDetails.execute(event.item.userId);
         break;
     }
   }

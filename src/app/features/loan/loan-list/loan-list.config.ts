@@ -39,8 +39,13 @@ export class LoanListConfig {
                 title: 'Return Date',
                 render: (loan) => {
                     const formattedDate = this.datePipe.transform(loan.return_date, 'mediumDate');
-                    return formattedDate ? formattedDate : '';
+                    return formattedDate ? formattedDate : 'Currently Loaned';
                 }
+            },
+            {
+                key: 'dropdown',
+                title: 'Actions',
+                exclude: ['details'],
             }
         ];
     }
