@@ -4,7 +4,8 @@ import { Book } from '../domain/models/book.model';
 import { Category } from '../domain/models/category.model';
 import { BookCategoryService } from './book-category.service';
 import { CategoryService } from './category.service';
-import { Observable, Subject, tap, forkJoin, of, map } from 'rxjs';
+import { EntityDataService } from './entity-data.service';
+import { Observable, tap, forkJoin, of, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,13 @@ import { Observable, Subject, tap, forkJoin, of, map } from 'rxjs';
 export class BookService {
 
   private _bookList: Book[] = [];
-  private bookUpdatedSource = new Subject<Book>();
-  bookUpdated$ = this.bookUpdatedSource.asObservable();
 
   constructor(
     @Inject('BookRepositoryToken') private readonly bookRepository: IBookRepository,
     @Inject('API_DOMAIN') private readonly apiDomain: string,
     private readonly bookCategoryService: BookCategoryService,
-    private readonly categoryService: CategoryService
+    private readonly categoryService: CategoryService,
+    private bookDataService: EntityDataService<Book>
   ) { }
 
   get books(): Book[] {
@@ -58,14 +58,7 @@ export class BookService {
       this.bookRepository.updateBook(this.apiDomain, bookId, bookData).subscribe({
         next: (updatedBook) => {
           this.handleBookCategories(updatedBook, bookData.bookCategoryIds || [], observer);
-          const index = this._bookList.findIndex(book => book.id === updatedBook.id);
-          if (index !== -1) {
-            this._bookList[index] = updatedBook;
-            console.log(this._bookList[index]);
-          }
-          this.bookUpdatedSource.next(updatedBook);
-          observer.next(updatedBook);
-          observer.complete();
+          this.bookDataService.updateEntity(updatedBook, 'id');
         },
         error: (error) => {
           console.error('Error updating book:', error);
