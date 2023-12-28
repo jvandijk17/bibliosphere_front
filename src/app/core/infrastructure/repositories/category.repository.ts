@@ -31,4 +31,8 @@ export class CategoryRepository implements ICategoryRepository {
         return this.http.put<Category>(apiDomain + this.endpoints['update'].replace(':id', categoryId.toString()), categoryData);
     }
 
+    deleteCategory(apiDomain: string, categoryId: number): Observable<any> {
+        return this.http.delete(apiDomain + this.endpoints['delete'].replace(':id', categoryId.toString()));
+    }
+
 }

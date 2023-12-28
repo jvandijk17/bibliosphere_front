@@ -7,6 +7,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class CategoryService {
+  
   private _categoryList: Category[] = [];
 
   constructor(
@@ -45,6 +46,14 @@ export class CategoryService {
         if (index !== -1) {
           this._categoryList[index] = updatedCategory;
         }
+      })
+    );
+  }
+
+  deleteCategory(categoryId: number): Observable<any> {
+    return this.categoryRepository.deleteCategory(this.apiDomain, categoryId).pipe(
+      tap(() => {
+        this._categoryList = this._categoryList.filter(category => category.id !== categoryId);
       })
     );
   }

@@ -9,6 +9,10 @@
                     <mat-icon>edit</mat-icon>
                     <span>Edit Category</span>
                 </button>
+                <button mat-menu-item (click)="handleAction({action: 'delete', item: item})">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                </button>
             </mat-menu>
         </ng-template>
     </app-generic-table>
