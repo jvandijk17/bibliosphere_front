@@ -59,6 +59,7 @@ export class BookListConfig {
                 actions: {
                     modal: (book) => openLoanDetailsModalFn(book)
                 },
+                displayText: 'Details',
                 fallbackDisplayText: 'No'
             },
             {

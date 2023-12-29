@@ -10,6 +10,7 @@ import { LoadingService } from 'src/app/core/infrastructure/services/loading.ser
 import { ViewLoanDetailsAction } from '../strategies/view-loan-details.action';
 import { ViewBookDetailsAction } from '../strategies/view-book-details.action';
 import { ViewUserDetailsAction } from '../strategies/view-user-details.action';
+import { ReturnLoanAction } from '../strategies/return-loan.action';
 
 @Component({
   selector: 'app-loan-list',
@@ -31,10 +32,11 @@ export class LoanListComponent implements OnInit {
     private loanListConfig: LoanListConfig,
     private viewLoanDetails: ViewLoanDetailsAction,
     private viewBookDetails: ViewBookDetailsAction,
-    private viewUserDetails: ViewUserDetailsAction
+    private viewUserDetails: ViewUserDetailsAction,
+    private returnLoanAction: ReturnLoanAction
   ) {
     this.isLoading$ = this.loadingService.loading$;
-    this.displayedColumns = this.loanListConfig.getColumns();
+    this.displayedColumns = this.loanListConfig.getColumns(this.isLoaned, this.handleReturnLoanAction.bind(this));
   }
 
   ngOnInit(): void {
@@ -68,7 +70,17 @@ export class LoanListComponent implements OnInit {
       case 'view-user':
         this.viewUserDetails.execute(event.item.userId);
         break;
+      case 'return-loan':
+        this.returnLoanAction.execute(event.item)
     }
+  }
+
+  handleReturnLoanAction(loan: Loan) {
+    this.handleAction({ action: 'return-loan', item: loan });
+  }
+
+  isLoaned(loan: Loan): boolean {
+    return !loan.return_date;
   }
 
 }

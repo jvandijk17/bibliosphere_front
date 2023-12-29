@@ -1,13 +1,9 @@
 import { Component, ChangeDetectorRef, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoanService } from 'src/app/core/application-services/loan.service';
-import { LoanReturnService } from 'src/app/core/application-services/loan-return.service';
 import { Loan } from 'src/app/core/domain/models/loan.model';
-import { Book } from 'src/app/core/domain/models/book.model';
-import { NotificationService } from 'src/app/core/application-services/notification.service';
 import { RoleService } from 'src/app/core/application-services/role.service';
-import { BookService } from 'src/app/core/application-services/book.service';
-import { EntityDataService } from 'src/app/core/application-services/entity-data.service';
+import { ReturnLoanAction } from '../strategies/return-loan.action';
 
 @Component({
   selector: 'app-loan-detail',
@@ -21,13 +17,10 @@ export class LoanDetailComponent {
   constructor
     (
       private loanService: LoanService,
-      private loanReturnService: LoanReturnService,
       public roleService: RoleService,
-      private notificationService: NotificationService,
-      private bookService: BookService,
       private route: ActivatedRoute,
       private cdr: ChangeDetectorRef,
-      private entityBookService: EntityDataService<Book>
+      private returnLoanAction: ReturnLoanAction
     ) { }
 
   ngOnInit(): void {
@@ -42,18 +35,8 @@ export class LoanDetailComponent {
   }
 
   returnLoan() {
-    if (this.loan && this.roleService.isAdmin) {
-      this.loanReturnService.returnLoans([this.loan]).then(() => {
-        if (this.loan) {
-          this.bookService.getBook(this.loan.bookId).subscribe(book => {
-            if (book) {
-              this.entityBookService.updateEntity(book, 'id');
-            }
-          });
-        }
-      });
-    } else {
-      this.notificationService.showAlert('You do not have the permission to return the loan.');
+    if (this.loan) {
+      this.returnLoanAction.execute(this.loan);
     }
   }
 

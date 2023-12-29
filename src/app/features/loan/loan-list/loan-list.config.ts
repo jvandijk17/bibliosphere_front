@@ -12,7 +12,7 @@ export class LoanListConfig {
         private datePipe: DatePipe
     ) { }
 
-    getColumns(): ITableColumn<Loan>[] {
+    getColumns(isLoanedFn: Function, returnLoanFn: Function): ITableColumn<Loan>[] {
         return [
             { key: 'id', title: 'ID' },
             {
@@ -41,6 +41,18 @@ export class LoanListConfig {
                     const formattedDate = this.datePipe.transform(loan.return_date, 'mediumDate');
                     return formattedDate ? formattedDate : 'Currently Loaned';
                 }
+            },
+            {
+                key: 'return_loan',
+                type: 'action',
+                title: 'Return Loan',
+                render: (loan) => loan,
+                canDisplay: (loan) => () => isLoanedFn(loan),
+                actions: {
+                    modal: (loan) => returnLoanFn(loan)
+                },
+                displayText: 'Return Book',
+                fallbackDisplayText: 'Available'
             },
             {
                 key: 'dropdown',
