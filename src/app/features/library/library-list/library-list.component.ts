@@ -9,6 +9,7 @@ import { ITableColumn } from 'src/app/shared/models/table-column-config.model';
 import { LibraryListConfig } from './library-list.config';
 import { Observable } from 'rxjs';
 import { ViewLibraryDetailsAction } from '../strategies/view-library-details.action';
+import { EditLibraryAction } from '../strategies/edit-library.action';
 
 @Component({
   selector: 'app-library-list',
@@ -29,7 +30,8 @@ export class LibraryListComponent implements OnInit {
     private loadingService: LoadingService,
     private roleService: RoleService,
     private libraryListConfig: LibraryListConfig,
-    private viewDetails: ViewLibraryDetailsAction
+    private viewDetails: ViewLibraryDetailsAction,
+    private editLibrary: EditLibraryAction
   ) {
     this.isLoading$ = this.loadingService.loading$;
     this.displayedColumns = this.libraryListConfig.getColumnsByRole(this.roleService);
@@ -61,11 +63,8 @@ export class LibraryListComponent implements OnInit {
       case 'view':
         this.viewDetails.execute(event.item);
         break;
-      case 'create':
-
-        break;
       case 'edit':
-
+        this.editLibrary.execute(event.item);
         break;
       case 'delete':
 

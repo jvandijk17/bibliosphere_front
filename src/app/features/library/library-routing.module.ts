@@ -11,6 +11,12 @@ const routes: Routes = [
     component: LibraryFormComponent,
     canActivate: [AuthGuard],
     data: { breadcrumb: 'Add Library' }
+  },
+  {
+    path: 'edit/:id',
+    component: LibraryFormComponent,
+    canActivate: [AuthGuard],
+    data: { breadcrumb: 'Edit Library' }
   }
 ];
 

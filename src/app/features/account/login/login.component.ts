@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {
         if (localStorage.getItem('hasLoggedInBefore')) {
+            this.loadingService.setLoading(false);
             this.notificationService.showAlert('Your session has expired. Please login again.');
         }
     }

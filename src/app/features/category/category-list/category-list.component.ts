@@ -32,8 +32,8 @@ export class CategoryListComponent implements OnInit {
     private loadingService: LoadingService,
     private roleService: RoleService,
     private categoryListConfig: CategoryListConfig,
-    private editCategoryAction: EditCategoryAction,
-    private deleteCategoryAction: DeleteCategoryAction,
+    private editCategory: EditCategoryAction,
+    private deleteCategory: DeleteCategoryAction,
     private entityDataService: EntityDataService<Category>
   ) {
     this.isLoading$ = this.loadingService.loading$;
@@ -80,10 +80,10 @@ export class CategoryListComponent implements OnInit {
   handleAction(event: { action: string, item: Category }) {
     switch (event.action) {
       case 'edit':
-        this.editCategoryAction.execute(event.item);
+        this.editCategory.execute(event.item);
         break;
       case 'delete':
-        this.deleteCategoryAction.execute(event.item);
+        this.deleteCategory.execute(event.item);
         break;
     }
   }

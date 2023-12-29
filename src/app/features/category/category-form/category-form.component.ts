@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from 'src/app/core/application-services/category.service';
@@ -31,7 +31,6 @@ export class CategoryFormComponent implements OnInit {
     private notificationService: NotificationService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef,
     private router: Router
   ) {
     this.isAdmin = this.roleService.isAdmin;
@@ -50,6 +49,20 @@ export class CategoryFormComponent implements OnInit {
     });
   }
 
+  private loadCategoryData(categoryId: number): Observable<any> {
+    this.loadingService.setLoading(true);
+    return this.categoryService.getCategory(categoryId).pipe(
+      tap((category: Category) => {
+        this.categoryData = category;
+        this.loadingService.setLoading(false);
+      }),
+      catchError(error => {
+        console.error('Error loading category:', error);
+        return of([]);
+      })
+    )
+  }
+
   private initializeForm() {
     const formGroup: any = {};
     this.categoryFormConfig.forEach(fieldConfig => {
@@ -64,20 +77,6 @@ export class CategoryFormComponent implements OnInit {
       validators.push(Validators.required);
     }
     return validators;
-  }
-
-  private loadCategoryData(categoryId: number): Observable<any> {
-    this.loadingService.setLoading(true);
-    return this.categoryService.getCategory(categoryId).pipe(
-      tap((category: Category) => {
-        this.categoryData = category;
-        this.loadingService.setLoading(false);
-      }),
-      catchError(error => {
-        console.error('Error loading category:', error);
-        return of([]);
-      })
-    )
   }
 
   onFormSubmit(formData: any): void {

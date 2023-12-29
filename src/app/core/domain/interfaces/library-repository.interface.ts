@@ -7,5 +7,6 @@ export interface ILibraryRepository {
     getAllLibrariesPreview(apiDomain: string): Observable<any>;
     getLibrary(apiDomain: string, id: number): Observable<Library>;
     createLibrary(apiDomain: string, libraryData: any): Observable<Library>;
+    updateLibrary(apiDomain: string, libraryId: number, libraryData: any): Observable<Library>;
 
 }

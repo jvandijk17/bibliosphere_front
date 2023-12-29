@@ -58,4 +58,15 @@ export class LibraryService {
         });
     }
 
+    updateLibrary(libraryId: number, libraryData: Library): Observable<Library> {
+        return this.libraryRepository.updateLibrary(this.apiDomain, libraryId, libraryData).pipe(
+          tap(updatedLibrary => {
+            const index = this._libraryList.findIndex(library => library.id === updatedLibrary.id);
+            if (index !== -1) {
+              this._libraryList[index] = updatedLibrary;
+            }
+          })
+        );
+      }
+
 }
