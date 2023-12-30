@@ -1,5 +1,3 @@
-import { Book } from "./book.model";
-
 export interface Loan {
     id: number;
     loan_date: Date;

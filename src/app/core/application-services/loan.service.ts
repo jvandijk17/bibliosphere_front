@@ -7,7 +7,7 @@ import { ILoanRepository } from "../domain/interfaces/loan-repository.interface"
     providedIn: 'root'
 })
 export class LoanService {
-    
+
     private _loanList: Loan[] = [];
     public loanUpdated = new EventEmitter<Loan>();
 
@@ -43,7 +43,12 @@ export class LoanService {
     }
 
     deleteLoan(id: number): Observable<void> {
-        return this.loanRepository.deleteLoan(this.apiDomain, id);
+        return this.loanRepository.deleteLoan(this.apiDomain, id).pipe(
+            tap(() => {
+                this._loanList = this._loanList.filter(loan => loan.id !== id);
+                this.loanUpdated.emit();
+            })
+        );
     }
 
     getLoansByUserId(userId: number): Observable<Loan[]> {

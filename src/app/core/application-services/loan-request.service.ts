@@ -6,6 +6,7 @@ import { NotificationService } from './notification.service';
 import { LoadingService } from '../infrastructure/services/loading.service';
 import { Book } from '../domain/models/book.model';
 import { EntityDataService } from './entity-data.service';
+import { BookService } from './book.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,6 +17,7 @@ export class LoanRequestService {
         private notificationService: NotificationService,
         private loadingService: LoadingService,
         private loanService: LoanService,
+        private bookService: BookService,
         private bookDataService: EntityDataService<Book>,
     ) { }
 
@@ -46,52 +48,83 @@ export class LoanRequestService {
         ).subscribe();
     }
 
-    approveLoan(loanId: number) {
-
-        if (!loanId) {
-            this.notificationService.showAlert('Loan ID is required.');
-            return throwError(() => new Error('Loan ID is required'));
+    approveLoan(loan: Loan): void {
+        if (!loan) {
+            this.notificationService.showAlert('Loan not found.');
+            return;
         }
 
-        if (!loanId) {
+        if (!loan.id) {
             this.notificationService.showAlert('Loan ID is required.');
-            return throwError(() => new Error('Loan ID is required'));
+            return;
+        }
+
+        if (loan.status !== 'pending') {
+            this.notificationService.showAlert('Loan is not in a pending state.');
+            return;
+        }
+
+
+        const { currentDate, twoMonthsLater } = this.calculateLoanDates();
+
+        const updatedLoan = {
+            ...loan,
+            status: 'accepted',
+            loan_date: currentDate,
+            estimated_return_date: twoMonthsLater
+        };
+
+        this.loanService.updateLoan(loan.id, updatedLoan).pipe(
+            switchMap(() => {
+                return this.bookService.getBook(loan.bookId).pipe(
+                    tap(book => {
+                        book.activeLoanId = loan.id;
+                        this.bookDataService.updateEntity(book, 'id');
+                    })
+                );
+            }),
+            tap(() => this.notificationService.showAlert('Loan request approved.')),
+            catchError(error => {
+                this.notificationService.showAlert('Failed to approve loan.');
+                return throwError(() => error);
+            }),
+            finalize(() => this.loadingService.setLoading(false))
+        ).subscribe();
+    }
+
+    declineLoan(loan: Loan): void {
+        if (!loan) {
+            this.notificationService.showAlert('Loan ID is required.');
+            return;
         }
 
         this.loadingService.setLoading(true);
 
-        return this.loanService.getLoan(loanId).pipe(
-            switchMap(loan => {
-                if (!loan) {
-                    this.notificationService.showAlert('Loan not found.');
-                    return throwError(() => new Error('Loan not found'));
-                }
-
-                if (loan.status !== 'pending') {
-                    this.notificationService.showAlert('Loan is not in a pending state.');
-                    return throwError(() => new Error('Loan is not in a pending state'));
-                }
-
-                const updatedLoan = { ...loan, status: 'accepted' };
-                return this.loanService.updateLoan(loanId, updatedLoan);
+        this.loanService.deleteLoan(loan.id).pipe(
+            switchMap(() => {
+                return this.bookService.getBook(loan.bookId).pipe(
+                    tap(book => {
+                        book.activeLoanId = null;
+                        this.bookDataService.updateEntity(book, 'id');
+                    })
+                );
             }),
             tap(() => {
-                this.notificationService.showAlert('Loan request approved.');
+                this.notificationService.showAlert('Loan request declined.');
             }),
             catchError(error => {
-                this.notificationService.showAlert('Failed to approve loan.');
+                this.notificationService.showAlert('Failed to decline loan.');
                 return throwError(() => error);
             }),
             finalize(() => {
                 this.loadingService.setLoading(false);
             })
-        );
+        ).subscribe();
     }
 
     private prepareNewLoan(bookId: number): Loan {
 
-        const currentDate = new Date();
-        const twoMonthsLater = new Date(currentDate.setMonth(currentDate.getMonth() + 2));
+        const { currentDate, twoMonthsLater } = this.calculateLoanDates();
 
         return {
             loan_date: currentDate,
@@ -101,5 +134,12 @@ export class LoanRequestService {
         } as Loan;
     }
 
+    private calculateLoanDates() {
+        const currentDate = new Date();
+        const twoMonthsLater = new Date(currentDate.getTime());
+        twoMonthsLater.setMonth(currentDate.getMonth() + 2);
+
+        return { currentDate, twoMonthsLater };
+    }
 
 }

@@ -13,9 +13,7 @@ import { ViewBookDetailsAction } from '../strategies/view-book-details.action';
 import { DeleteBookAction } from '../strategies/delete-book.action';
 import { EntityDataService } from 'src/app/core/application-services/entity-data.service';
 import { EditBookAction } from '../strategies/edit-book.action';
-import { LoanRequestAction } from '../../loan/strategies/loan-request.action';
-import { UserService } from 'src/app/core/application-services/user.service';
-import { AuthService } from 'src/app/core/application-services/auth.service';
+import { RequestLoanAction } from '../../loan/strategies/request-loan.action';
 
 @Component({
   selector: 'app-book-list',
@@ -35,11 +33,9 @@ export class BookListComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private loadingService: LoadingService,
-    private authService: AuthService,
     private roleService: RoleService,
-    private userService: UserService,
-    private loanDetailsAction: ViewLoanDetailsAction,
-    private loanRequestAction: LoanRequestAction,
+    private loanDetails: ViewLoanDetailsAction,
+    private requestLoan: RequestLoanAction,
     private editBookAction: EditBookAction,
     private deleteBookAction: DeleteBookAction,
     private bookListConfig: BookListConfig,
@@ -92,10 +88,10 @@ export class BookListComponent implements OnInit {
         this.viewDetails.execute(event.item);
         break;
       case 'viewLoan':
-        this.loanDetailsAction.execute(event.item.activeLoanId);
+        this.loanDetails.execute(event.item.activeLoanId);
         break;
       case 'requestLoan':
-        this.loanRequestAction.execute(event.item);
+        this.requestLoan.execute(event.item);
         break;
       case 'edit':
         this.editBookAction.execute(event.item);
@@ -120,22 +116,6 @@ export class BookListComponent implements OnInit {
 
   hasLoans(book: Book): boolean {
     return !!book.activeLoanId;
-  }
-
-  private getOnlineUserId(): Observable<number> {
-    return this.userService.getCurrentUser(this.authService.getCurrentUserEmail()).pipe(
-      map(user => {
-        if (user && user.id) {
-          return user.id;
-        }
-        throw new Error('User not found or ID is null');
-      }),
-      catchError(error => {
-        console.error('Failed to load user data!', error);
-        return of(-1);
-      }),
-      finalize(() => this.loadingService.setLoading(false))
-    );
   }
 
 }

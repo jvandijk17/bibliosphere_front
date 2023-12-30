@@ -13,13 +13,25 @@
                     <strong>Estimated Return Date:</strong>
                     {{ loan.estimated_return_date | date: 'mediumDate' }}
                 </mat-list-item>
-                <mat-list-item *ngIf="loan.userId">
-                    <strong>User ID:</strong> {{ loan.userId }}</mat-list-item>
-                <mat-list-item *ngIf="loan.bookId">
-                    <strong>Book ID:</strong> {{ loan.bookId }}</mat-list-item>
-                <mat-list-item *ngIf="roleService.isAdmin && !loan.return_date">
-                    <button mat-raised-button color="primary" class="w-100" (click)="returnLoan()">Return Book</button>
-                </mat-list-item>
+                <mat-list-item><strong>Status:</strong> {{ loan.status }}</mat-list-item>
+                <ng-container *ngIf="roleService.isAdmin">
+                    <mat-list-item *ngIf="loan.userId">
+                        <strong>User ID:</strong> {{ loan.userId }}</mat-list-item>
+                    <mat-list-item *ngIf="loan.bookId">
+                        <strong>Book ID:</strong> {{ loan.bookId }}</mat-list-item>
+                    <mat-grid-list cols="2" *ngIf="loan.status === 'pending'">
+                        <mat-grid-tile>
+                            <button mat-raised-button color="warn" (click)="declineLoan()"
+                                class="w-100">Decline</button>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <button mat-raised-button color="primary" (click)="approveLoan()"
+                                class="w-100">Approve</button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                    <button *ngIf="loan.status === 'accepted'" mat-raised-button color="primary" class="w-100"
+                        (click)="returnLoan()">Return Book</button>
+                </ng-container>
             </mat-list>
         </mat-card-content>
     </mat-card>

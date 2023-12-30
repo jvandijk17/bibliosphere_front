@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Loan } from 'src/app/core/domain/models/loan.model';
+import { ModalStateService } from 'src/app/core/infrastructure/services/modal-state.service';
 
 @Component({
   selector: 'app-loan-detail-modal',
@@ -9,6 +10,17 @@ import { Loan } from 'src/app/core/domain/models/loan.model';
 })
 export class LoanDetailModalComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { loan: Loan }) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { loan: Loan },
+    private dialogRef: MatDialogRef<LoanDetailModalComponent>,
+    private modalStateService: ModalStateService
+  ) {
+    this.modalStateService.modalClose$.subscribe(close => {
+      if (close) {
+        this.dialogRef.close();
+        this.modalStateService.resetModalClose();
+      }
+    });
+  }
 
 }

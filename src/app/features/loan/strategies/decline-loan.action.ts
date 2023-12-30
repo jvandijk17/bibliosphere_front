@@ -1,21 +1,21 @@
 import { Injectable } from "@angular/core";
 import { LoanActionStrategy } from "./loan-action.strategy";
 import { LoanRequestService } from "src/app/core/application-services/loan-request.service";
-import { Book } from "src/app/core/domain/models/book.model";
+import { Loan } from "src/app/core/domain/models/loan.model";
 
 @Injectable({
     providedIn: 'root'
 })
-export class LoanRequestAction implements LoanActionStrategy {
+export class DeclineLoanAction implements LoanActionStrategy {
     constructor(
         private loanRequestService: LoanRequestService
     ) { }
 
-    execute(book?: Book): void {
-        if (book !== undefined) {
-            this.loanRequestService.requestLoan(book);
+    execute(loan: Loan): void {
+        if (loan !== undefined) {
+            this.loanRequestService.declineLoan(loan);
         } else {
-            console.error('Invalid arguments for loan request.');
+            console.error('Invalid arguments for loan action.');
         }
     }
 }
