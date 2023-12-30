@@ -19,7 +19,7 @@ export class BookDetailsComponent {
     private bookListConfig: BookListConfig,
     private roleService: RoleService
   ) {
-    const columns = this.bookListConfig.getColumnsByRole(this.roleService, () => { }, () => { });
+    const columns = this.bookListConfig.getColumnsByRole(this.roleService, () => { }, () => { }, () => { }, () => { });
     this.bookConfig = this.bookListConfig.toDetailConfig(columns, this.data.book);
   }
 

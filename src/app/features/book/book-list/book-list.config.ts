@@ -26,7 +26,7 @@ export class BookListConfig {
             });
     }
 
-    private generateDefaultColumns(canDisplay: Function, openLoanDetailsModalFn: Function): ITableColumn<Book>[] {
+    private generateDefaultColumns(hasLoans: Function, canPerformLoanRequest: Function, openLoanDetailsModalFn: Function, loanRequestFn: Function): ITableColumn<Book>[] {
         return [
             { key: 'title', title: 'Title' },
             { key: 'author', title: 'Author' },
@@ -55,11 +55,11 @@ export class BookListConfig {
                 title: 'Loaned',
                 exclude: ['details'],
                 render: (book) => book,
-                canDisplay: (book) => () => canDisplay(book),
+                canDisplay: (book) => () => hasLoans(book) || canPerformLoanRequest(book),
                 actions: {
-                    modal: (book) => openLoanDetailsModalFn(book)
+                    modal: (book) => canPerformLoanRequest(book) ? loanRequestFn(book) : openLoanDetailsModalFn(book)
                 },
-                displayText: 'Details',
+                displayTextFn: (book: Book) => canPerformLoanRequest(book) ? 'Request Loan' : 'Details',
                 fallbackDisplayText: 'No'
             },
             {
@@ -72,10 +72,10 @@ export class BookListConfig {
         ];
     }
 
-    getAdminColumns(canDisplay: Function, openLoanDetailsModalFn: Function): ITableColumn<Book>[] {
+    getAdminColumns(hasLoans: Function, canPerformLoanRequest: Function, openLoanDetailsModalFn: Function, loanRequestFn: Function): ITableColumn<Book>[] {
         return [
             { key: 'id', title: 'ID' },
-            ...this.generateDefaultColumns(canDisplay, openLoanDetailsModalFn),
+            ...this.generateDefaultColumns(hasLoans, canPerformLoanRequest, openLoanDetailsModalFn, loanRequestFn),
             {
                 key: 'dropdown',
                 title: 'Actions',
@@ -84,12 +84,12 @@ export class BookListConfig {
         ];
     }
 
-    getDefaultColumns(canDisplay: Function, openLoanDetailsModalFn: Function): ITableColumn<Book>[] {
-        return this.generateDefaultColumns(canDisplay, openLoanDetailsModalFn);
+    getDefaultColumns(hasLoans: Function, canPerformLoanRequest: Function, openLoanDetailsModalFn: Function, loanRequestFn: Function): ITableColumn<Book>[] {
+        return this.generateDefaultColumns(hasLoans, canPerformLoanRequest, openLoanDetailsModalFn, loanRequestFn);
     }
 
-    getColumnsByRole(roleService: RoleService, canDisplay: Function, openLoanDetailsModalFn: Function): ITableColumn<Book>[] {
-        return roleService.isAdmin ? this.getAdminColumns(canDisplay, openLoanDetailsModalFn) : this.getDefaultColumns(canDisplay, openLoanDetailsModalFn);
+    getColumnsByRole(roleService: RoleService, hasLoans: Function, canPerformLoanRequest: Function, openLoanDetailsModalFn: Function, loanRequestFn: Function): ITableColumn<Book>[] {
+        return roleService.isAdmin ? this.getAdminColumns(hasLoans, canPerformLoanRequest, openLoanDetailsModalFn, loanRequestFn) : this.getDefaultColumns(hasLoans, canPerformLoanRequest, openLoanDetailsModalFn, loanRequestFn);
     }
 
 }

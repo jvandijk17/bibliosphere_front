@@ -1,7 +1,6 @@
 import { Injectable, Inject } from "@angular/core";
 import { User } from "../domain/models/user.model";
 import { Observable, tap } from "rxjs";
-import { USER_ENDPOINTS } from '../infrastructure/config/user-endpoints.config';
 import { IUserRepository } from "../domain/interfaces/user-repository.interface";
 
 @Injectable({

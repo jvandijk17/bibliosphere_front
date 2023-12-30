@@ -17,6 +17,8 @@ export class ReturnLoanAction implements LoanActionStrategy {
     execute(loan?: Loan | null): void {
         if (loan) {
             this.returnService.returnLoan(loan);
+        } else {
+            console.error('Invalid arguments for loan return.');
         }
     }
 

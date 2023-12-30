@@ -26,7 +26,7 @@
                             <button mat-raised-button color="primary"
                                 *ngIf="column.actions && column.actions['modal'] && column.canDisplay && column.canDisplay(item)(); else noAction"
                                 (click)="column.actions['modal'](item)">
-                                {{ column.displayText }}
+                                {{ column.displayTextFn ? column.displayTextFn(item) : column.displayText }}
                             </button>
                             <ng-template #noAction> {{ column.fallbackDisplayText }}</ng-template>
                         </ng-container>

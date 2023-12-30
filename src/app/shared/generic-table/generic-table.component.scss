@@ -28,6 +28,11 @@ mat-cell {
     max-width: none !important;
 }
 
+.hidden-column {
+    display: none;
+}
+
+
 /* Row Styles */
 .mat-row,
 .mat-header-row {
@@ -62,7 +67,7 @@ mat-header-cell.mat-mdc-header-cell:last-child {
     text-align: right;
 }
 
-mat-row.mat-mdc-row > mat-cell:last-child {
+mat-row.mat-mdc-row>mat-cell:last-child {
     align-items: center;
     justify-content: flex-end;
     text-align: right;

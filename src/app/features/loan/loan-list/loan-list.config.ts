@@ -43,6 +43,10 @@ export class LoanListConfig {
                 }
             },
             {
+                key: 'status',
+                title: 'Status'
+            },
+            {
                 key: 'return_loan',
                 type: 'action',
                 title: 'Return Loan',

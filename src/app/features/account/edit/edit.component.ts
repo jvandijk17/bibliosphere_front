@@ -56,7 +56,7 @@ export class EditComponent implements OnInit {
     this.loadingService.setLoading(true);
 
     this.userService.getCurrentUser(this.authService.getCurrentUserEmail()).pipe(
-      catchError(error => {
+      catchError(() => {
         this.errorMsg = 'Failed to load user data!';
         return of(null);
       }),

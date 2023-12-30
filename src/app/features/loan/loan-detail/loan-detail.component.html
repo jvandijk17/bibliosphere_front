@@ -3,7 +3,7 @@
         <mat-toolbar color="primary">Loan Details</mat-toolbar>
         <mat-card-content>
             <mat-list>
-                <mat-list-item><strong>ID:</strong> {{ loan.id }}</mat-list-item>
+                <mat-list-item *ngIf="roleService.isAdmin"><strong>ID:</strong> {{ loan.id }}</mat-list-item>
                 <mat-list-item><strong>Loan Date:</strong> {{ loan.loan_date | date: 'mediumDate' }}</mat-list-item>
                 <mat-list-item *ngIf="loan.return_date">
                     <strong>Return Date:</strong>
@@ -18,8 +18,7 @@
                 <mat-list-item *ngIf="loan.bookId">
                     <strong>Book ID:</strong> {{ loan.bookId }}</mat-list-item>
                 <mat-list-item *ngIf="roleService.isAdmin && !loan.return_date">
-                    <button mat-raised-button color="primary" class="w-100"
-                        (click)="returnLoan()">Return Book</button>
+                    <button mat-raised-button color="primary" class="w-100" (click)="returnLoan()">Return Book</button>
                 </mat-list-item>
             </mat-list>
         </mat-card-content>

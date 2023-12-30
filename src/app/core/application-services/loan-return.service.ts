@@ -44,6 +44,7 @@ export class LoanReturnService {
         this.loadingService.setLoading(true);
         const updatePromises = loans.map(async loan => {
             loan.return_date = new Date();
+            loan.status = 'returned';
             try {
                 const updatedLoan = await firstValueFrom(this.loanService.updateLoan(loan.id, loan));
                 if (updatedLoan.bookId) {
