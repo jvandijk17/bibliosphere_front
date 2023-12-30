@@ -16,7 +16,7 @@
         </span>
     </div>
     <div class="breadcrumb-end">
-        <button mat-raised-button *ngIf="action && !isAddOrEditRoute()" class="action-btn" color="primary"
+        <button mat-raised-button *ngIf="action && isAdmin && !isAddOrEditRoute()" class="action-btn" color="primary"
             [routerLink]="['./add']">
             {{ action }}
         </button>

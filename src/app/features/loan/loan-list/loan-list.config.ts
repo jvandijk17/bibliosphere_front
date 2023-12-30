@@ -12,7 +12,7 @@ export class LoanListConfig {
         private datePipe: DatePipe
     ) { }
 
-    getColumns(isLoanedFn: Function, returnLoanFn: Function): ITableColumn<Loan>[] {
+    getColumns(isLoanedFn: Function, isLoanAcceptedFn: Function, viewLoanFn: Function, returnLoanFn: Function): ITableColumn<Loan>[] {
         return [
             { key: 'id', title: 'ID' },
             {
@@ -53,9 +53,9 @@ export class LoanListConfig {
                 render: (loan) => loan,
                 canDisplay: (loan) => () => isLoanedFn(loan),
                 actions: {
-                    modal: (loan) => returnLoanFn(loan)
+                    modal: (loan) => isLoanAcceptedFn(loan) ? returnLoanFn(loan) : viewLoanFn(loan)
                 },
-                displayText: 'Return Book',
+                displayTextFn: (loan: Loan) => isLoanAcceptedFn(loan) ? 'Return Book' : 'Manage Loan',
                 fallbackDisplayText: 'Available'
             },
             {

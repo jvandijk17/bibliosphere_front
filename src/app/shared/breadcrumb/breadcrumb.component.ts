@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { BreadcrumbItem } from '../models/breadcrumb-item.model';
+import { RoleService } from 'src/app/core/application-services/role.service';
 import { AuthService } from 'src/app/core/application-services/auth.service';
 
 @Component({
@@ -13,17 +14,21 @@ export class BreadcrumbComponent implements OnInit {
 
   breadcrumbs: BreadcrumbItem[] = [];
   action = '';
+  isAdmin: boolean = false;
   isInitialized = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public authService: AuthService) {
+    private roleService: RoleService,
+    public authService: AuthService
+  ) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.breadcrumbs = this.generateBreadcrumbs(this.route.root);
       this.setActionFromRouteData(this.route.root);
+      this.isAdmin = this.roleService.isAdmin;
       this.isInitialized = true;
     });
   }
@@ -31,6 +36,7 @@ export class BreadcrumbComponent implements OnInit {
   ngOnInit(): void {
     this.breadcrumbs = this.generateBreadcrumbs(this.route.root);
     this.setActionFromRouteData(this.route.root);
+    this.isAdmin = this.roleService.isAdmin;
     this.isInitialized = true;
   }
 

@@ -19,6 +19,7 @@ export class LoanRequestService {
         private loanService: LoanService,
         private bookService: BookService,
         private bookDataService: EntityDataService<Book>,
+        private loanDataService: EntityDataService<Loan>,
     ) { }
 
     requestLoan(book: Book): void {
@@ -80,6 +81,8 @@ export class LoanRequestService {
                     tap(book => {
                         book.activeLoanId = loan.id;
                         this.bookDataService.updateEntity(book, 'id');
+                        this.loanDataService.updateEntity(updatedLoan, 'id');
+                        this.loanService.loanUpdated.emit(updatedLoan);
                     })
                 );
             }),
@@ -106,6 +109,7 @@ export class LoanRequestService {
                     tap(book => {
                         book.activeLoanId = null;
                         this.bookDataService.updateEntity(book, 'id');
+                        this.loanDataService.removeEntity(loan.id, 'id');
                     })
                 );
             }),
