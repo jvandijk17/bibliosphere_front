@@ -1,7 +1,5 @@
 # Bibliosphere: Advanced Library Management System
 
-#### Video Demo: <URL HERE>
-
 #### Description:
 
 Bibliosphere is an advanced library management system, built as a web-based application using Angular and TypeScript. This project is inspired by the need to modernize library systems, allowing for efficient management of books, categories, loans, users, and library information. It stands out for its comprehensive features, including book and user management, loan processing, and library data administration.
